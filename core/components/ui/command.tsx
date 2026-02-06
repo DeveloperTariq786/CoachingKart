@@ -1,10 +1,10 @@
 import * as React from "react";
-import { type DialogProps } from "@radix-ui/react-dialog";
+import { Dialog, type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
-
+import { DialogContent } from "./dialog";
 import { cn } from "@/core/utils";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

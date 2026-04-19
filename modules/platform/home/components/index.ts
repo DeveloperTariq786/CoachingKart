@@ -9,6 +9,5 @@ export { default as QualifiersChoice } from './QualifiersChoice';
 export { default as ValleyBest } from './ValleyBest';
 export { default as SpecialOffer } from './SpecialOffer';
 export { default as HowItWorks } from './HowItWorks';
-export { default as TrustSection } from './TrustSection';
-export { default as OwnerCta } from './OwnerCta';
+// export { default as OwnerCta } from './OwnerCta';
 export { default as Promotion } from './Promotion';

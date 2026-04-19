@@ -12,6 +12,7 @@ interface ResourcesListProps {
     error: any;
     title?: string;
     scrollable?: boolean;
+    emptyMessage?: string;
 }
 
 const ResourcesList: React.FC<ResourcesListProps> = ({
@@ -19,7 +20,8 @@ const ResourcesList: React.FC<ResourcesListProps> = ({
     isLoading,
     error,
     title,
-    scrollable = false
+    scrollable = false,
+    emptyMessage
 }) => {
 
     if (isLoading) {
@@ -59,7 +61,9 @@ const ResourcesList: React.FC<ResourcesListProps> = ({
                 <div className="w-20 h-20 bg-background rounded-2xl shadow-sm flex items-center justify-center mb-6">
                     <FileText className="text-slate-200" size={40} />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-2">No resources available</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                    {emptyMessage || "No resources available"}
+                </h3>
 
             </div>
         );

@@ -3,7 +3,7 @@
  * Central export for all application constants
  */
 
-export * from './hero';
+// export * from './hero';
 export * from './categories';
 export * from './tuitions';
 export * from './trust';

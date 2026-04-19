@@ -28,7 +28,7 @@ export default function LectureDetailsPage() {
 
     React.useEffect(() => {
         if (user?.email && lectureId && !isLoading) {
-            const sid = generateSessionId();
+            const sid = generateSessionId(lectureId);
             chatService.createSession(user.email, sid, lectureId)
                 .then(data => {
                     console.log('Initial page chat session created:', data.id);

@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs));
 }
 
 export const formatDuration = (seconds?: number) => {
@@ -19,9 +19,11 @@ export const formatDuration = (seconds?: number) => {
 };
 
 /**
- * Generates a simple unique session ID for chat sessions
+ * Generates a unique session ID for chat sessions
+ * Format: session_<random_alphanumeric_6>_lectureId_<lectureId>
  */
-export const generateSessionId = () => {
-    return `s_${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}`;
+export const generateSessionId = (lectureId: string = 'unknown') => {
+    const randomId = Math.random().toString(36).substring(2, 8);
+    return `session_${randomId}_lectureId_${lectureId}`;
 };
 

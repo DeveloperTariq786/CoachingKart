@@ -4,9 +4,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, User, LogOut, BookOpen, Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/core/components/ui/button';
 import { cn } from '@/core/lib/utils/utils';
+import { useAuthStore } from '@/core/store/auth.store';
 
 const Header: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -14,18 +15,20 @@ const Header: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const searchInputRef = useRef<HTMLInputElement>(null);
 
-    // Auth states (Simulation)
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // Auth states
+    const { isAuthenticated, user, logout } = useAuthStore();
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
 
     const pathname = usePathname();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const prevPathname = useRef<string | null>(null);
 
-    // Check if we are on the home page
+    // Navigation and Layout states
     const isHome = pathname === '/';
     const segments = pathname.split('/').filter(Boolean);
-    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions'].includes(segments[0]);
+    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions', 'about', 'careers'].includes(segments[0]);
     const isInstitutionAbout = segments.length === 2 && ['about', 'faculty', 'gallery', 'results', 'reviews'].includes(segments[1]) && !['institutions', 'tuitions'].includes(segments[0]);
 
     useEffect(() => {
@@ -53,16 +56,33 @@ const Header: React.FC = () => {
         };
     }, []);
 
-    // Auto-open search on tuition page if query exists or if navigating there
+    // Auto-open search on institutions page if query exists or if navigating there
     useEffect(() => {
-        if (pathname === '/tuitions') {
-            setIsSearchOpen(true);
-            const query = new URLSearchParams(window.location.search).get('search');
-            if (query) setSearchQuery(query);
+        const isInstitutionsPage = pathname === '/institutions';
+        const arrivingAtInstitutions = isInstitutionsPage && prevPathname.current !== '/institutions';
+        const searchQueryParam = searchParams?.get('search');
+        const courseQueryParam = searchParams?.get('courseName');
+
+        if (isInstitutionsPage) {
+            // Auto-open only on fresh arrival (if no course filter) or if there's an active search
+            if ((arrivingAtInstitutions && !courseQueryParam) || searchQueryParam) {
+                setIsSearchOpen(true);
+            }
+
+            // Always sync search query state with URL
+            if (searchQueryParam) {
+                setSearchQuery(decodeURIComponent(searchQueryParam.replace(/\+/g, ' ')));
+            } else {
+                setSearchQuery('');
+            }
         } else {
             setIsSearchOpen(false);
+            setSearchQuery('');
         }
-    }, [pathname]);
+
+        // Update prevPathname for next run
+        prevPathname.current = pathname;
+    }, [pathname, searchParams]);
 
     useEffect(() => {
         if (isSearchOpen && searchInputRef.current) {
@@ -73,7 +93,16 @@ const Header: React.FC = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            router.push(`/tuitions?search=${encodeURIComponent(searchQuery.trim())}`);
+            const formattedQuery = searchQuery.trim().replace(/\s+/g, '+');
+            router.push(`/institutions?search=${formattedQuery}`);
+        }
+    };
+
+    const handleCancel = () => {
+        setIsSearchOpen(false);
+        setSearchQuery('');
+        if (pathname === '/institutions') {
+            router.push('/institutions');
         }
     };
 
@@ -96,17 +125,20 @@ const Header: React.FC = () => {
                     {/* Logo */}
                     <div className="flex items-center">
                         <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer group">
-                            <Image
-                                src="/images/logo.png"
-                                alt="CoachingKart"
-                                width={150}
-                                height={0}
-                                className={cn(
-                                    "h-14 md:h-20 w-auto object-contain transition-all duration-300 group-hover:scale-105",
-                                    isHome && !isScrolled ? "brightness-0 invert shadow-white/10" : "brightness-0"
-                                )}
-                                priority
-                            />
+                            <div className="flex items-center gap-0">
+                                <Image
+                                    src="/logos/logo-wbg.webp"
+                                    alt="CoachingKart"
+                                    width={120}
+                                    height={120}
+                                    className={cn(
+                                        "h-8 md:h-10 w-auto object-contain transition-all duration-300 scale-[2.0] md:scale-[2.5] origin-left",
+                                        isHome && !isScrolled ? "brightness-0 invert" : ""
+                                    )}
+                                    priority
+                                />
+
+                            </div>
                         </Link>
                     </div>
 
@@ -156,19 +188,23 @@ const Header: React.FC = () => {
                                     <Search size={16} className="animate-pulse group-hover/btn:scale-110 transition-transform" />
                                 </span>
 
-                                <span className="relative">Find My Coaching</span>
+                                <span className="relative cursor-pointer">Find Coaching</span>
                             </div>
                         </Button>
 
-                        {isLoggedIn && (
-                            <div className="relative" ref={profileMenuRef}>
-                                <button
-                                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                                    className={cn("p-2 rounded-full transition-colors flex items-center justify-center", profileButtonStyle)}
-                                >
-                                    <User size={20} />
-                                </button>
-                            </div>
+                        {/* Profile Icon (Desktop Only) */}
+                        {isAuthenticated && (
+                            <Link
+                                href="/profile"
+                                className={cn(
+                                    "hidden md:flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ml-1 md:ml-3",
+                                    isHome && !isScrolled
+                                        ? "text-white bg-white/20 hover:bg-white/30 shadow-lg shadow-white/10"
+                                        : "text-slate-700 bg-slate-100 hover:bg-slate-200 shadow-sm"
+                                )}
+                            >
+                                <User size={20} className="text-primary-600" />
+                            </Link>
                         )}
                     </div>
                 </div>
@@ -176,29 +212,32 @@ const Header: React.FC = () => {
 
             {/* Search Overlay */}
             {isSearchOpen && (
-                <div className="absolute inset-0 bg-white z-[60] flex items-center px-4 md:px-8 border-b border-slate-100 shadow-sm animate-in slide-in-from-top duration-300">
-                    <form onSubmit={handleSearch} className="max-w-7xl mx-auto w-full flex items-center gap-4">
-                        {/* On desktop, search icon and input on the right side if preferred, but keeping it centered-clean */}
-                        <div className="flex-1 flex items-center justify-center">
-                            <div className="relative w-full max-w-2xl group">
-                                <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-primary-600" size={20} />
-                                <input
-                                    ref={searchInputRef}
-                                    type="text"
-                                    placeholder="Search for tuitions, subjects, or tutors..."
-                                    className="w-full bg-transparent border-none outline-none text-lg md:text-xl text-slate-900 placeholder:text-slate-400 pl-10 py-2 font-medium"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-                        </div>
+                <div className="absolute inset-x-0 top-0 h-full bg-white z-[60] flex items-center px-3 md:px-6 border-b border-slate-100 shadow-sm animate-in fade-in duration-200">
+                    <form onSubmit={handleSearch} className="w-full flex items-center gap-2 md:gap-3">
+                        <Search className="flex-shrink-0 text-slate-400" size={20} />
+                        <input
+                            ref={searchInputRef}
+                            type="text"
+                            placeholder="Search by Institute, Course..."
+                            className="flex-1 min-w-0 bg-transparent border-none outline-none text-base md:text-lg text-slate-900 placeholder:text-slate-400 py-2 font-medium"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        {searchQuery && (
+                            <button
+                                type="button"
+                                onClick={() => setSearchQuery('')}
+                                className="flex-shrink-0 p-1.5 text-slate-400 hover:text-slate-600 rounded-full transition-colors"
+                            >
+                                <X size={18} />
+                            </button>
+                        )}
                         <button
                             type="button"
-                            onClick={() => setIsSearchOpen(false)}
-                            className="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-all duration-300 hover:rotate-90"
-                            aria-label="Close search"
+                            onClick={handleCancel}
+                            className="flex-shrink-0 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors px-2 py-1 cursor-pointer"
                         >
-                            <X size={24} />
+                            Cancel
                         </button>
                     </form>
                 </div>

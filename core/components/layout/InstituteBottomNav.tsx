@@ -40,7 +40,7 @@ const InstituteBottomNav: React.FC = () => {
 
     return (
         <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm">
-            <nav className="bg-slate-900/90 backdrop-blur-xl border border-white/10 px-4 py-3 flex items-center justify-between shadow-2xl rounded-2xl">
+            <nav className="bg-foreground/90 backdrop-blur-xl border border-background/10 px-4 py-3 flex items-center justify-between shadow-2xl rounded-2xl">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
                     const Icon = item.icon;

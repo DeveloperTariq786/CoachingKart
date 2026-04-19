@@ -3,8 +3,10 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { cn } from '@/core/lib/utils/utils';
-import LecturesSidebar from '@/modules/institutes/layout/LecturesSidebar';
-import LecturesBottomNav from '@/modules/institutes/layout/LecturesBottomNav';
+import LecturesSidebar from '@/core/components/layout/LecturesSidebar';
+import LecturesBottomNav from '@/core/components/layout/LecturesBottomNav';
+import { useLectureStore } from '@/modules/institutes/lectures/store/useLectureStore';
+import { Skeleton } from '@/core/components/ui/skeleton';
 
 export default function BatchLayout({
     children,
@@ -12,12 +14,14 @@ export default function BatchLayout({
     children: React.ReactNode;
 }) {
     const params = useParams();
+    const { batchNames } = useLectureStore();
     const slug = params.slug as string;
     const courseSlug = params.courseSlug as string;
     const batchSlug = params.batchSlug as string;
     const lectureSlug = params.lectureSlug as string;
 
     const isLecturePage = !!lectureSlug;
+    const realBatchName = batchNames[batchSlug];
 
     // Helper to format slug to readable text
     const formatSlug = (str: string) => {
@@ -30,7 +34,7 @@ export default function BatchLayout({
 
     return (
         <div className={cn(
-            "flex min-h-screen bg-[#F8FAFC] pt-14",
+            "flex min-h-screen bg-background pt-14",
             !isLecturePage && "pb-20 lg:pb-0"
         )}>
             {/* Sidebar */}
@@ -60,9 +64,13 @@ export default function BatchLayout({
                                 <span className="w-1 h-1 bg-slate-200 rounded-full hidden sm:block" />
                                 <span className="hidden sm:block">{formatSlug(courseSlug)}</span>
                             </div>
-                            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                                {formatSlug(batchSlug)}
-                            </h1>
+                            {realBatchName ? (
+                                <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight leading-tight">
+                                    {realBatchName}
+                                </h1>
+                            ) : (
+                                <Skeleton className="h-9 w-72 bg-slate-100 rounded-lg" />
+                            )}
                         </div>
                     )}
 

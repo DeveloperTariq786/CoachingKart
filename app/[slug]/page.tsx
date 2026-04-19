@@ -1,28 +1,35 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import InstitutionHero from '@/modules/institutes/components/InstitutionHero';
-import InstitutionCenters from '@/modules/institutes/components/InstitutionCenters';
-import InstitutionStats from '@/modules/institutes/components/InstitutionStats';
-import InstitutionCourses from '@/modules/institutes/components/courses/InstitutionCourses';
+
+import InstitutionCenters from '@/modules/institutes/centers/components/InstitutionCenters';
+import InstitutionStats from '@/modules/institutes/stats/components/InstitutionStats';
+import InstitutionCourses from '@/modules/institutes/courses/components/InstitutionCourses';
+import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
+import InstitutionHero from '@/modules/institutes/banners/components/InstitutionHero';
 
 export default function InstitutionDetailPage() {
-    const params = useParams();
-    const slug = params.slug as string;
-    const formattedName = slug ? slug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Elite Academy';
+    const { institution, details, isLoading } = useInstitute();
+
+    const name = details?.name || institution?.name || '';
+    const subtitle = details?.description || institution?.description || "";
 
     return (
-        <div className="bg-white">
+        <div className="bg-background">
             <InstitutionHero
-                name={formattedName}
-                subtitle="Shaping the future of medical and engineering aspirants with world-class faculty and personal attention."
+                name={name}
+                subtitle={subtitle}
+                institutionId={institution?.id}
+                isLoading={isLoading}
             />
 
-            <InstitutionCourses />
+            <InstitutionCourses institutionId={institution?.id} />
 
-            <InstitutionCenters institutionName={formattedName} />
+            <InstitutionCenters
+                institutionName={name}
+                institutionId={institution?.id}
+            />
 
-            <InstitutionStats />
+            <InstitutionStats institutionId={institution?.id} />
         </div >
     );
 }

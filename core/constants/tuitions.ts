@@ -4,6 +4,7 @@
 export interface FeaturedTuition {
     id: string;
     name: string;
+    slug: string;
     location: string;
     rating: number;
     reviewCount: number;
@@ -19,6 +20,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t1",
         name: "Elite Science Academy",
+        slug: "elite-science-academy",
         location: "Koramangala, Bangalore",
         rating: 4.8,
         reviewCount: 320,
@@ -29,6 +31,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t2",
         name: "Progressive Learning Hub",
+        slug: "progressive-learning-hub",
         location: "Indiranagar, Bangalore",
         rating: 4.6,
         reviewCount: 156,
@@ -39,6 +42,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t3",
         name: "Sharma Mathematics Circle",
+        slug: "sharma-mathematics-circle",
         location: "Andheri West, Mumbai",
         rating: 4.9,
         reviewCount: 410,
@@ -49,6 +53,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t4",
         name: "Civil Services Marg",
+        slug: "civil-services-marg",
         location: "Mukherjee Nagar, Delhi",
         rating: 4.7,
         reviewCount: 890,
@@ -59,6 +64,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t5",
         name: "Global Language Institute",
+        slug: "global-language-institute",
         location: "Sector 18, Noida",
         rating: 4.5,
         reviewCount: 230,
@@ -69,6 +75,7 @@ export const FEATURED_TUITIONS: FeaturedTuition[] = [
     {
         id: "t6",
         name: "Apex Foundation Academy",
+        slug: "apex-foundation-academy",
         location: "Gachibowli, Hyderabad",
         rating: 4.8,
         reviewCount: 180,

@@ -1,29 +1,68 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { GraduationCap, ArrowRight } from 'lucide-react';
 import { Button } from '@/core/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useOffers } from '../hooks/useOffers';
+import { Skeleton } from '@/core/components/ui/skeleton';
 
 const SpecialOffer: React.FC = () => {
+    const router = useRouter();
+    const sectionRef = useRef<HTMLElement>(null);
+    const [hasIntersected, setHasIntersected] = useState(false);
+
+    const { data: response, isLoading } = useOffers(hasIntersected);
+    const offer = response?.data?.[0]; // Show the first active offer
+
     const [timeLeft, setTimeLeft] = useState({
-        days: 2,
-        hours: 12,
-        minutes: 45,
-        seconds: 30
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
     });
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-                if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-                if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-                if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-                return prev;
-            });
-        }, 1000);
-        return () => clearInterval(timer);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setHasIntersected(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '100px' }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
     }, []);
+
+    useEffect(() => {
+        if (!offer?.remainingSeconds) return;
+
+        let totalSeconds = offer.remainingSeconds;
+
+        const timer = setInterval(() => {
+            if (totalSeconds <= 0) {
+                clearInterval(timer);
+                return;
+            }
+
+            totalSeconds--;
+
+            const d = Math.floor(totalSeconds / (3600 * 24));
+            const h = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = Math.floor(totalSeconds % 60);
+
+            setTimeLeft({ days: d, hours: h, minutes: m, seconds: s });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [offer]);
 
     const timeBlocks = [
         { label: 'Days', value: timeLeft.days },
@@ -32,8 +71,32 @@ const SpecialOffer: React.FC = () => {
         { label: 'Seconds', value: timeLeft.seconds },
     ];
 
+    // Loading/Initial state
+    if (!hasIntersected || isLoading) {
+        return (
+            <section ref={sectionRef} className="py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden relative min-h-[500px]">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-24 opacity-50">
+                    <div className="flex-1 space-y-6">
+                        <Skeleton className="h-8 w-48 bg-white/20" />
+                        <Skeleton className="h-16 w-full bg-white/20" />
+                        <Skeleton className="h-4 w-3/4 bg-white/20" />
+                        <Skeleton className="h-12 w-40 bg-white/20 rounded-full" />
+                    </div>
+                    <div className="flex-1 w-full max-w-lg">
+                        <Skeleton className="h-80 w-full bg-white/20 rounded-3xl" />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    // If loading is finished and there's no offer, don't show the section
+    if (!offer) {
+        return null;
+    }
+
     return (
-        <section className="py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden relative">
+        <section ref={sectionRef} className="py-24 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden relative">
 
             {/* Ambient Background Glow */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -50,18 +113,22 @@ const SpecialOffer: React.FC = () => {
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
-                            Unlock Your <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">Dream College</span>
+                            {offer.title}
                         </h2>
 
                         <p className="text-lg text-blue-100 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                            Enroll in our premium Board & JEE batches today. Get instant access to recorded lectures,
-                            verified study materials, and 1-on-1 mentorship.
+                            {offer.description}
                         </p>
 
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                            <Button className="h-14 px-8 rounded-full bg-white text-primary-700 font-bold text-base shadow-xl hover:bg-blue-50 hover:scale-105 transition-all duration-300 group">
+                            <Button
+                                onClick={() => {
+                                    const slug = offer.institution.name.toLowerCase().replace(/\s+/g, '-');
+                                    router.push(`/${slug}`);
+                                }}
+                                className="h-14 px-8 rounded-full bg-white text-primary-700 font-bold text-base shadow-xl hover:bg-blue-50 hover:scale-105 transition-all duration-300 group cursor-pointer"
+                            >
                                 <GraduationCap className="mr-2 w-5 h-5 text-primary-600" />
                                 Claim Offer Now
                             </Button>
@@ -101,12 +168,12 @@ const SpecialOffer: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-white/5 rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors">
-                                    <div className="text-2xl font-bold text-white mb-1">50%</div>
-                                    <div className="text-xs text-blue-100 font-medium">Scholarship on Tuition Fees</div>
+                                    <div className="text-2xl font-bold text-white mb-1">{offer.discount}% OFF</div>
+                                    <div className="text-xs text-blue-100 font-medium">at {offer.institution.name}</div>
                                 </div>
                                 <div className="bg-white/5 rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors">
                                     <div className="text-2xl font-bold text-white mb-1">Free</div>
-                                    <div className="text-xs text-blue-100 font-medium">All India Mock Test Series</div>
+                                    <div className="text-xs text-blue-100 font-medium">Orientation Session</div>
                                 </div>
                             </div>
 

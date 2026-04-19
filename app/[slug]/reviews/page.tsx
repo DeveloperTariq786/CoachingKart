@@ -1,24 +1,14 @@
 'use client';
 
-import React from 'react';
-import { useParams } from 'next/navigation';
-import InstitutionHero from '@/modules/institutes/components/InstitutionHero';
-
-import InstitutionRatingAndReviews from '@/modules/institutes/components/InstitutionRatingAndReviews';
+import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
+import InstitutionRatingAndReviews from '@/modules/institutes/reviews/components/InstitutionRatingAndReviews';
 
 export default function ReviewsPage() {
-    const params = useParams();
-    const slug = params.slug as string;
-    const formattedName = slug ? slug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Elite Academy';
+    const { institution } = useInstitute();
 
     return (
-        <div className="bg-white min-h-screen pt-20">
-            {/* <InstitutionHero
-                name={formattedName}
-                subtitle="Shaping the future of medical and engineering aspirants with world-class faculty and personal attention."
-            /> */}
-
-            <InstitutionRatingAndReviews />
+        <div className="bg-background min-h-screen pt-20">
+            <InstitutionRatingAndReviews institutionId={institution?.id} />
         </div>
     );
 }

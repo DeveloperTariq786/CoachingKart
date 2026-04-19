@@ -7,15 +7,22 @@ import { ArrowRight } from 'lucide-react';
 import { Swiper, SwiperSlide, Autoplay, Pagination, type SwiperType } from '@/core/lib/utils/swiper';
 import { Button } from '@/core/components/ui/button';
 import { cn } from '@/core/lib/utils/utils';
-import { CAROUSEL_SLIDES } from '@/core/constants';
+import { useCarousel } from '../hooks/useCarousel';
+import { useCarouselStore } from '../store/useCarouselStore';
+
+import { Skeleton } from '@/core/components/ui/skeleton';
 
 const Hero: React.FC = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
+    const { isLoading, isError } = useCarousel();
+    const slides = useCarouselStore((state) => state.slides);
+    const activeIndex = useCarouselStore((state) => state.activeIndex);
+    const setActiveIndex = useCarouselStore((state) => state.setActiveIndex);
+
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
 
     const handleSlideChange = useCallback((swiper: SwiperType) => {
         setActiveIndex(swiper.realIndex);
-    }, []);
+    }, [setActiveIndex]);
 
     const handleDotClick = useCallback((index: number) => {
         if (swiperInstance) {
@@ -23,8 +30,28 @@ const Hero: React.FC = () => {
         }
     }, [swiperInstance]);
 
+    if (isLoading) {
+        return (
+            <section className="relative h-[600px] lg:h-[730px] w-full overflow-hidden bg-slate-900">
+                <div className="relative z-20 h-full flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+                    <div className="max-w-3xl space-y-6">
+                        <Skeleton className="h-12 md:h-16 lg:h-20 w-[80%] bg-slate-800/60 rounded-lg" />
+                        <Skeleton className="h-6 md:h-8 w-[60%] bg-slate-800/60 rounded-lg" />
+                        <Skeleton className="h-14 w-44 bg-slate-800/60 rounded-full" />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (isError || !slides || slides.length === 0) {
+        return (
+            <section className="relative h-[600px] lg:h-[730px] w-full overflow-hidden bg-slate-900" />
+        );
+    }
+
     return (
-        <section className="relative h-[600px] lg:h-[700px] w-full overflow-hidden bg-slate-900">
+        <section className="relative h-[600px] lg:h-[730px] w-full overflow-hidden bg-slate-900">
             <Swiper
                 modules={[Autoplay, Pagination]}
                 slidesPerView={1}
@@ -41,15 +68,15 @@ const Hero: React.FC = () => {
                 onSlideChange={handleSlideChange}
                 className="h-full w-full"
             >
-                {CAROUSEL_SLIDES.map((slide) => (
+                {slides.map((slide, index) => (
                     <SwiperSlide key={slide.id} className="relative">
                         {/* Background Image */}
                         <div className="absolute inset-0">
                             <Image
-                                src={slide.imageUrl}
+                                src={slide.image}
                                 alt={slide.title}
                                 fill
-                                priority
+                                priority={index === 0}
                                 className="object-cover object-center"
                                 sizes="100vw"
                             />
@@ -66,10 +93,10 @@ const Hero: React.FC = () => {
                                     </h1>
 
                                     <p className="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl drop-shadow-md">
-                                        {slide.subtitle}
+                                        {slide.description}
                                     </p>
 
-                                    {slide.tuitionId && (
+                                    {slide.institutionId && (
                                         <Button
                                             asChild
                                             size="lg"
@@ -83,7 +110,7 @@ const Hero: React.FC = () => {
                                                 "group"
                                             )}
                                         >
-                                            <Link href={`/tuitions/${slide.tuitionId}`}>
+                                            <Link href={`/${slide.institution.name.toLowerCase().replace(/\s+/g, '-')}`}>
                                                 {slide.buttonText || "View Details"}
                                                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                             </Link>
@@ -98,7 +125,7 @@ const Hero: React.FC = () => {
 
             {/* Custom Carousel Indicators */}
             <div className="absolute bottom-8 left-0 right-0 z-30 flex justify-center space-x-2">
-                {CAROUSEL_SLIDES.map((_, index) => (
+                {slides.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => handleDotClick(index)}

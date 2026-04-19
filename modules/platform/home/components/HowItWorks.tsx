@@ -9,8 +9,8 @@ const HowItWorks: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <span className="text-primary-600 font-semibold tracking-wider uppercase text-sm">Workflow</span>
-                    <h2 className="mt-2 text-3xl md:text-4xl font-bold text-slate-900">How ClassroomConnect Works</h2>
-                    <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Bridging the gap between physical classrooms and digital convenience.</p>
+                    <h2 className="mt-2 text-3xl md:text-4xl font-bold text-slate-900">How CoachingKart Works</h2>
+                    <p className="mt-4 text-slate-600 max-w-2xl mx-auto">Bridging physical classrooms with digital convenience.</p>
                 </div>
 
                 <div className="max-w-4xl mx-auto">
@@ -34,8 +34,8 @@ const HowItWorks: React.FC = () => {
                                         <Search className="w-6 h-6 text-slate-700" />
                                     </div>
                                     <div className="ml-5">
-                                        <h4 className="text-lg font-semibold text-slate-900">1. Discover Nearby Centers</h4>
-                                        <p className="mt-1 text-slate-600 text-sm">Search by exam or subject to find top-rated tuitions in your specific locality.</p>
+                                        <h4 className="text-lg font-semibold text-slate-900">Discover Nearby Centers</h4>
+                                        <p className="mt-1 text-slate-600 text-sm">Find top-rated coaching institutes near you by searching for exams, subjects, or institutions.</p>
                                     </div>
                                 </div>
 
@@ -44,8 +44,8 @@ const HowItWorks: React.FC = () => {
                                         <MapPin className="w-6 h-6 text-slate-700" />
                                     </div>
                                     <div className="ml-5">
-                                        <h4 className="text-lg font-semibold text-slate-900">2. Visit & Enroll Offline</h4>
-                                        <p className="mt-1 text-slate-600 text-sm">Visit the center physically, meet the teachers, demo the class, and enroll confidently.</p>
+                                        <h4 className="text-lg font-semibold text-slate-900">Visit & Enroll Offline</h4>
+                                        <p className="mt-1 text-slate-600 text-sm">Visit the center, interact with teachers, attend classes, and enroll with confidence.</p>
                                     </div>
                                 </div>
 
@@ -54,8 +54,8 @@ const HowItWorks: React.FC = () => {
                                         <Smartphone className="w-6 h-6 text-slate-700" />
                                     </div>
                                     <div className="ml-5">
-                                        <h4 className="text-lg font-semibold text-slate-900">3. Access Materials from Home</h4>
-                                        <p className="mt-1 text-slate-600 text-sm">Log in to view recorded lectures, notes, and announcements if you miss a class.</p>
+                                        <h4 className="text-lg font-semibold text-slate-900">Learn Anytime, Anywhere</h4>
+                                        <p className="mt-1 text-slate-600 text-sm">Access recorded lectures, notes, and updates online so you never miss a class.</p>
                                     </div>
                                 </div>
                             </div>

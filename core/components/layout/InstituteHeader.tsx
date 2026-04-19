@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/core/lib/utils/utils';
+import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
 
 const InstituteHeader: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const params = useParams();
+    const { details, slug } = useInstitute();
     const pathname = usePathname();
-    const instName = params.slug as string;
+    const displayInstName = details?.name || (slug ? slug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Institution');
     const segments = pathname?.split('/').filter(Boolean) || [];
     // It's a sub-page if it's one of the specific sub-pages OR if it's a course detail page (2 segments)
     const isSubPage = segments.length >= 2;
@@ -36,11 +38,11 @@ const InstituteHeader: React.FC = () => {
 
     const menuLinks = [
         { label: 'Home', href: `/` },
-        { label: 'About Us', href: `/${instName}/about` },
-        { label: 'Faculty', href: `/${instName}/faculty` },
-        { label: 'Gallery', href: `/${instName}/gallery` },
-        { label: 'Results', href: `/${instName}/results` },
-        { label: 'Reviews', href: `/${instName}/reviews` },
+        { label: 'About Us', href: `/${slug}/about` },
+        { label: 'Faculty', href: `/${slug}/faculty` },
+        { label: 'Gallery', href: `/${slug}/gallery` },
+        { label: 'Results', href: `/${slug}/results` },
+        { label: 'Reviews', href: `/${slug}/reviews` },
     ];
 
     return (
@@ -49,12 +51,22 @@ const InstituteHeader: React.FC = () => {
                 <div className="flex justify-between items-center">
                     {/* Brand/Logo */}
                     <div className="flex items-center relative z-20">
-                        <Link href={`/${instName}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-                            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform">
-                                C
+                        <Link href={`/${slug}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
+                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-primary-600 font-bold text-lg shadow-md group-hover:scale-110 transition-transform overflow-hidden border border-slate-100">
+                                {details?.logo ? (
+                                    <Image
+                                        src={details.logo}
+                                        alt={details.name}
+                                        width={40}
+                                        height={40}
+                                        className="object-contain"
+                                    />
+                                ) : (
+                                    displayInstName.charAt(0).toUpperCase()
+                                )}
                             </div>
                             <span className={cn("font-bold text-xl tracking-tight transition-colors", textStyle)}>
-                                {instName ? instName.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'ClassroomConnect'}
+                                {displayInstName}
                             </span>
                         </Link>
                     </div>
@@ -76,7 +88,7 @@ const InstituteHeader: React.FC = () => {
                     <div className="md:hidden flex items-center relative z-20">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className={cn("p-2 rounded-lg transition-colors", textStyle)}
+                            className={cn("p-2 rounded-lg transition-colors cursor-pointer", textStyle)}
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>

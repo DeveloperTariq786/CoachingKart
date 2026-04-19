@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import InstitutionResults from '@/modules/institutes/components/result/InstitutionResults';
+import InstitutionResults from '@/modules/institutes/result/components/InstitutionResults';
 
 export default function ResultsPage() {
     return (

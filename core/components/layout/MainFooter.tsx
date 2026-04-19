@@ -3,14 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Youtube, Twitter, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '@/core/lib/utils/utils';
 import { usePathname } from 'next/navigation';
 
 const Footer: React.FC = () => {
     const pathname = usePathname();
     const segments = pathname.split('/').filter(Boolean);
-    const isInstitutionDetail = segments.length === 1 && !['institutions'].includes(segments[0]);
+    const isInstitutionDetail = segments.length === 1 && !['institutions', 'about', 'careers'].includes(segments[0]);
     const isInstitutionAbout = segments.length === 2 && ['about', 'faculty', 'gallery', 'results', 'reviews'].includes(segments[1]) && !['institutions', 'tuitions'].includes(segments[0]);
 
     if (isInstitutionDetail || isInstitutionAbout) return null;
@@ -18,32 +18,15 @@ const Footer: React.FC = () => {
     return (
         <footer className="bg-slate-50 border-t border-slate-200 pt-16 pb-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-
-                    {/* Brand */}
-                    <div className="space-y-4">
-                        <div className="flex items-center group">
-                            <Image
-                                src="/images/full_logo.png"
-                                alt="CoachingKart"
-                                width={280}
-                                height={70}
-                                className="h-20 md:h-24 w-auto object-contain transition-all duration-300 group-hover:scale-105 brightness-0"
-                            />
-                        </div>
-                        <p className="text-slate-500 text-sm leading-relaxed">
-                            Empowering local education. Connecting students with the best offline coaching centers in their neighborhood.
-                        </p>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 mb-12">
 
                     {/* Quick Links */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-6">Platform</h4>
                         <ul className="space-y-3 text-sm text-slate-600">
-                            <li><Link href="/find-tuitions" className="hover:text-primary-600 transition-colors">Find Tuitions</Link></li>
-                            <li><Link href="/browse-exams" className="hover:text-primary-600 transition-colors">Browse Exams</Link></li>
-                            <li><Link href="/login" className="hover:text-primary-600 transition-colors">Student Login</Link></li>
-                            <li><Link href="/institute/login" className="hover:text-primary-600 transition-colors">Institute Login</Link></li>
+                            <li><Link href="/institutions" className="font-bold hover:text-primary-600 transition-colors">Find Institute</Link></li>
+                            <li><Link href="https://institution.coachingkart.in/" target="_blank" className="font-bold hover:text-primary-600 transition-colors">Register Institute</Link></li>
+                            {/* <li><Link href="https://institution.coachingkart.in/" target="_blank" className="font-bold hover:text-primary-600 transition-colors">Register Tuition</Link></li> */}
                         </ul>
                     </div>
 
@@ -51,44 +34,41 @@ const Footer: React.FC = () => {
                     <div>
                         <h4 className="font-bold text-slate-900 mb-6">Company</h4>
                         <ul className="space-y-3 text-sm text-slate-600">
-                            <li><Link href="/about" className="hover:text-primary-600 transition-colors">About Us</Link></li>
-                            <li><Link href="/careers" className="hover:text-primary-600 transition-colors">Careers</Link></li>
-                            <li><Link href="/blog" className="hover:text-primary-600 transition-colors">Blog</Link></li>
-                            <li><Link href="/privacy" className="hover:text-primary-600 transition-colors">Privacy Policy</Link></li>
+                            <li><Link href="/about" className="font-bold hover:text-primary-600 transition-colors">About Us</Link></li>
+                            <li><Link href="/careers" className="font-bold hover:text-primary-600 transition-colors">Careers</Link></li>
+                            {/* <li><Link href="/blog" className="font-bold hover:text-primary-600 transition-colors">Blog</Link></li> */}
+
                         </ul>
                     </div>
-
                     {/* Contact */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-6">Get in Touch</h4>
-                        <div className="flex gap-4 mb-6">
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:text-primary-600 hover:shadow-md hover:-translate-y-1 transition-all">
-                                <Instagram size={18} />
-                            </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:text-primary-600 hover:shadow-md hover:-translate-y-1 transition-all">
-                                <Facebook size={18} />
-                            </a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:text-primary-600 hover:shadow-md hover:-translate-y-1 transition-all">
-                                <Twitter size={18} />
-                            </a>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:text-primary-600 hover:shadow-md hover:-translate-y-1 transition-all">
-                                <Linkedin size={18} />
-                            </a>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm text-slate-600 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
-                            <Mail size={16} className="text-primary-600" />
-                            <span>support@classroomconnect.com</span>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-3 text-sm text-slate-600">
+                                <Phone size={16} className="text-primary-600 shrink-0" />
+                                <span className="font-bold">+91 7889396003</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm text-slate-600">
+                                <Mail size={16} className="text-primary-600" />
+                                <span className="font-bold">support@coachingkart.com</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm text-slate-500">© 2024 ClassroomConnect Technologies Pvt Ltd. All rights reserved.</p>
-                    <div className="flex gap-6 text-sm text-slate-500">
-                        <Link href="/terms" className="hover:text-slate-900 transition-colors">Terms</Link>
-                        <Link href="/privacy" className="hover:text-slate-900 transition-colors">Privacy</Link>
-                        <Link href="/cookies" className="hover:text-slate-900 transition-colors">Cookies</Link>
+                <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 w-full">
+                    <div className="flex items-center gap-0">
+                        <Image
+                            src="/logos/logo-wbg.webp"
+                            alt="CoachingKart"
+                            width={120}
+                            height={120}
+                            className="h-8 md:h-10 w-auto object-contain transition-all duration-300 scale-[1.5] md:scale-[1.8] origin-left"
+                        />
                     </div>
+                    <p className="text-sm text-slate-500 font-medium">
+                        © {new Date().getFullYear()} <span className="text-primary-600 font-bold">CoachingKart.</span> All rights reserved.
+                    </p>
                 </div>
             </div>
         </footer>

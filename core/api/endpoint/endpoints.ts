@@ -7,6 +7,7 @@ export const AUTH_ENDPOINTS = {
     LOGIN: `${API_VERSION}/auth/login`,
     FORCE_LOGIN: `${API_VERSION}/auth/force-login`,
     LOGOUT: `${API_VERSION}/auth/logout`,
+    RESET_PASSWORD: `${API_VERSION}/auth/reset-password`,
 
 } as const;
 

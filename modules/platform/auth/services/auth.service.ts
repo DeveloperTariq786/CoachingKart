@@ -1,6 +1,6 @@
 import apiClient from '@/core/api/axios/client';
 import ENDPOINTS from '@/core/api/endpoint/endpoints';
-import { AuthApiResponse, RegisterRequest, RegisterResponse } from '../types/auth.types';
+import { AuthApiResponse, RegisterRequest, RegisterResponse, ResetPasswordResponse } from '../types/auth.types';
 
 export const authService = {
     login: async (email: string, password: string): Promise<AuthApiResponse> => {
@@ -21,6 +21,14 @@ export const authService = {
 
     register: async (data: RegisterRequest): Promise<RegisterResponse> => {
         const response = await apiClient.post<RegisterResponse>(ENDPOINTS.INSTITUTION.STUDENT_REGISTER, data);
+        return response.data;
+    },
+
+    resetPassword: async (email: string, newPassword: string): Promise<ResetPasswordResponse> => {
+        const response = await apiClient.post<ResetPasswordResponse>(ENDPOINTS.AUTH.RESET_PASSWORD, {
+            email,
+            newPassword,
+        });
         return response.data;
     },
 };

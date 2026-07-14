@@ -69,7 +69,7 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
             router.push(getRegisterUrl({
                 redirect: `/${slug}/${courseSlug}`,
                 slug,
-                institutionId: details?.id
+                institutionId: details?.id?.toString()
             }));
             return;
         }

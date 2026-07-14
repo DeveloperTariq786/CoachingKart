@@ -39,7 +39,7 @@ const AboutInstitutionSkeleton: React.FC = () => {
 const AboutInstitution: React.FC = () => {
     const { details, isLoading: isInstituteLoading } = useInstitute();
     const institutionId = details?.id;
-    const { aboutData, isLoading } = useAbout(institutionId);
+    const { aboutData, isLoading } = useAbout(institutionId?.toString());
 
     if (isLoading || isInstituteLoading) {
         return <AboutInstitutionSkeleton />;
@@ -48,7 +48,7 @@ const AboutInstitution: React.FC = () => {
     if (!aboutData || (!aboutData.title && !aboutData.description)) {
         return (
             <section className="py-20 bg-background">
-            <div className="w-full px-4 sm:px-6 lg:px-10">
+                <div className="w-full px-4 sm:px-6 lg:px-10">
                     <div className="bg-background rounded-3xl p-12 shadow-sm border border-foreground/10 flex flex-col items-center text-center">
                         <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center text-slate-400 mb-6">
                             <Info size={32} />

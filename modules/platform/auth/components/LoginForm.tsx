@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Mail, Lock } from 'lucide-react';
 import { authService } from '../services/auth.service';
 import { useAuthStore } from '../store/useAuthStore';
@@ -128,16 +129,27 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, primaryColor })
     );
 
     return (
-        <AuthForm
-            fields={fields}
-            onSubmit={handleLogin}
-            isLoading={isLoading}
-            error={error}
-            submitText="Sign In"
-            loadingText="Signing in..."
-            extraErrorContent={extraErrorContent}
-            primaryColor={primaryColor}
-        />
+        <>
+            <AuthForm
+                fields={fields}
+                onSubmit={handleLogin}
+                isLoading={isLoading}
+                error={error}
+                submitText="Sign In"
+                loadingText="Signing in..."
+                extraErrorContent={extraErrorContent}
+                primaryColor={primaryColor}
+            />
+            <div className="mt-3 text-right">
+                <Link
+                    href="/forgot-password"
+                    className="text-xs font-semibold transition-colors hover:opacity-80"
+                    style={{ color: primaryColor }}
+                >
+                    Forgot password?
+                </Link>
+            </div>
+        </>
     );
 };
 

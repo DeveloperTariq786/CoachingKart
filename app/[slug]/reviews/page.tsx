@@ -8,7 +8,7 @@ export default function ReviewsPage() {
 
     return (
         <div className="bg-background min-h-screen pt-16">
-            <InstitutionRatingAndReviews institutionId={institution?.id} />
+            <InstitutionRatingAndReviews institutionId={String(institution?.id)} />
         </div>
     );
 }

@@ -19,22 +19,22 @@ export default function InstitutionDetailPage() {
             <InstitutionHero
                 name={name}
                 subtitle={subtitle}
-                institutionId={institution?.id}
+                institutionId={String(institution?.id)}
                 isLoading={isLoading}
             />
 
-            <InstitutionCourses institutionId={institution?.id} />
+            <InstitutionCourses institutionId={String(institution?.id)} />
 
-            <InstitutionHomeResults institutionId={institution?.id} />
+            <InstitutionHomeResults institutionId={String(institution?.id)} />
 
-            <InstitutionHomeFaculty institutionId={institution?.id} />
+            <InstitutionHomeFaculty institutionId={String(institution?.id)} />
 
             <InstitutionCenters
                 institutionName={name}
-                institutionId={institution?.id}
+                institutionId={String(institution?.id)}
             />
 
-            <InstitutionStats institutionId={institution?.id} />
+            <InstitutionStats institutionId={String(institution?.id)} />
         </div >
     );
 }

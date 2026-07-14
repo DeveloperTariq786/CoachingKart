@@ -7,8 +7,8 @@ const InstitutionResults: React.FC = () => {
 
     return (
         <div className="w-full bg-slate-50 min-h-screen">
-            <InstitutionResultsHeader institutionId={details?.id} />
-            <InstitutionResultsBody institutionId={details?.id} />
+            <InstitutionResultsHeader institutionId={details?.id?.toString()} />
+            <InstitutionResultsBody institutionId={details?.id?.toString()} />
         </div>
     );
 };

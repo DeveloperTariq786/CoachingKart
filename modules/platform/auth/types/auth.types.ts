@@ -46,3 +46,8 @@ export interface RegisterResponse {
         email: string;
     };
 }
+
+export interface ResetPasswordResponse {
+    success: boolean;
+    message: string;
+}

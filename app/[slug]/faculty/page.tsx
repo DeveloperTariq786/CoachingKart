@@ -8,7 +8,7 @@ export default function FacultyPage() {
 
     return (
         <div className="bg-background min-h-screen pt-16">
-            <InstitutionFaculty institutionId={details?.id} />
+            <InstitutionFaculty institutionId={String(details?.id)} />
         </div>
     );
 }

@@ -15,10 +15,10 @@ const BatchResources: React.FC<BatchResourcesProps> = ({ batchId, subjectId, act
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredResources = resources.filter(res => {
-        const title = res.fileUrl ? res.fileUrl.split('/').pop() || '' : 
-                     res.externalUrl || res.textContent || '';
+        const title = res.fileUrl ? res.fileUrl.split('/').pop() || '' :
+            res.externalUrl || res.textContent || '';
         return title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-               res.lecture?.title.toLowerCase().includes(searchQuery.toLowerCase());
+            res.lecture?.title.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
     return (
@@ -27,7 +27,7 @@ const BatchResources: React.FC<BatchResourcesProps> = ({ batchId, subjectId, act
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-primary-600 rounded-full" />
-                    <h2 className="text-xl font-black text-foreground tracking-tight uppercase">
+                    <h2 className="text-2xl sm:text-2xl font-black text-foreground tracking-tight uppercase">
                         All Learning Resources
                     </h2>
                 </div>

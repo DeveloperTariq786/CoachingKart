@@ -5,6 +5,7 @@ export interface Batch {
     description: string;
     academicFee: number;
     createdAt: string;
+    thumbnail?: string;
     program?: {
         id: string;
         name: string;

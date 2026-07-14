@@ -7,4 +7,15 @@ export const profileService = {
         const response = await apiClient.get<StudentProfileResponse>(ENDPOINTS.INSTITUTION.STUDENT_PROFILE);
         return response.data;
     },
+
+    logout: async (token: string | null, email?: string, password?: string): Promise<void> => {
+        await apiClient.post(ENDPOINTS.AUTH.LOGOUT, {
+            email,
+            password
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    },
 };

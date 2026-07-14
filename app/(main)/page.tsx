@@ -1,4 +1,4 @@
-import { Hero, SpecialOffer, ValleyBest, QualifiersChoice, HowItWorks, Promotion, NearByCenters } from "@/modules/platform/home";
+import { Hero, ValleyBest, QualifiersChoice, HowItWorks, Promotion, NearByCenters, AppPromotion } from "@/modules/platform/home";
 import { InstitutionCourses } from "@/modules/platform/institution-courses";
 
 
@@ -7,14 +7,16 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Hero />
       <InstitutionCourses />
-      <QualifiersChoice />
-      <Promotion />
       <NearByCenters />
-      <SpecialOffer />
+      <QualifiersChoice />
+      {/* <Promotion /> */}
+
+      {/* <SpecialOffer /> */}
       <ValleyBest />
-      <HowItWorks />
+      {/* <HowItWorks /> */}
       {/* <TrustSection />
       <OwnerCta /> */}
+      <AppPromotion />
     </main>
   );
 }

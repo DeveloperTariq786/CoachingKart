@@ -20,6 +20,7 @@ import {
     DefaultVideoLayout,
     defaultLayoutIcons,
 } from '@vidstack/react/player/layouts/default';
+import { getOptimizedImageUrl } from '@/core/lib/utils/image-utils';
 
 interface VideoPlayerProps {
     lectureTitle: string;
@@ -54,8 +55,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     hasPrev = true,
     isNavigating = false
 }) => {
-    const displayThumbnail = thumbnail || thumbnailUrl || 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1200';
-
+    const displayThumbnail = getOptimizedImageUrl(thumbnail || thumbnailUrl || 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb', {
+        fit: 'contain'
+    });
     return (
         <div className="flex flex-col">
             {/* Vidstack Player Container with Default YouTube-like Layout */}
@@ -85,7 +87,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                         <img
                             src={displayThumbnail}
                             alt={lectureTitle}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                     </div>
                 )}

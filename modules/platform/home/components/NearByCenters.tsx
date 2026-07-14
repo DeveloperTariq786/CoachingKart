@@ -1,30 +1,13 @@
 'use client';
 
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import Link from 'next/link';
+import { MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/core/components/ui/button';
-import { Card, CardContent } from '@/core/components/ui/card';
 import { InstitutionCard } from '@/core/components/common';
 import { useIntersectionObserver } from '@/core/hooks/useIntersectionObserver';
 import { useNearbyInstitutions } from '../hooks/useNearbyInstitutions';
 
-/* ─── Skeleton card for loading state ────────────────────────────── */
-const SkeletonCard = () => (
-    <Card className="overflow-hidden border-slate-100 rounded-2xl bg-slate-50 h-full flex flex-col">
-        <div className="relative h-48 bg-slate-200 animate-pulse" />
-        <CardContent className="p-5 flex flex-col flex-grow gap-3">
-            <div className="h-5 w-3/4 bg-slate-200 rounded animate-pulse" />
-            <div className="h-4 w-1/2 bg-slate-200 rounded animate-pulse" />
-            <div className="flex gap-2 mt-1">
-                <div className="h-6 w-14 bg-slate-200 rounded-full animate-pulse" />
-                <div className="h-6 w-14 bg-slate-200 rounded-full animate-pulse" />
-            </div>
-            <div className="mt-auto pt-4 border-t border-slate-100">
-                <div className="h-11 bg-slate-200 rounded-xl animate-pulse" />
-            </div>
-        </CardContent>
-    </Card>
-);
 
 /* ─── Main Section ───────────────────────────────────────────────── */
 const NearByCenters: React.FC = () => {
@@ -41,14 +24,13 @@ const NearByCenters: React.FC = () => {
         requestLocation,
     } = useNearbyInstitutions(isVisible);
 
-    // Decide what to render in the grid
     const isLoadingState = !isVisible || isLoading;
     const showRealData = !isLoadingState && !isError && institutions.length > 0;
     const showFallback = !isLoadingState && (isError || institutions.length === 0);
 
     return (
         <section ref={sectionRef} className="py-24 bg-slate-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
 
                 {/* Location prompt banner */}
                 {locationDenied && (
@@ -71,25 +53,26 @@ const NearByCenters: React.FC = () => {
                     </div>
                 )}
 
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+                <div className="flex flex-col items-center justify-center text-center mb-12">
                     <div className="max-w-2xl">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Nearby Coachings</h2>
                         <p className="mt-3 text-slate-500 text-lg leading-relaxed">
                             {locationDenied
                                 ? 'Explore top rated coachings across the country.'
-                                : 'Explore top rated coachings in your neighborhood.'}
+                                : 'Discover trusted coaching institutes conveniently located near you.'}
                         </p>
                     </div>
-
                 </div>
 
-                {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-4">
                     {isLoadingState &&
-                        Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
+                        Array.from({ length: 10 }).map((_, i) => (
+                            <InstitutionCard key={`skeleton-${i}`} isLoading />
+                        ))}
+
 
                     {showRealData &&
-                        institutions.slice(0, 4).map((inst) => (
+                        institutions.slice(0, 10).map((inst) => (
                             <InstitutionCard key={inst.id} tuition={inst} />
                         ))}
 
@@ -100,6 +83,21 @@ const NearByCenters: React.FC = () => {
                         </div>
                     )}
                 </div>
+
+                {/* ─── View All Link ─────────────────────────────────────── */}
+                {showRealData && (
+                    <div className="mt-6 flex flex-col items-center gap-1.5">
+
+                        <Link
+                            href="/institutions"
+                            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors pt-2"
+                        >
+                            View all coachings
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
+                    </div>
+                )}
+
             </div>
         </section>
     );

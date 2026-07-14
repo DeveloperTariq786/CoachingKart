@@ -12,11 +12,13 @@ export default function InstitutionPage() {
     const courseName = searchParams.get('courseName') || undefined;
     const search = searchParams.get('search') || undefined;
 
-    const [sortBy, setSortBy] = useState('recommended'); // Default to 'rating' as requested: "also sortedby rating"
+    const [sortBy, setSortBy] = useState('recommended');
     const [isSortOpen, setIsSortOpen] = useState(false);
     const [page, setPage] = useState(1);
-    const limit = 10;
+    const [allInstitutions, setAllInstitutions] = useState<any[]>([]);
+    const limit = 12; // Increase default limit for infinite scroll density
     const sortRef = useRef<HTMLDivElement>(null);
+    const observerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -32,10 +34,9 @@ export default function InstitutionPage() {
     const sortOptions = [
         { label: 'Recommended', value: 'recommended' },
         { label: 'Top Rated', value: 'rating' },
-
     ];
 
-    const currentSortLabel = sortOptions.find(opt => opt.value === sortBy)?.label || 'Top Rated';
+    const currentSortLabel = sortOptions.find(opt => opt.value === sortBy)?.label || 'Recommended';
 
     const queryParams = {
         courseName,
@@ -45,9 +46,53 @@ export default function InstitutionPage() {
         limit,
     };
 
-    // Use query to get total results
-    const { data: response } = useInstitutions(queryParams);
+    // Use query to fetch current page
+    const { data: response, isLoading, isFetching } = useInstitutions(queryParams);
     const totalResults = response?.pagination?.total || 0;
+
+    // Reset pagination and list when filters or sorting change
+    useEffect(() => {
+        setPage(1);
+        setAllInstitutions([]);
+    }, [courseName, search, sortBy]);
+
+    // Accumulate institutions when response data arrives
+    useEffect(() => {
+        if (response?.data) {
+            if (page === 1) {
+                setAllInstitutions(response.data);
+            } else {
+                setAllInstitutions(prev => {
+                    const existingIds = new Set(prev.map(item => item.id));
+                    const newItems = response.data.filter(item => !existingIds.has(item.id));
+                    return [...prev, ...newItems];
+                });
+            }
+        }
+    }, [response?.data, page]);
+
+    // Setup intersection observer for infinite scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !isLoading && !isFetching && allInstitutions.length < totalResults) {
+                    setPage(prev => prev + 1);
+                }
+            },
+            { threshold: 0.1, rootMargin: '150px' }
+        );
+
+        const currentTarget = observerRef.current;
+        if (currentTarget) {
+            observer.observe(currentTarget);
+        }
+
+        return () => {
+            if (currentTarget) {
+                observer.unobserve(currentTarget);
+            }
+        };
+    }, [isLoading, isFetching, allInstitutions.length, totalResults]);
 
     return (
         <main className="min-h-screen bg-white">
@@ -59,26 +104,31 @@ export default function InstitutionPage() {
                 />
 
                 {/* Main Content Area */}
-                <div className="flex-1 px-4 sm:px-6 lg:px-10 py-10">
+                <div className="flex-1 px-4 sm:px-6 lg:px-10 pt-6 pb-10">
                     {/* Results Bar */}
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-xl font-bold text-slate-900">
-                            {totalResults} Results Found
-                        </h2>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-100">
+                        <div>
+                            <h2 className="text-lg font-extrabold text-slate-800 tracking-tight">
+                                Explore Coachings
+                            </h2>
+                            <p className="text-xs font-semibold text-slate-400 mt-0.5">
+                                Showing {allInstitutions.length} of {totalResults} available Coachings
+                            </p>
+                        </div>
 
                         <div className="flex items-center gap-2 relative">
-                            <span className="text-sm text-slate-500 font-medium">Sort by:</span>
+                            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Sort by:</span>
                             <div className="relative" ref={sortRef}>
                                 <button
                                     onClick={() => setIsSortOpen(!isSortOpen)}
-                                    className="flex items-center gap-1 text-sm font-bold text-slate-900 hover:text-primary-600 transition-colors cursor-pointer"
+                                    className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-slate-100/80 border border-slate-200/60 rounded-xl text-sm font-bold text-slate-700 transition-all cursor-pointer"
                                 >
                                     {currentSortLabel}
-                                    <ChevronDown size={16} className={cn("transition-transform duration-200", isSortOpen && "rotate-180")} />
+                                    <ChevronDown size={14} className={cn("text-slate-500 transition-transform duration-200", isSortOpen && "rotate-180")} />
                                 </button>
 
                                 {isSortOpen && (
-                                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-20 animate-in fade-in zoom-in duration-200">
+                                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-20 animate-in fade-in zoom-in-95 duration-150">
                                         {sortOptions.map((option) => (
                                             <button
                                                 key={option.value}
@@ -102,32 +152,21 @@ export default function InstitutionPage() {
                         </div>
                     </div>
 
-                    <InstituteList queryParams={queryParams} />
+                    <InstituteList
+                        institutions={allInstitutions}
+                        isLoading={isLoading}
+                        isLoadingMore={isFetching && page > 1}
+                    />
 
-                    {/* Pagination */}
-                    {totalResults > limit && (
-                        <div className="mt-12 flex items-center justify-between border-t border-slate-100 pt-8">
-                            <p className="text-sm text-slate-500">
-                                Showing <span className="font-bold text-slate-900">{(page - 1) * limit + 1}</span> to <span className="font-bold text-slate-900">{Math.min(page * limit, totalResults)}</span> of <span className="font-bold text-slate-900">{totalResults}</span> results
-                            </p>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                                    disabled={page === 1}
-                                    className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors cursor-pointer"
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    onClick={() => setPage(p => p + 1)}
-                                    disabled={page * limit >= totalResults}
-                                    className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-700 transition-colors cursor-pointer"
-                                >
-                                    Next
-                                </button>
+                    {/* Scroll Target and Loading Indicator */}
+                    <div ref={observerRef} className="mt-12 py-8 flex justify-center items-center">
+                        {isFetching && (
+                            <div className="flex flex-col items-center gap-2">
+                                <div className="h-7 w-7 border-3 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                                <span className="text-xs font-bold text-slate-400 tracking-wide animate-pulse">Loading more institutions...</span>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </main>

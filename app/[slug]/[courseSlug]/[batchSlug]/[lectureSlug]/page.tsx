@@ -12,7 +12,7 @@ import { LectureResources } from '@/modules/institutes/resources';
 import { lectureService } from '@/modules/institutes/lectures/services/lecture.service';
 import { toast } from 'sonner';
 import { chatService } from '@/modules/institutes/chat/services/chat.service';
-import { useAuthStore } from '@/core/store/auth.store';
+import { useAuthStore } from '@/modules/platform/auth';
 
 export default function LectureDetailsPage() {
     const params = useParams();

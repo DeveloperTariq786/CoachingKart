@@ -38,37 +38,33 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
         if (onBackClick) {
             onBackClick();
         } else {
-            router.back();
+            onClose();
         }
     };
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[440px] bg-white border-none shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[28px] p-0 overflow-hidden outline-none">
-                <div className="relative overflow-hidden pt-10 px-8 pb-10">
-                    {/* Background decoration */}
-                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary-50 rounded-full blur-3xl opacity-50" />
-                    <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-50 rounded-full blur-3xl opacity-50" />
-
+            <DialogContent className="sm:max-w-[500px] bg-white border-none shadow-2xl rounded-xl p-0 overflow-hidden outline-none">
+                <div className="relative pt-6 px-6 pb-6">
                     {showCloseIcon && (
                         <button 
                             onClick={handleBack}
-                            className="absolute right-6 top-6 z-20 p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all cursor-pointer"
+                            className="absolute right-4 top-4 z-20 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 transition-all cursor-pointer"
                         >
-                            <X size={20} />
+                            <X size={18} />
                         </button>
                     )}
 
-                    <DialogHeader className="relative z-10 mb-8 items-center text-center">
+                    <DialogHeader className="relative z-10 mb-4 items-start text-left">
                         {icon && (
-                            <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-primary-200 group transition-transform hover:scale-105 duration-300">
+                            <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center mb-4">
                                 {icon}
                             </div>
                         )}
-                        <DialogTitle className="text-3xl font-black text-slate-900 tracking-tight mb-2">
+                        <DialogTitle className="text-xl font-semibold text-slate-900 tracking-tight">
                             {title}
                         </DialogTitle>
-                        <DialogDescription className="text-slate-500 font-medium text-base">
+                        <DialogDescription className="text-slate-500 font-normal text-[15px] mt-2">
                             {description}
                         </DialogDescription>
                     </DialogHeader>

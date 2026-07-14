@@ -1,4 +1,4 @@
-import useAuthStore from '@/core/store/auth.store';
+import useAuthStore from '@/modules/platform/auth/store/useAuthStore';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 // Create axios instance

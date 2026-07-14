@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import { Skeleton } from '@/core/components/ui/skeleton';
 import { institutionCourseService } from '../services/course.service';
 import { InstitutionCourse } from '../types/course.types';
@@ -21,14 +21,13 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
     const [sectionRef, isInView] = useIntersectionObserver<HTMLElement>();
     const { coursesCache, setCourses: setCoursesCache } = useCourseStore();
 
-    // Initialize from cache if possible
     const cachedData = institutionId ? coursesCache[institutionId] : null;
     const [courses, setCourses] = useState<InstitutionCourse[]>(
         cachedData ? cachedData.data : []
     );
     const [isLoading, setIsLoading] = useState(!cachedData);
     const [limit, setLimit] = useState(
-        cachedData ? cachedData.limit : 6
+        cachedData ? cachedData.limit : 8
     );
     const [isFetchingMore, setIsFetchingMore] = useState(false);
 
@@ -36,8 +35,6 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
         const fetchCourses = async () => {
             if (!institutionId) return;
 
-            // If we have cached data for this institution and the cached limit matches current limit,
-            // we can set the data and stop loading even if not in view.
             const cached = coursesCache[institutionId];
             if (cached && cached.limit >= limit) {
                 setCourses(cached.data.slice(0, limit));
@@ -45,11 +42,10 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                 return;
             }
 
-            // Only trigger the actual API call if the component is in view
             if (!isInView) return;
 
             try {
-                if (limit === 6 && courses.length === 0) setIsLoading(true);
+                if (limit === 8 && courses.length === 0) setIsLoading(true);
                 else setIsFetchingMore(true);
 
                 const response = await institutionCourseService.getInstitutionCourses(institutionId, limit);
@@ -69,118 +65,167 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
     }, [institutionId, limit, coursesCache, setCoursesCache, isInView]);
 
     const handleViewMore = () => {
-        setLimit(prev => prev + 6);
+        setLimit(prev => prev + 8);
     };
 
     return (
-        <section ref={sectionRef} className="py-16 bg-background min-h-[400px]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Our Courses
+        // Added overflow-x-hidden here to kill the horizontal scroll caused by card background circles
+        <section id="courses" ref={sectionRef} className="scroll-mt-24 py-20 bg-slate-50/50 min-h-[400px] overflow-x-hidden">
+            {/* EXACT padding and width preserved here */}
+            <div className="w-full px-4 sm:px-6 lg:px-10">
+
+                {/* Header Section */}
+                <div className="text-center mb-14">
+                    <div className="inline-flex items-center gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-4">
+                        <BookOpen size={16} />
+                        <span>Academic Courses</span>
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+                        Shape Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Future Career</span>
                     </h2>
-                    <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                        Prepare for your dream career with our meticulously crafted course structures.
+                    <p className="text-slate-500 max-w-2xl mx-auto text-[17px] leading-relaxed">
+                        Explore our comprehensive, industry-aligned course structures designed to prepare you for success.
                     </p>
                 </div>
 
-                {/* Grid */}
+                {/* Grid Container */}
                 {!isLoading && courses.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 text-center bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
-                        <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center shadow-sm mb-4">
-                            <ArrowRight size={24} className="text-slate-300 rotate-45" />
+                    <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-3xl border border-dashed border-slate-300 shadow-sm">
+                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-5">
+                            <BookOpen size={28} className="text-slate-300" />
                         </div>
-                        <h3 className="text-xl font-bold text-foreground mb-2">No Courses Found</h3>
-                        <p className="text-slate-500 max-w-xs mx-auto">
-                            We couldn't find any courses for this institution at the moment. Please check back later.
+                        <h3 className="text-xl font-bold text-slate-800 mb-2">No Programs Available</h3>
+                        <p className="text-slate-500 max-w-md mx-auto">
+                            We couldn't find any active courses for this institution right now. Please check back later.
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                         {isLoading ? (
-                            [...Array(6)].map((_, i) => (
-                                <div key={i} className="bg-white border border-slate-200 rounded-3xl p-6 flex flex-col justify-between overflow-hidden h-[250px]">
-                                    <div>
-                                        <Skeleton className="h-8 w-3/4 mb-4 bg-slate-200 rounded-lg" />
-                                        <div className="flex flex-wrap gap-2 mb-8">
-                                            <Skeleton className="h-6 w-20 bg-slate-200 rounded-full" />
-                                            <Skeleton className="h-6 w-16 bg-slate-200 rounded-full" />
-                                        </div>
+                            [...Array(8)].map((_, i) => (
+                                <div key={i} className="bg-white border border-slate-100 rounded-3xl p-5 flex flex-col shadow-sm h-[240px]">
+                                    <div className="flex items-start justify-between mb-5">
+                                        <Skeleton className="h-12 w-12 rounded-2xl bg-slate-100" />
+                                        <Skeleton className="h-6 w-20 bg-slate-100 rounded-full" />
                                     </div>
-                                    <Skeleton className="h-6 w-24 bg-slate-200 rounded-lg" />
+                                    <Skeleton className="h-6 w-3/4 mb-3 bg-slate-100 rounded-lg" />
+                                    <div className="flex flex-wrap gap-2 mb-auto">
+                                        <Skeleton className="h-6 w-16 bg-slate-100 rounded-full" />
+                                        <Skeleton className="h-6 w-14 bg-slate-100 rounded-full" />
+                                    </div>
+                                    <div className="border-t border-slate-100 pt-3 mt-4 flex justify-between items-center">
+                                        <Skeleton className="h-4 w-20 bg-slate-100 rounded-md" />
+                                        <Skeleton className="h-7 w-7 bg-slate-100 rounded-full" />
+                                    </div>
                                 </div>
                             ))
                         ) : (
                             courses.map((course) => (
-                                <div
+                                <Link
                                     key={course.id}
-                                    className="group relative bg-background border border-slate-200 rounded-3xl p-6 hover:shadow-xl transition-all duration-300 hover:border-primary-100 flex flex-col justify-between overflow-hidden"
+                                    href={`/${slug}/${course.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                    className="group relative bg-white border border-slate-100 rounded-3xl p-5 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-visible min-h-[240px] z-10 hover:z-20"
                                 >
-                                    {/* Content */}
-                                    <div className="relative z-10">
-                                        <h3 className="text-2xl font-bold text-foreground mb-4 group-hover:text-primary-600 transition-colors">
+                                    {/* Top Section: Icon & Count */}
+                                    <div className="relative z-10 flex justify-between items-start mb-4">
+                                        <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center justify-center p-2 group-hover:scale-110 transition-transform duration-300 relative z-20">
+                                            <img
+                                                src={course.icon}
+                                                alt={course.name}
+                                                className="w-full h-full object-contain"
+                                            />
+                                        </div>
+                                        {course.programs && course.programs.length > 0 && (
+                                            <div className="bg-slate-50 text-slate-500 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-slate-100 relative z-20">
+                                                {course.programs.length} Programs
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Main Content */}
+                                    <div className="relative z-10 flex-grow">
+                                        <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                                             {course.name}
                                         </h3>
- 
-                                        <div className="flex flex-wrap gap-2 mb-8 pr-24">
-                                            {course.programs?.map((program, idx) => (
+
+                                        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                                            {course.programs?.slice(0, 2).map((program, idx) => (
                                                 <span
                                                     key={idx}
-                                                    className="px-3 py-1 bg-background border border-slate-200 rounded-full text-xs font-medium text-slate-600 group-hover:border-primary-200 group-hover:text-primary-700 transition-colors"
+                                                    className="px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-600 group-hover:bg-primary-50 group-hover:border-primary-100 group-hover:text-primary-700 transition-colors truncate max-w-[120px]"
                                                 >
                                                     {program.name}
                                                 </span>
                                             ))}
+
+                                            {/* Tooltip Badge for Remaining Programs */}
+                                            {course.programs && course.programs.length > 2 && (
+                                                <div className="relative group/tag">
+                                                    <span className="inline-flex px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors cursor-pointer">
+                                                        +{course.programs.length - 2}
+                                                    </span>
+
+                                                    {/* Tooltip Content */}
+                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] opacity-0 invisible group-hover/tag:opacity-100 group-hover/tag:visible transition-all duration-200 z-[60]">
+                                                        <div className="bg-slate-800 text-white text-[11px] font-medium p-2.5 rounded-xl shadow-xl flex flex-col gap-1.5 border border-slate-700">
+                                                            <div className="text-primary-400 text-[10px] uppercase tracking-wider mb-0.5 px-1 font-bold">Other Programs</div>
+                                                            {course.programs.slice(2).map((p, pIdx) => (
+                                                                <div key={pIdx} className="px-1 truncate text-slate-100">
+                                                                    • {p.name}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                        {/* Tooltip Triangle */}
+                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-[5px] border-transparent border-t-slate-800"></div>
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             {(!course.programs || course.programs.length === 0) && (
-                                                <span className="px-3 py-1 bg-background border border-slate-200 rounded-full text-xs font-medium text-slate-400">
-                                                    Not Available
+                                                <span className="px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-400">
+                                                    No Programs Available
                                                 </span>
                                             )}
                                         </div>
                                     </div>
 
-                                    {/* Bottom Action */}
-                                    <div className="relative z-10 mt-auto">
-                                        <Link
-                                            href={`/${slug}/${course.name.toLowerCase().replace(/\s+/g, '-')}`}
-                                            className="inline-flex items-center gap-2 text-sm font-bold text-foreground group-hover:text-primary-600 transition-colors"
-                                        >
-                                            Explore
-                                            <div className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-primary-50 flex items-center justify-center transition-colors">
-                                                <ArrowRight size={14} />
-                                            </div>
-                                        </Link>
+                                    {/* Footer Action */}
+                                    <div className="relative z-10 border-t border-slate-100 pt-3 mt-2 flex items-center justify-between">
+                                        <span className="text-xs font-bold text-slate-500 group-hover:text-primary-600 transition-colors">
+                                            Explore Course
+                                        </span>
+                                        <div className="w-7 h-7 rounded-full bg-slate-50 text-slate-400 group-hover:bg-primary-600 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm">
+                                            <ArrowRight size={12} strokeWidth={3} />
+                                        </div>
                                     </div>
 
-                                    {/* Decorative Background & Icon */}
+                                    {/* Subtle Ambient Background Corner */}
                                     <div
-                                        className="absolute -right-6 top-1/2 -translate-y-1/2 w-48 h-64 rounded-l-full opacity-50 group-hover:scale-110 transition-transform duration-500"
-                                        style={{ backgroundColor: getColorHex(course.color) }}
+                                        className="absolute -right-12 -top-12 w-32 h-32 rounded-full opacity-[0.03] group-hover:opacity-10 group-hover:scale-150 transition-all duration-700 pointer-events-none"
+                                        style={{ backgroundColor: getColorHex(course.color) || '#3b82f6' }}
                                     />
-
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
-                                        <img
-                                            src={course.icon}
-                                            alt={course.name}
-                                            className="w-20 h-20 object-contain"
-                                        />
-                                    </div>
-                                </div>
+                                </Link>
                             ))
                         )}
                     </div>
                 )}
 
-                {/* View More Button */}
+                {/* Primary Action Button - Replaced with clean text design with dashed line underneath */}
                 {courses.length > 0 && (
-                    <div className="mt-12 text-center">
+                    <div className="mt-14 text-center">
                         <button
                             onClick={handleViewMore}
                             disabled={isFetchingMore}
-                            className="inline-block text-primary-600 font-bold hover:underline underline-offset-4 decoration-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            className="inline-flex items-center justify-center gap-2 text-primary-600 font-semibold text-[16px] tracking-wide border-b border-dashed border-primary-600 pb-0.5 hover:text-primary-700 hover:border-primary-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
-                            {isFetchingMore ? 'Loading...' : 'View More'}
+                            {isFetchingMore ? (
+                                <>
+                                    <div className="w-3.5 h-3.5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+                                    <span>Loading...</span>
+                                </>
+                            ) : (
+                                <span>View All Courses</span>
+                            )}
                         </button>
                     </div>
                 )}

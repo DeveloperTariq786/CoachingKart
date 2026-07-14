@@ -5,7 +5,7 @@ import InstitutionResults from '@/modules/institutes/result/components/Instituti
 
 export default function ResultsPage() {
     return (
-        <div >
+        <div className="bg-white min-h-screen pt-16">
             <InstitutionResults />
         </div>
     );

@@ -3,6 +3,7 @@ export interface InstitutionHomeStats {
     totalEnrolledStudents: number;
     totalFacultyExperience: number;
     successRate: string;
+    coursesOffered: number;
 }
 
 export interface InstitutionHomeStatsResponse {

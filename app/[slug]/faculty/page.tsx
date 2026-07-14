@@ -7,7 +7,7 @@ export default function FacultyPage() {
     const { details } = useInstitute();
 
     return (
-        <div className="bg-background min-h-screen pt-20">
+        <div className="bg-background min-h-screen pt-16">
             <InstitutionFaculty institutionId={details?.id} />
         </div>
     );

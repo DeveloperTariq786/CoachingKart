@@ -8,25 +8,20 @@ import { useLectures } from '@/modules/institutes/lectures/hooks/useLectures';
 import { useBatchSubjects } from '@/modules/institutes/lectures/hooks/useBatchSubjects';
 import { useLectureStore } from '@/modules/institutes/lectures/store/useLectureStore';
 import { Skeleton } from '@/core/components/ui/skeleton';
-import { useAuthStore } from '@/core/store/auth.store';
-import { LoginDialog } from '@/core/components/auth/LoginDialog';
+import { useRequireAuth } from '@/modules/platform/auth';
 import { toast } from 'sonner';
 
 export default function CourseDashboardPage() {
     const params = useParams();
     const router = useRouter();
-    const slug = params.slug as string;
-    const courseSlug = params.courseSlug as string;
     const batchId = params.batchSlug as string;
-    
-    const { isAuthenticated } = useAuthStore();
+
+    const { hasHydrated, isAuthenticated } = useRequireAuth();
     const { activeSubjects, setActiveSubject } = useLectureStore();
     const activeSubject = activeSubjects[batchId] || null;
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-    const [hasHydrated, setHasHydrated] = useState(false);
 
-    // Debounce search query
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchTerm(searchQuery);
@@ -34,18 +29,6 @@ export default function CourseDashboardPage() {
 
         return () => clearTimeout(timer);
     }, [searchQuery]);
-
-    // Wait for Zustand to rehydrate from localStorage before checking auth
-    useEffect(() => {
-        const unsub = useAuthStore.persist.onFinishHydration(() => {
-            setHasHydrated(true);
-        });
-        // If already hydrated (e.g. not first render)
-        if (useAuthStore.persist.hasHydrated()) {
-            setHasHydrated(true);
-        }
-        return () => { unsub(); };
-    }, []);
 
     const { data: batchSubjectsData, isLoading: isBatchLoading, error: batchError } = useBatchSubjects(
         hasHydrated && isAuthenticated ? batchId : undefined
@@ -57,7 +40,6 @@ export default function CourseDashboardPage() {
         debouncedSearchTerm || undefined
     );
 
-    // Redirect to batches page if not enrolled (403 Forbidden)
     useEffect(() => {
         const combinedError = batchError || error;
         if (combinedError && combinedError.response?.status === 403) {
@@ -83,8 +65,7 @@ export default function CourseDashboardPage() {
 
     const isLoading = isBatchLoading || isLecturesLoading;
 
-    // Show loading while waiting for hydration
-    if (!hasHydrated) {
+    if (!hasHydrated || !isAuthenticated) {
         return (
             <div className="space-y-8">
                 <div className="flex gap-4 border-b border-slate-200 pb-4">
@@ -101,14 +82,8 @@ export default function CourseDashboardPage() {
         );
     }
 
-    // Show login dialog if not authenticated
-    if (!isAuthenticated) {
-        return <LoginDialog isOpen={true} onClose={() => {}} />;
-    }
-
     return (
         <>
-            {/* Subject Header (Tabs) or Shimmer */}
             {isBatchLoading ? (
                 <div className="flex gap-4 border-b border-slate-200 pb-4 mb-8">
                     {[1, 2, 3].map(i => (
@@ -123,7 +98,6 @@ export default function CourseDashboardPage() {
                 />
             )}
 
-            {/* Dashboard Content / Lectures Shimmer */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {isLecturesLoading ? (
                     <div className="space-y-4 mt-8">
@@ -132,11 +106,11 @@ export default function CourseDashboardPage() {
                         ))}
                     </div>
                 ) : (
-                    <Lectures 
-                        lectures={lectures} 
+                    <Lectures
+                        lectures={lectures}
                         searchQuery={searchQuery}
                         onSearchChange={setSearchQuery}
-                        activeSubject={activeSubject || ''} 
+                        activeSubject={activeSubject || ''}
                         activeSubjectName={activeSubjectName}
                         batchName={batchName}
                     />

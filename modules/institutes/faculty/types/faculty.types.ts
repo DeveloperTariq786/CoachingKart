@@ -22,4 +22,5 @@ export interface FacultiesResponse {
 export interface FacultiesQueryParams {
     institutionId: string;
     subjectId?: string;
+    limit?: number;
 }

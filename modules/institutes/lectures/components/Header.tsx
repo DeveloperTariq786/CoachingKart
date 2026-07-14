@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/core/lib/utils/utils';
-import { FlaskConical, Atom, Activity, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { Subject } from '../types/lecture.types';
 
 interface SubjectHeaderProps {
@@ -16,7 +16,6 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
     activeSubject,
     onSubjectChange
 }) => {
-    // Default subjects if none provided or for initial loading
 
     return (
         <div className="border-b border-foreground/10 mb-10 overflow-x-auto no-scrollbar">

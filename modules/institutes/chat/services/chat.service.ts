@@ -1,4 +1,4 @@
-import { ApiEvent } from '../types/chat.types';
+import { ApiEvent, SessionResponse, SessionDetail } from '../types/chat.types';
 
 const SESSION_BASE_URL = process.env.NEXT_PUBLIC_VEO_CHAT_SESSION_URL || 'http://localhost:8002/apps/veo_chat_agent';
 const RUN_API_URL = process.env.NEXT_PUBLIC_VEO_CHAT_RUN_URL || 'http://localhost:8002/run';
@@ -78,6 +78,50 @@ export const chatService = {
             return modelTexts.join("\n\n") || "No response received.";
         } catch (error) {
             console.error('Chat service error (message):', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Gets all recent chat sessions for a user and lecture.
+     */
+    getSessions: async (email: string, lectureId: string, limit: number = 20, offset: number = 0): Promise<SessionResponse> => {
+        try {
+            // Using the user's provided structure: http://localhost:8000/veo_chat_agent/{email}/sessions
+            // Based on .env: http://localhost:8000/apps/veo_chat_agent -> replace /apps/ with /
+            const baseUrl = SESSION_BASE_URL.replace('/apps/', '/');
+            const url = `${baseUrl}/${email}/sessions?lecture_id=${lectureId}&limit=${limit}&offset=${offset}`;
+            
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Failed to fetch sessions');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Chat service error (getSessions):', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Gets all messages for a specific session.
+     */
+    getSessionDetail: async (email: string, sessionId: string): Promise<SessionDetail> => {
+        try {
+            const url = `${SESSION_BASE_URL}/users/${email}/sessions/${sessionId}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Failed to fetch session detail');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Chat service error (getSessionDetail):', error);
             throw error;
         }
     }

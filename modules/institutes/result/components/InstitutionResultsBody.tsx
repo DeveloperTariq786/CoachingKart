@@ -11,6 +11,7 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from '@/core/components/ui/dropdown-menu';
+import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
 import { resultService } from '../services/result.service';
 import { useResultStore } from '../store/useResultStore';
 import { InstitutionCourse } from '../../courses/types/course.types';
@@ -44,12 +45,13 @@ const FilterDropdown: React.FC<{
     value?: string,
     placeholder: string,
     options: { label: string, value: string }[],
-    onChange: (value: string) => void
-}> = ({ label, value, placeholder, options, onChange }) => {
+    onChange: (value: string) => void,
+    primaryColor?: string
+}> = ({ label, value, placeholder, options, onChange, primaryColor }) => {
     const selectedLabel = options.find(opt => opt.value === value)?.label || placeholder;
 
     return (
-        <div className="w-full mb-6">
+        <div className="w-full mb-6" style={{ '--primary-500': primaryColor } as React.CSSProperties}>
             <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">
                 {label}
             </label>
@@ -60,13 +62,13 @@ const FilterDropdown: React.FC<{
                         <ChevronDown size={16} strokeWidth={3} className="text-slate-400 group-hover:text-primary-500 transition-colors shrink-0" />
                     </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 max-h-[300px] overflow-y-auto" align="start">
+                <DropdownMenuContent className="w-64 max-h-[300px] overflow-y-auto" align="start" style={{ '--primary-500': primaryColor } as React.CSSProperties}>
                     <DropdownMenuRadioGroup value={value} onValueChange={onChange}>
-                        <DropdownMenuRadioItem value="" className="font-bold text-slate-400 cursor-pointer">
+                        <DropdownMenuRadioItem value="" className="font-bold text-slate-400 cursor-pointer focus:bg-primary-50 focus:text-primary-700 data-[state=checked]:text-primary-600">
                             {placeholder}
                         </DropdownMenuRadioItem>
                         {options.map((opt) => (
-                            <DropdownMenuRadioItem key={opt.value} value={opt.value} className="font-medium text-slate-700 cursor-pointer">
+                            <DropdownMenuRadioItem key={opt.value} value={opt.value} className="font-medium text-slate-700 cursor-pointer focus:bg-primary-50 focus:text-primary-700 data-[state=checked]:text-primary-600">
                                 {opt.label}
                             </DropdownMenuRadioItem>
                         ))}
@@ -125,6 +127,8 @@ const Pagination: React.FC<{
 };
 
 const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institutionId }) => {
+    const { details } = useInstitute();
+    const primaryColor = details?.theme?.primary || '#0ea5e9';
     const { resultsCache, setResults } = useResultStore();
     const [courses, setCourses] = React.useState<InstitutionCourse[]>([]);
     const [results, setResultsItems] = React.useState<Result[]>([]);
@@ -199,7 +203,7 @@ const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institu
     const activeCourseName = courses.find(c => c.id === selectedCourse)?.name || 'All Exams';
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-10 py-12" style={{ '--primary-500': primaryColor } as React.CSSProperties}>
             <div className="flex flex-col lg:flex-row gap-12">
 
                 {/* Sidebar Filters */}
@@ -216,6 +220,7 @@ const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institu
                             value={selectedCourse}
                             options={courses.map(c => ({ label: c.name, value: c.id }))}
                             onChange={setSelectedCourse}
+                            primaryColor={primaryColor}
                         />
 
                         <FilterDropdown
@@ -224,6 +229,7 @@ const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institu
                             value={selectedYear}
                             options={YEARS.map(y => ({ label: y, value: y }))}
                             onChange={setSelectedYear}
+                            primaryColor={primaryColor}
                         />
                     </div>
                 </aside>
@@ -231,17 +237,17 @@ const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institu
                 {/* Main Content Areas */}
                 <main className="flex-1 space-y-20">
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-10 flex flex-col items-center">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 md:mb-12 tracking-tight uppercase text-center">
+                        <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-8 md:mb-12 tracking-tight uppercase text-center">
                             {activeCourseName} {selectedYear} Results
                         </h3>
 
                         {/* Student Grid */}
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5 w-full">
                             {isLoadingResults ? (
                                 [...Array(8)].map((_, i) => (
                                     <Card key={i} className="overflow-hidden border border-slate-100 shadow-sm rounded-xl">
                                         <CardContent className="p-0 flex flex-col h-full bg-white">
-                                            <div className="relative aspect-[4/5] bg-slate-50">
+                                            <div className="relative aspect-[3/4] bg-slate-50">
                                                 <Skeleton className="w-full h-full" />
                                             </div>
                                             <div className="p-3 md:p-4 flex flex-col items-center gap-2">
@@ -256,7 +262,7 @@ const InstitutionResultsBody: React.FC<InstitutionResultsBodyProps> = ({ institu
                                     <Card key={result.id} className="group overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col rounded-xl">
                                         <CardContent className="p-0 flex flex-col h-full bg-white">
                                             {/* Image Section */}
-                                            <div className="relative aspect-[4/5] bg-slate-50 overflow-hidden">
+                                            <div className="relative aspect-[3/4] bg-slate-50 overflow-hidden">
                                                 <Image
                                                     src={result.profile}
                                                     alt={result.name}

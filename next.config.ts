@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Fixes the Cross-origin request warning for your local network IP
+  allowedDevOrigins: ['192.168.31.153', '192.168.31.153:3000'],
+
   images: {
     remotePatterns: [
       {
@@ -23,7 +26,18 @@ const nextConfig: NextConfig = {
         hostname: 'cdn-icons-png.flaticon.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'assets.coachingkart.in',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
     ],
+    unoptimized: true,
   },
 };
 

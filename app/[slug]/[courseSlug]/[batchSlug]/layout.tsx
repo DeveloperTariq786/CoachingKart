@@ -65,7 +65,7 @@ export default function BatchLayout({
                                 <span className="hidden sm:block">{formatSlug(courseSlug)}</span>
                             </div>
                             {realBatchName ? (
-                                <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight leading-tight">
+                                <h1 className="text-2xl md:text-2xl font-black text-foreground tracking-tight leading-tight">
                                     {realBatchName}
                                 </h1>
                             ) : (

@@ -30,10 +30,21 @@ export interface Batch {
     session: string;
 }
 
+export interface DurationLeft {
+    isExpired: boolean;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    totalSeconds: number;
+}
+
 export interface Enrollment {
     enrollmentId: string;
     status: 'ACTIVE' | 'COMPLETED' | 'PENDING';
     joinedAt: string;
+    expiresAt: string;
+    durationLeft: DurationLeft;
     batch: Batch;
     program: Program;
     course: Course;

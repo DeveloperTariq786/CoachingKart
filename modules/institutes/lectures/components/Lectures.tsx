@@ -14,6 +14,7 @@ import { formatDuration } from "@/core/lib/utils/utils";
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Lecture } from '../types/lecture.types';
+import { getOptimizedImageUrl } from '@/core/lib/utils/image-utils';
 
 interface LecturesProps {
     lectures: Lecture[];
@@ -24,13 +25,13 @@ interface LecturesProps {
     batchName: string;
 }
 
-const Lectures: React.FC<LecturesProps> = ({ 
-    lectures, 
-    searchQuery, 
-    onSearchChange, 
-    activeSubject, 
-    activeSubjectName, 
-    batchName 
+const Lectures: React.FC<LecturesProps> = ({
+    lectures,
+    searchQuery,
+    onSearchChange,
+    activeSubject,
+    activeSubjectName,
+    batchName
 }) => {
     const params = useParams();
 
@@ -46,7 +47,7 @@ const Lectures: React.FC<LecturesProps> = ({
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-primary-600 rounded-full" />
-                    <h2 className="text-xl font-black text-slate-900 tracking-tight uppercase">
+                    <h2 className="text-2xl sm:text-2xl font-black text-slate-900 tracking-tight uppercase">
                         {activeSubjectName} Lectures
                     </h2>
                 </div>
@@ -81,9 +82,9 @@ const Lectures: React.FC<LecturesProps> = ({
                                     {/* Thumbnail Part */}
                                     <div className="relative w-full sm:w-[240px] aspect-video rounded-xl overflow-hidden shrink-0">
                                         <img
-                                            src={lecture.thumbnail}
+                                            src={getOptimizedImageUrl(lecture.thumbnail, { fit: 'contain' })}
                                             alt={lecture.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/20 transition-colors" />
 

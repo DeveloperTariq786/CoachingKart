@@ -11,11 +11,7 @@ export default function AboutUsPage() {
     const formattedName = slug ? slug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Elite Academy';
 
     return (
-        <div className="bg-background min-h-screen pt-20">
-            {/* <InstitutionHero
-                name={formattedName}
-                subtitle="Shaping the future of medical and engineering aspirants with world-class faculty and personal attention."
-            /> */}
+        <div className="w-full bg-background min-h-screen pt-16">
             <AboutInstitution />
         </div>
     );

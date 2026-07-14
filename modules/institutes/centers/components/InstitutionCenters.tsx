@@ -34,7 +34,6 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
         const fetchCenters = async () => {
             if (!institutionId) return;
 
-            // Check cache even if not in view to avoid stuck shimmer
             const cached = centersCache[institutionId];
             if (cached) {
                 setCenters(cached.centers);
@@ -54,7 +53,7 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                     setCentersCache(institutionId, response.data.centers, response.data.totalCenters);
                 }
             } catch (error) {
-                console.error("Error fetching institution centers:", error);
+                console.error('Error fetching institution centers:', error);
             } finally {
                 setIsLoading(false);
             }
@@ -71,32 +70,43 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
 
     return (
         <section ref={sectionRef} className="py-16 md:py-20 bg-background min-h-[400px]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
+
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-600 px-4 py-2 rounded-full text-sm font-bold mb-4">
+                    <div className="inline-flex items-center gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-4">
                         <MapPin size={16} />
-                        <span>Our Centers</span>
+                        <span>Locations</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Visit Our Centers
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+                        Explore Our <span className="text-primary-600">Centers</span>
                     </h2>
-                    <p className="text-slate-500 max-w-xl mx-auto text-base md:text-lg">
-                        <span className="font-semibold text-primary-600">{institutionName}</span> has {isLoading ? '...' : totalCenters} convenient {totalCenters === 1 ? 'location' : 'locations'} to serve you.
+                    <p className="mx-auto max-w-2xl text-sm md:text-base text-slate-500 text-center md:whitespace-nowrap">
+                        <span className="font-semibold text-primary-600">
+                            {institutionName}
+                        </span>{' '}
+                        has {isLoading ? '...' : totalCenters} convenient{' '}
+                        {totalCenters === 1 ? 'location' : 'locations'} to serve you.
                     </p>
                 </div>
 
                 {/* Centers Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                     {isLoading ? (
                         [...Array(4)].map((_, i) => (
-                            <div key={i} className="bg-white rounded-2xl overflow-hidden border border-slate-100 h-[320px]">
-                                <Skeleton className="w-full aspect-video bg-slate-200 rounded-none" />
-                                <div className="p-5">
-                                    <Skeleton className="h-6 w-3/4 mb-4 bg-slate-200" />
-                                    <div className="space-y-3">
-                                        <Skeleton className="h-4 w-full bg-slate-200" />
-                                        <Skeleton className="h-4 w-1/2 bg-slate-200" />
+                            <div
+                                key={i}
+                                className="bg-white rounded-xl overflow-hidden border border-slate-100 h-[300px]"
+                            >
+                                <Skeleton className="w-full aspect-video bg-slate-100 rounded-none" />
+                                <div className="p-4 space-y-4">
+                                    <Skeleton className="h-4 w-2/3 bg-slate-100" />
+                                    <div className="space-y-2.5">
+                                        <Skeleton className="h-3.5 w-full bg-slate-100" />
+                                        <Skeleton className="h-3.5 w-3/4 bg-slate-100" />
+                                        <div className="pt-1 border-t border-slate-100">
+                                            <Skeleton className="h-3.5 w-1/2 bg-slate-100 mt-2.5" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -105,8 +115,19 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                         centers.map((center) => (
                             <div
                                 key={center.id}
-                                onClick={() => handleMapClick(center.location?.latitude, center.location?.longitude)}
-                                className={`group bg-background rounded-2xl overflow-hidden border border-slate-100 hover:border-primary-200 hover:shadow-xl transition-all duration-300 ${center.location ? 'cursor-pointer' : ''}`}
+                                onClick={() =>
+                                    handleMapClick(
+                                        center.location?.latitude,
+                                        center.location?.longitude
+                                    )
+                                }
+                                className={`
+                                    group bg-background rounded-xl overflow-hidden
+                                    border border-slate-100
+                                    hover:border-primary-200 hover:shadow-md
+                                    transition-all duration-200
+                                    ${center.location ? 'cursor-pointer' : ''}
+                                `}
                             >
                                 {/* Image */}
                                 <div className="relative w-full aspect-video overflow-hidden">
@@ -117,33 +138,39 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                                    <div className="absolute bottom-4 left-4">
-                                        <h3 className="text-white font-bold text-xl drop-shadow-lg">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                                    <div className="absolute bottom-3 left-3.5">
+                                        <h3 className="text-white font-semibold text-base drop-shadow">
                                             {center.name}
                                         </h3>
                                     </div>
                                 </div>
 
                                 {/* Info */}
-                                <div className="p-5">
-                                    <div className="flex flex-col gap-3 text-sm text-slate-600">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
-                                                <MapPin size={14} />
-                                            </div>
-                                            <span className="line-clamp-2">
-                                                {center.location
-                                                    ? `${center.location.address}, ${center.location.city}, ${center.location.state}`
-                                                    : 'Address not available'}
-                                            </span>
+                                <div className="p-4 flex flex-col gap-0">
+                                    {/* Address row */}
+                                    <div className="flex items-start gap-2.5 py-3">
+                                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0 mt-0.5">
+                                            <MapPin size={13} />
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
-                                                <Phone size={14} />
-                                            </div>
-                                            <span>{center.phone}</span>
+                                        <span className="text-[13px] text-slate-500 leading-snug line-clamp-2">
+                                            {center.location
+                                                ? `${center.location.address}, ${center.location.city}, ${center.location.state}`
+                                                : 'Address not available'}
+                                        </span>
+                                    </div>
+
+                                    {/* Divider */}
+                                    <div className="border-t border-slate-100" />
+
+                                    {/* Phone row */}
+                                    <div className="flex items-center gap-2.5 py-3">
+                                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
+                                            <Phone size={13} />
                                         </div>
+                                        <span className="text-[13px] text-slate-500">
+                                            {center.phone}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

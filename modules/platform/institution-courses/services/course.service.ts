@@ -3,10 +3,11 @@ import ENDPOINTS from '@/core/api/endpoint/endpoints';
 import { Course, CoursesResponse } from '../types/course.types';
 
 export const courseService = {
-    getCourses: async (): Promise<Course[]> => {
+    getCourses: async (limit?: number): Promise<CoursesResponse> => {
         const response = await apiClient.get<CoursesResponse>(
-            ENDPOINTS.COURSES
+            ENDPOINTS.COURSES,
+            { params: { limit } }
         );
-        return response.data.data;
+        return response.data;
     },
 };

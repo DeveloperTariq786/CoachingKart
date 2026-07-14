@@ -5,6 +5,8 @@ const API_VERSION = '/api/v1';
 
 export const AUTH_ENDPOINTS = {
     LOGIN: `${API_VERSION}/auth/login`,
+    FORCE_LOGIN: `${API_VERSION}/auth/force-login`,
+    LOGOUT: `${API_VERSION}/auth/logout`,
 
 } as const;
 
@@ -38,6 +40,7 @@ export const ENDPOINTS = {
         RESOURCES: `${API_VERSION}/institution/client/resource`,
         BATCH_RESOURCES: `${API_VERSION}/institution/client/resource/batch`,
         STUDENT_PROFILE: `${API_VERSION}/institution/client/student/profile`,
+        STUDENT_REGISTER: `${API_VERSION}/institution/client/student/register`,
         ABOUT: `${API_VERSION}/institution/client/about`,
     },
     COURSES: `${API_VERSION}/platform/client/courses`,

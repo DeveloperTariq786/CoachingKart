@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { InstitutionCard } from '@/core/components/common';
-import { Swiper, SwiperSlide, Autoplay } from '@/core/lib/utils/swiper';
 import { useInstitutions } from '../../institutions/hooks/useInstitutions';
-import { Skeleton } from '@/core/components/ui/skeleton';
 import { type FeaturedTuition } from '@/core/constants/tuitions';
 
 const ValleyBest: React.FC = () => {
@@ -12,7 +12,7 @@ const ValleyBest: React.FC = () => {
     const [hasIntersected, setHasIntersected] = useState(false);
 
     const { isLoading, isError, data: response } = useInstitutions(
-        { limit: 12, sortBy: 'centers' },
+        { limit: 10, sortBy: 'centers' },
         hasIntersected
     );
 
@@ -34,101 +34,67 @@ const ValleyBest: React.FC = () => {
         return () => observer.disconnect();
     }, []);
 
-    if (!hasIntersected || isLoading) {
-        return (
-            <section ref={sectionRef} className="py-24 bg-slate-50 border-t border-slate-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mb-12">
-                        <Skeleton className="h-10 w-64 mb-4" />
-                        <Skeleton className="h-6 w-96" />
-                    </div>
-                    <div className="flex gap-6 overflow-hidden">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="flex-none w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] h-[400px] bg-white rounded-2xl border border-slate-100 p-4 shadow-sm flex flex-col">
-                                <Skeleton className="h-48 w-full mb-6 rounded-2xl bg-slate-100" />
-                                <div className="px-2 space-y-4">
-                                    <Skeleton className="h-7 w-3/4 bg-slate-100 rounded-lg" />
-                                    <Skeleton className="h-4 w-1/2 bg-slate-100 rounded-lg" />
-                                    <div className="flex gap-2 pt-2">
-                                        <Skeleton className="h-6 w-16 rounded-full bg-slate-100" />
-                                        <Skeleton className="h-6 w-16 rounded-full bg-slate-100" />
-                                    </div>
-                                    <div className="pt-6">
-                                        <Skeleton className="h-12 w-full rounded-xl bg-slate-100/80" />
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-        );
-    }
+    const isLoadingState = !hasIntersected || isLoading;
 
-    if (isError || !response || !response.data || response.data.length === 0) {
+    // Map API data to FeaturedTuition interface expected by InstitutionCard
+    const mappedTuitions: FeaturedTuition[] = (!isLoadingState && !isError && response?.data)
+        ? response.data.slice(0, 10).map(inst => ({
+            id: inst.id,
+            name: inst.name,
+            slug: inst.slug,
+            location: `${inst.location.city}, ${inst.location.country}`,
+            rating: inst.rating,
+            reviewCount: inst.totalReviews,
+            imageUrl: inst.coverImage || inst.logo,
+            desc: inst.description,
+            exams: inst.courses.map(c => c.name)
+        }))
+        : [];
+
+    const showRealData = !isLoadingState && !isError && mappedTuitions.length > 0;
+    const showFallback = !isLoadingState && (isError || mappedTuitions.length === 0);
+
+    // Don't render section at all if fetch completed with no data
+    if (showFallback) {
         return <section ref={sectionRef} className="py-24 bg-slate-50 border-t border-slate-100" />;
     }
 
-    // Map API data to FeaturedTuition interface expected by InstitutionCard
-    const mappedTuitions: FeaturedTuition[] = response.data.map(inst => ({
-        id: inst.id,
-        name: inst.name,
-        slug: inst.slug,
-        location: `${inst.location.city}, ${inst.location.country}`,
-        rating: inst.rating,
-        reviewCount: inst.totalReviews,
-        imageUrl: inst.coverImage || inst.logo,
-        desc: inst.description,
-        exams: inst.courses.map(c => c.name)
-    }));
-
     return (
         <section ref={sectionRef} className="py-24 bg-slate-50 border-t border-slate-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-12">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
+                <div className="flex flex-col items-center justify-center text-center mb-12">
                     <div className="max-w-2xl">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Valley's Best</h2>
                         <p className="mt-3 text-slate-500 text-lg leading-relaxed">
-                            The most prestigious and high-performing institutes across the valley.
+                            Discover renowned institutes recognized for excellence and outstanding results.
                         </p>
                     </div>
                 </div>
 
-                <div className="relative">
-                    <Swiper
-                        modules={[Autoplay]}
-                        spaceBetween={20}
-                        slidesPerView={1.2}
-                        centeredSlides={false}
-                        loop={mappedTuitions.length > 1}
-                        autoplay={{
-                            delay: 3500,
-                            disableOnInteraction: false,
-                            pauseOnMouseEnter: true,
-                        }}
-                        breakpoints={{
-                            640: {
-                                slidesPerView: 2,
-                                spaceBetween: 24,
-                            },
-                            768: {
-                                slidesPerView: 3,
-                                spaceBetween: 30,
-                            },
-                            1024: {
-                                slidesPerView: 4,
-                                spaceBetween: 32,
-                            },
-                        }}
-                        className="w-full !pb-8"
-                    >
-                        {mappedTuitions.map((tuition) => (
-                            <SwiperSlide key={tuition.id} className="h-auto">
-                                <InstitutionCard tuition={tuition} />
-                            </SwiperSlide>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-4">
+                    {isLoadingState &&
+                        Array.from({ length: 10 }).map((_, i) => (
+                            <InstitutionCard key={`skeleton-${i}`} isLoading />
                         ))}
-                    </Swiper>
+
+                    {showRealData &&
+                        mappedTuitions.map((tuition) => (
+                            <InstitutionCard key={tuition.id} tuition={tuition} />
+                        ))}
                 </div>
+
+                {/* ─── View All Link ─────────────────────────────────────── */}
+                {showRealData && (
+                    <div className="mt-6 flex flex-col items-center gap-1.5">
+                        <Link
+                            href="/institutions"
+                            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors pt-2"
+                        >
+                            View all coachings
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
+                    </div>
+                )}
             </div>
         </section>
     );

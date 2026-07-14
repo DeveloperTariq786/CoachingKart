@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuthStore } from '@/core/store/auth.store';
+import { useAuthStore } from '@/modules/platform/auth';
 import { useSubmitReview } from '../hooks/useSubmitReview';
 import { Button } from '@/core/components/ui/button';
 import { Textarea } from '@/core/components/ui/textarea';

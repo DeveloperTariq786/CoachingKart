@@ -3,11 +3,11 @@ import ENDPOINTS from '@/core/api/endpoint/endpoints';
 import { ResultStatsResponse, ResultsQueryParams, ResultsResponse, TopPerformersResponse } from '../types/result.types';
 
 export const resultService = {
-    getTopPerformers: async (institutionId: string): Promise<TopPerformersResponse> => {
+    getTopPerformers: async (institutionId: string, limit?: number): Promise<TopPerformersResponse> => {
         const response = await apiClient.get<TopPerformersResponse>(
             ENDPOINTS.INSTITUTION.RESULTS_TOP_10,
             {
-                params: { institutionId }
+                params: { institutionId, ...(limit ? { limit } : {}) }
             }
         );
         return response.data;

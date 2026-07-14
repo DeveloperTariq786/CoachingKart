@@ -1,5 +1,6 @@
 import { InstituteHeader, InstituteFooter } from '@/core/components/layout';
 import { instituteService } from '@/modules/institutes/institute/services/institute.service';
+import { notFound } from 'next/navigation';
 
 export default async function InstitutionLayout({
     children,
@@ -13,7 +14,11 @@ export default async function InstitutionLayout({
     let themeStyles = "";
     try {
         const response = await instituteService.getInstituteDetails(slug);
-                if (response.success && response.data?.theme) {
+        if (!response.success || !response.data) {
+            notFound();
+        }
+
+        if (response.success && response.data?.theme) {
             const { theme } = response.data;
             themeStyles = `
                 :root {
@@ -28,10 +33,15 @@ export default async function InstitutionLayout({
         }
     } catch (error) {
         console.error("Failed to fetch institute theme:", error);
+        notFound();
     }
 
     return (
         <div className="flex flex-col min-h-screen">
+            <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+            />
             {themeStyles && (
                 <style dangerouslySetInnerHTML={{ __html: themeStyles }} />
             )}

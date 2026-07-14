@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { cn } from '@/core/lib/utils/utils';
 import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
 
@@ -15,11 +15,8 @@ const InstituteHeader: React.FC = () => {
     const pathname = usePathname();
     const displayInstName = details?.name || (slug ? slug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Institution');
     const segments = pathname?.split('/').filter(Boolean) || [];
-    // It's a sub-page if it's one of the specific sub-pages OR if it's a course detail page (2 segments)
+
     const isSubPage = segments.length >= 2;
-
-    const [] = useState(false);
-
 
     useEffect(() => {
         const handleScroll = () => {
@@ -47,12 +44,12 @@ const InstituteHeader: React.FC = () => {
 
     return (
         <nav className={cn("fixed w-full z-50 transition-all duration-300", navStyle)}>
-            <div className="w-full px-4 sm:px-6 lg:px-8 relative">
+            <div className="w-full px-4 sm:px-6 lg:px-10 relative">
                 <div className="flex justify-between items-center">
                     {/* Brand/Logo */}
                     <div className="flex items-center relative z-20">
                         <Link href={`/${slug}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-primary-600 font-bold text-lg shadow-md group-hover:scale-110 transition-transform overflow-hidden border border-slate-100">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary-600 font-bold text-lg group-hover:scale-110 transition-transform overflow-hidden">
                                 {details?.logo ? (
                                     <Image
                                         src={details.logo}
@@ -84,8 +81,24 @@ const InstituteHeader: React.FC = () => {
                         ))}
                     </div>
 
-                    {/* Mobile Menu Toggle */}
-                    <div className="md:hidden flex items-center relative z-20">
+                    {/* Right side actions (Desktop) */}
+                    <div className="hidden md:flex items-center gap-4 relative z-20">
+                        <Link
+                            href="/profile"
+                            className="flex items-center justify-center p-2.5 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300 shadow-sm"
+                        >
+                            <User size={20} className="text-white" />
+                        </Link>
+                    </div>
+
+                    {/* Mobile Actions */}
+                    <div className="md:hidden flex items-center gap-2 relative z-20">
+                        <Link
+                            href="/profile"
+                            className="flex items-center justify-center p-2 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300 shadow-sm"
+                        >
+                            <User size={22} className="text-white" />
+                        </Link>
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className={cn("p-2 rounded-lg transition-colors cursor-pointer", textStyle)}
@@ -117,6 +130,5 @@ const InstituteHeader: React.FC = () => {
         </nav>
     );
 };
-
 
 export default InstituteHeader;

@@ -57,14 +57,13 @@ const ResourcesList: React.FC<ResourcesListProps> = ({
 
     if (!resources || resources.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-16 px-4 text-center border-2 border-dashed border-foreground/5 rounded-3xl bg-foreground/[0.02]">
-                <div className="w-20 h-20 bg-background rounded-2xl shadow-sm flex items-center justify-center mb-6">
-                    <FileText className="text-slate-200" size={40} />
+            <div className="flex flex-col items-center justify-center py-8 px-4 text-center border-2 border-dashed border-foreground/5 rounded-2xl bg-foreground/[0.02]">
+                <div className="w-12 h-12 bg-background rounded-xl shadow-sm flex items-center justify-center mb-3">
+                    <FileText className="text-slate-200" size={24} />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-2">
+                <h3 className="text-sm font-bold text-slate-400 mb-2">
                     {emptyMessage || "No resources available"}
                 </h3>
-
             </div>
         );
     }
@@ -106,7 +105,7 @@ const ResourcesList: React.FC<ResourcesListProps> = ({
         <div className={cn("flex flex-col", scrollable && "h-full min-h-0")}>
             {title && (
                 <div className="flex items-center justify-between mb-4 shrink-0 px-2">
-                    <h3 className="font-bold text-foreground">{title}</h3>
+                    <h3 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">{title}</h3>
                     <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
                         {resources.length} {resources.length === 1 ? 'Item' : 'Items'}
                     </span>

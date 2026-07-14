@@ -1,34 +1,21 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import SubjectHeader from '@/modules/institutes/lectures/components/Header';
 import { useBatchSubjects } from '@/modules/institutes/lectures/hooks/useBatchSubjects';
 import { useLectureStore } from '@/modules/institutes/lectures/store/useLectureStore';
 import { Skeleton } from '@/core/components/ui/skeleton';
-import { useAuthStore } from '@/core/store/auth.store';
-import { LoginDialog } from '@/core/components/auth/LoginDialog';
+import { useRequireAuth } from '@/modules/platform/auth';
 import { BatchResources } from '@/modules/institutes/resources';
 
 export default function ResourcesPage() {
     const params = useParams();
     const batchId = params.batchSlug as string;
-    
-    const { isAuthenticated } = useAuthStore();
+
+    const { hasHydrated, isAuthenticated } = useRequireAuth();
     const { activeSubjects, setActiveSubject } = useLectureStore();
     const activeSubject = activeSubjects[batchId] || null;
-    const [hasHydrated, setHasHydrated] = useState(false);
-
-    // Wait for Zustand to rehydrate
-    useEffect(() => {
-        const unsub = useAuthStore.persist.onFinishHydration(() => {
-            setHasHydrated(true);
-        });
-        if (useAuthStore.persist.hasHydrated()) {
-            setHasHydrated(true);
-        }
-        return () => { unsub(); };
-    }, []);
 
     const { data: batchSubjectsData, isLoading: isBatchLoading } = useBatchSubjects(
         hasHydrated && isAuthenticated ? batchId : undefined
@@ -43,8 +30,7 @@ export default function ResourcesPage() {
         }
     }, [isBatchLoading, subjects.length, batchId, setActiveSubject]);
 
-    // Show loading while waiting for hydration
-    if (!hasHydrated) {
+    if (!hasHydrated || !isAuthenticated) {
         return (
             <div className="space-y-8">
                 <div className="flex gap-4 border-b border-slate-200 pb-4">
@@ -56,14 +42,8 @@ export default function ResourcesPage() {
         );
     }
 
-    // Show login dialog if not authenticated
-    if (!isAuthenticated) {
-        return <LoginDialog isOpen={true} onClose={() => {}} />;
-    }
-
     return (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Subject Header (Tabs) or Shimmer */}
             {isBatchLoading ? (
                 <div className="flex gap-4 border-b border-slate-200 pb-4 mb-8">
                     {[1, 2, 3].map(i => (

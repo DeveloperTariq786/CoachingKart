@@ -7,7 +7,7 @@ export default function ReviewsPage() {
     const { institution } = useInstitute();
 
     return (
-        <div className="bg-background min-h-screen pt-20">
+        <div className="bg-background min-h-screen pt-16">
             <InstitutionRatingAndReviews institutionId={institution?.id} />
         </div>
     );

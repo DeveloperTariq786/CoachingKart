@@ -22,7 +22,7 @@ const LectureResources: React.FC<LectureResourcesProps> = ({ lectureId, isSideba
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 shrink-0">
                 <div className="flex items-center gap-3 min-w-0">
                     <div className="w-1.5 h-6 bg-primary-600 rounded-full shrink-0" />
-                    <h2 className="text-lg lg:text-xl font-black text-foreground tracking-tight uppercase truncate">
+                    <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight uppercase truncate">
                         Learning Resources
                     </h2>
                 </div>

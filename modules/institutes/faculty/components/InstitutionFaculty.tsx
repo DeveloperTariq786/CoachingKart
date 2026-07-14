@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
+import { GraduationCap } from 'lucide-react';
 import { Card, CardContent } from '@/core/components/ui/card';
 import { cn } from '@/core/lib/utils/utils';
 import { useFaculties } from '@/modules/institutes/faculty/hooks/useFaculties';
@@ -41,14 +42,18 @@ const InstitutionFaculty: React.FC<InstitutionFacultyProps> = ({ institutionId }
     };
 
     return (
-        <section className="py-12 md:py-16 bg-background">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pt-8 pb-12 md:pt-10 md:pb-16 bg-background">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                 {/* Section Header */}
                 <div className="text-center mb-8 md:mb-12">
-                    <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-background px-4 py-1.5 rounded-full mb-4 border border-foreground/10 shadow-sm">
+                        <GraduationCap size={14} className="text-primary-600" />
+                        Our Faculty
+                    </span>
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
                         Meet Our Expert Faculty
                     </h2>
-                    <p className="text-slate-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-[17px] leading-relaxed">
                         Learn from the industry&apos;s best educators dedicated to your academic success. Our faculty brings years of specialized experience in various competitive disciplines.
                     </p>
                 </div>
@@ -83,8 +88,8 @@ const InstitutionFaculty: React.FC<InstitutionFacultyProps> = ({ institutionId }
 
                 {/* Faculty Grid */}
                 {isFacultiesLoading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                        {[1, 2, 3, 4].map(i => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+                        {[1, 2, 3, 4, 5].map(i => (
                             <Card key={i} className="border-foreground/10 shadow-sm overflow-hidden rounded-xl bg-background">
                                 <CardContent className="p-5 md:p-6 text-center animate-pulse">
                                     <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-foreground/5 mx-auto mb-4"></div>
@@ -100,7 +105,7 @@ const InstitutionFaculty: React.FC<InstitutionFacultyProps> = ({ institutionId }
                         <p className="text-slate-400 text-sm md:text-base">No faculty members found.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
                         {faculties.map((member) => (
                             <Card key={member.id} className="border-foreground/10 shadow-sm overflow-hidden rounded-xl bg-background hover:shadow-lg transition-shadow">
                                 <CardContent className="p-5 md:p-6 text-center">
@@ -115,18 +120,22 @@ const InstitutionFaculty: React.FC<InstitutionFacultyProps> = ({ institutionId }
                                                 className="object-cover w-full h-full"
                                             />
                                         </div>
-                                        <span className="absolute bottom-0 right-0 bg-primary-600 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
+                                        <span className="absolute bottom-0 right-0 bg-primary-600 text-white text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md">
                                             {member.experience}+ Yrs
                                         </span>
                                     </div>
 
-                                    {/* Name & Role */}
-                                    <h3 className="font-bold text-foreground text-sm md:text-base mb-0.5">{member.name}</h3>
-                                    <p className="text-primary-600 text-xs md:text-sm font-medium mb-1">{member.tag}</p>
-                                    <p className="text-slate-400 text-[11px] md:text-xs mb-3">{member.subject?.name}</p>
+                                    {/* Subject Badge */}
+                                    <span className="text-[9px] font-bold text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full uppercase tracking-wider mb-1.5">
+                                        {member.subject?.name}
+                                    </span>
+
+                                    {/* Name & Tag */}
+                                    <h3 className="font-bold text-slate-800 text-xs md:text-sm mb-0.5 line-clamp-1">{member.name}</h3>
+                                    <p className="text-slate-400 text-[10px] font-medium mb-2.5 line-clamp-1">{member.tag}</p>
 
                                     {/* Description */}
-                                    <p className="text-slate-500 text-xs md:text-sm leading-relaxed line-clamp-3">
+                                    <p className="text-slate-500 text-[11px] leading-relaxed line-clamp-3">
                                         {member.description}
                                     </p>
                                 </CardContent>

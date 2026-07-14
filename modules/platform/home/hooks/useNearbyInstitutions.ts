@@ -139,13 +139,13 @@ export const useNearbyInstitutions = (isVisible: boolean) => {
         queryFn: () => {
             // If user never gave location, call without lat/long/radius
             if (!coordinates) {
-                return institutionService.getNearMeInstitutions({ limit: 4 });
+                return institutionService.getNearMeInstitutions({ limit: 10 });
             }
             return institutionService.getNearMeInstitutions({
                 latitude: coordinates.latitude,
                 longitude: coordinates.longitude,
                 radius: 50,
-                limit: 4,
+                limit: 10,
             });
         },
         enabled: isResolved,

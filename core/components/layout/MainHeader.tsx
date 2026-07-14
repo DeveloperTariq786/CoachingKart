@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, User, LogOut, BookOpen, Search } from 'lucide-react';
+import { Menu, X, User, BookOpen, Search } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/core/components/ui/button';
 import { cn } from '@/core/lib/utils/utils';
-import { useAuthStore } from '@/core/store/auth.store';
+import { useAuthStore } from '@/modules/platform/auth';
 
 const Header: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
     // Navigation and Layout states
     const isHome = pathname === '/';
     const segments = pathname.split('/').filter(Boolean);
-    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions', 'about', 'careers'].includes(segments[0]);
+    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions', 'about', 'careers', 'profile', 'login', 'register'].includes(segments[0]);
     const isInstitutionAbout = segments.length === 2 && ['about', 'faculty', 'gallery', 'results', 'reviews'].includes(segments[1]) && !['institutions', 'tuitions'].includes(segments[0]);
 
     useEffect(() => {
@@ -56,16 +56,15 @@ const Header: React.FC = () => {
         };
     }, []);
 
-    // Auto-open search on institutions page if query exists or if navigating there
+    // Only open search overlay when there's an active ?search= param in the URL
     useEffect(() => {
         const isInstitutionsPage = pathname === '/institutions';
-        const arrivingAtInstitutions = isInstitutionsPage && prevPathname.current !== '/institutions';
         const searchQueryParam = searchParams?.get('search');
         const courseQueryParam = searchParams?.get('courseName');
 
         if (isInstitutionsPage) {
-            // Auto-open only on fresh arrival (if no course filter) or if there's an active search
-            if ((arrivingAtInstitutions && !courseQueryParam) || searchQueryParam) {
+            // Only open search if there's an active search query in the URL
+            if (searchQueryParam) {
                 setIsSearchOpen(true);
             }
 
@@ -111,16 +110,11 @@ const Header: React.FC = () => {
     const textStyle = !isHome || isScrolled ? 'text-slate-900' : 'text-white';
     const buttonIconStyle = !isHome || isScrolled ? 'text-slate-900 hover:bg-slate-100' : 'text-white hover:bg-white/10';
 
-    // Specific style for the profile button to ensure it looks good on dark/light backgrounds
-    const profileButtonStyle = !isHome || isScrolled
-        ? 'text-slate-700 bg-slate-100 hover:bg-slate-200'
-        : 'text-white bg-white/20 hover:bg-white/30';
-
     if (isInstitutionDetail || isInstitutionAbout) return null;
 
     return (
         <nav className={cn("fixed w-full z-50 transition-all duration-300", navStyle)}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <div className="flex items-center">
@@ -137,7 +131,6 @@ const Header: React.FC = () => {
                                     )}
                                     priority
                                 />
-
                             </div>
                         </Link>
                     </div>
@@ -161,6 +154,14 @@ const Header: React.FC = () => {
                         >
                             <Search size={22} />
                         </button>
+
+                        {/* Mobile Profile Link — primary circle, white icon */}
+                        <Link
+                            href="/profile"
+                            className="flex md:hidden items-center justify-center p-2 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300"
+                        >
+                            <User size={22} className="text-white" />
+                        </Link>
 
                         <Button
                             onClick={() => {
@@ -192,20 +193,13 @@ const Header: React.FC = () => {
                             </div>
                         </Button>
 
-                        {/* Profile Icon (Desktop Only) */}
-                        {isAuthenticated && (
-                            <Link
-                                href="/profile"
-                                className={cn(
-                                    "hidden md:flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ml-1 md:ml-3",
-                                    isHome && !isScrolled
-                                        ? "text-white bg-white/20 hover:bg-white/30 shadow-lg shadow-white/10"
-                                        : "text-slate-700 bg-slate-100 hover:bg-slate-200 shadow-sm"
-                                )}
-                            >
-                                <User size={20} className="text-primary-600" />
-                            </Link>
-                        )}
+                        {/* Desktop Profile Link — primary circle, white icon */}
+                        <Link
+                            href="/profile"
+                            className="hidden md:flex items-center justify-center p-2.5 rounded-full bg-primary-600 hover:bg-primary-700 shadow-sm transition-all duration-300 ml-1 md:ml-3"
+                        >
+                            <User size={20} className="text-white" />
+                        </Link>
                     </div>
                 </div>
             </div>

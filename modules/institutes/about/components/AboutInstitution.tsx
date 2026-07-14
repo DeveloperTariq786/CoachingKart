@@ -11,7 +11,7 @@ import { Skeleton } from '@/core/components/ui/skeleton';
 const AboutInstitutionSkeleton: React.FC = () => {
     return (
         <section className="py-20 bg-background overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <div>
                         <Skeleton className="h-4 w-24 mb-4" />
@@ -48,7 +48,7 @@ const AboutInstitution: React.FC = () => {
     if (!aboutData || (!aboutData.title && !aboutData.description)) {
         return (
             <section className="py-20 bg-background">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                     <div className="bg-background rounded-3xl p-12 shadow-sm border border-foreground/10 flex flex-col items-center text-center">
                         <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center text-slate-400 mb-6">
                             <Info size={32} />
@@ -64,18 +64,19 @@ const AboutInstitution: React.FC = () => {
     }
 
     return (
-        <section className="py-20 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pt-10 pb-20 bg-white overflow-hidden">
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     {/* Content Column */}
                     <div>
-                        <h3 className="text-primary-600 font-bold tracking-widest uppercase text-sm mb-4">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-background px-4 py-1.5 rounded-full mb-4 border border-foreground/10 shadow-sm">
+                            <Info size={14} className="text-primary-600" />
                             Our Journey
-                        </h3>
-                        <h2 className="text-4xl md:text-5xl lg:text-5xl font-extrabold text-foreground mb-6 leading-tight">
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
                             {aboutData.title}
                         </h2>
-                        <p className="text-lg text-slate-600 mb-10 leading-relaxed">
+                        <p className="text-slate-500 text-[17px] leading-relaxed mb-10">
                             {aboutData.description}
                         </p>
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { ImageIcon } from 'lucide-react';
 import { useGallery } from '../hooks/useGallery';
 
 interface InstitutionGalleryProps {
@@ -16,9 +17,11 @@ const InstitutionGallery: React.FC<InstitutionGalleryProps> = ({ institutionId, 
 
     if (isLoading) {
         return (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div className="w-full px-4 sm:px-6 lg:px-10">
+                {/* Updated to lg:grid-cols-4 and gap-6 for better spacing */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {/* Increased placeholder array to 8 items to match a 4-column row */}
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                         <div key={i} className="aspect-[4/3] rounded-3xl bg-slate-200 animate-pulse"></div>
                     ))}
                 </div>
@@ -35,20 +38,23 @@ const InstitutionGallery: React.FC<InstitutionGalleryProps> = ({ institutionId, 
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-10 pt-8 md:pt-10">
             {/* Header Section */}
-            <div className="mb-16 text-center">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6 tracking-tight">
+            <div className="mb-10 text-center">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-background px-4 py-1.5 rounded-full mb-4 border border-foreground/10 shadow-sm">
+                    <ImageIcon size={14} className="text-primary-600" />
+                    Our Gallery
+                </span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
                     Our <span className="text-primary-600">Gallery</span>
-                </h1>
-                <div className="w-20 h-1.5 bg-primary-600 mx-auto rounded-full mb-8"></div>
-                <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+                </h2>
+                <p className="text-slate-500 max-w-2xl mx-auto text-[17px] leading-relaxed">
                     Explore the environment where excellence is nurtured. A glimpse into the life at {formattedName}.
                 </p>
             </div>
 
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Gallery Grid - Updated to responsive 4 columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {galleryItems.map((item) => (
                     <div
                         key={item.id}
@@ -59,7 +65,8 @@ const InstitutionGallery: React.FC<InstitutionGalleryProps> = ({ institutionId, 
                             alt={item.tag}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            // Updated sizes to include a 25vw calculation for the 4-column layout
+                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
 
                         {/* Overlay */}

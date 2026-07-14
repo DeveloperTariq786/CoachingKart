@@ -1,24 +1,24 @@
 export interface InstitutionTheme {
-    primary?: string;
-    secondary?: string;
-    accent?: string;
-    background?: string;
-    foreground?: string;
+    id: number;
+    primary: string;
+    secondary: string;
+    background: string;
+    foreground: string;
+    accent: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface InstitutionDetails {
-    id: string;
+    id: string | number; // Support string (transformed) and number (from API)
     name: string;
     logo: string;
     description: string;
-    theme?: InstitutionTheme;
-    location: {
-        city: string;
-        address: string;
-        country: string;
-    };
+    location: any; // Changed to any to support both string (new API) and object (old components)
     tuitionEmail: string;
     tuitionPhone: string;
+    institutionTheme: InstitutionTheme;
+    theme?: InstitutionTheme; // For backward compatibility
     createdAt: string;
     updatedAt: string;
     slug: string;
@@ -26,5 +26,6 @@ export interface InstitutionDetails {
 
 export interface InstitutionDetailsResponse {
     success: boolean;
+    message: string;
     data: InstitutionDetails;
 }

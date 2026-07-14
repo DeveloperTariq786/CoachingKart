@@ -37,11 +37,14 @@ export interface DurationLeft {
     minutes: number;
     seconds: number;
     totalSeconds: number;
+    label?: string;
 }
 
 export interface Enrollment {
     enrollmentId: string;
-    status: 'ACTIVE' | 'COMPLETED' | 'PENDING';
+    status: 'ACTIVE' | 'COMPLETED' | 'PENDING' | 'EXPIRED';
+    isApproved: boolean;
+    isActive: boolean;
     joinedAt: string;
     expiresAt: string;
     durationLeft: DurationLeft;
@@ -56,6 +59,7 @@ export interface StudentProfileData {
     name: string;
     email: string;
     enrolledAt: string;
+    institutionIds: string[];
     enrollments: Enrollment[];
 }
 

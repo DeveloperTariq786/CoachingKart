@@ -51,10 +51,10 @@ export default function ProgramsPage() {
 
             try {
                 setIsCoursesLoading(true);
-                const response = await institutionCourseService.getInstitutionCourses(details.id);
+                const response = await institutionCourseService.getInstitutionCourses(String(details.id));
                 if (response.success) {
                     setCourses(response.data);
-                    setCoursesCache(details.id, response.data, response.data.length || 6);
+                    setCoursesCache(String(details.id), response.data, response.data.length || 6);
                 }
             } catch (error) {
                 console.error("Error fetching courses for detail page:", error);

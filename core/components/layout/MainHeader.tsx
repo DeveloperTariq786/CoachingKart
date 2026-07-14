@@ -213,7 +213,7 @@ const Header: React.FC = () => {
                             ref={searchInputRef}
                             type="text"
                             placeholder="Search by Institute, Course..."
-                            className="flex-1 min-w-0 bg-transparent border-none outline-none text-base md:text-lg text-slate-900 placeholder:text-slate-400 py-2 font-medium"
+                            className="flex-1 min-w-0 bg-transparent border-none outline-none text-base md:text-sm text-slate-900 placeholder:text-slate-400 py-2 font-medium"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />

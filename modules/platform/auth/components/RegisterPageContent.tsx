@@ -12,13 +12,13 @@ import { RegisterForm } from './RegisterForm';
 import { useRouter } from 'next/navigation';
 
 const HIGHLIGHTS = [
-{ icon: Video, label: 'Live & recorded lectures' },
-{ icon: Globe, label: 'Learn from anywhere, anytime' },
-{ icon: FileText, label: 'Practice with unlimited mock tests' },
-{ icon: BookOpen, label: 'Access notes and study material instantly' },
-{ icon: MessageCircleQuestion, label: 'Get doubts resolved quickly' },
-{ icon: Bell, label: 'Stay updated with batch announcements' },
-{ icon: CalendarCheck, label: 'Never miss a class, even if you are absent' },
+    { icon: Video, label: 'Live & recorded lectures' },
+    { icon: Globe, label: 'Learn from anywhere, anytime' },
+    { icon: FileText, label: 'Practice with unlimited mock tests' },
+    { icon: BookOpen, label: 'Access notes and study material instantly' },
+    { icon: MessageCircleQuestion, label: 'Get doubts resolved quickly' },
+    { icon: Bell, label: 'Stay updated with batch announcements' },
+    { icon: CalendarCheck, label: 'Never miss a class, even if you are absent' },
 ] as const;
 
 export const RegisterPageContent: React.FC = () => {
@@ -54,7 +54,7 @@ export const RegisterPageContent: React.FC = () => {
                     setDetails(slug, res.data);
                 }
             })
-            .catch(() => {});
+            .catch(() => { });
     }, [slug, detailsCache, setDetails]);
 
     const loginHref = getLoginUrl({ redirect: redirect ?? undefined, slug });
@@ -86,13 +86,13 @@ export const RegisterPageContent: React.FC = () => {
                         </div>
                         <div>
                             <p className="text-sm font-semibold text-[#16233F]">{institutionName}</p>
-                           
+
                         </div>
                     </Link>
 
                     <div className="mb-5">
-                       
-                        <h1 
+
+                        <h1
                             className="font-serif text-2xl font-semibold tracking-tight"
                             style={{ color: primaryColor }}
                         >
@@ -106,7 +106,7 @@ export const RegisterPageContent: React.FC = () => {
                     <RegisterForm
                         onSuccess={handleSuccess}
                         loginHref={loginHref}
-                        initialInstitutionId={institutionId}
+                        initialInstitutionId={institutionId?.toString()}
                         primaryColor={primaryColor}
                     />
 
@@ -132,7 +132,7 @@ export const RegisterPageContent: React.FC = () => {
             />
 
             {/* Admit-card panel */}
-            <section 
+            <section
                 className="relative hidden flex-1 flex-col justify-start overflow-hidden px-12 pt-16 pb-8 xl:px-16 lg:flex"
                 style={{ backgroundColor: primaryColor }}
             >
@@ -150,7 +150,7 @@ export const RegisterPageContent: React.FC = () => {
                     <div>
                         <div className="flex items-start justify-between border-b border-dashed border-white/20 pb-4">
                             <div>
-                                
+
                                 <h2 className="mt-2 font-serif text-2xl font-semibold text-white">
                                     {institutionName}
                                 </h2>
@@ -176,17 +176,17 @@ export const RegisterPageContent: React.FC = () => {
                             </div>
                         </div>
 
-                       
+
 
                         <p className="mt-6 font-serif text-2xl font-semibold leading-tight text-white xl:text-3xl">
                             Your learning, all in one place.
                         </p>
-                        
+
 
                         <ul className="mt-6 space-y-3">
                             {HIGHLIGHTS.map(({ icon: Icon, label }) => (
                                 <li key={label} className="flex items-center gap-3">
-                                    <div 
+                                    <div
                                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded border border-white/15"
                                         style={{ color: accentColor }}
                                     >
@@ -202,7 +202,7 @@ export const RegisterPageContent: React.FC = () => {
                         <p className="font-mono text-[11px] text-white">
                             Powered by CoachingKart · You teach. We deliver.
                         </p>
-                        
+
                     </div>
                 </div>
             </section>

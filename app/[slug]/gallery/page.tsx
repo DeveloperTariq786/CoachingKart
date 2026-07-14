@@ -11,7 +11,7 @@ export default function GalleryPage() {
     return (
         <div className="bg-background min-h-screen pt-16 pb-16">
             <InstitutionGallery
-                institutionId={details?.id}
+                institutionId={String(details?.id)}
                 formattedName={formattedName}
             />
         </div>

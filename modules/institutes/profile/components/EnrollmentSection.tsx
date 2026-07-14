@@ -48,6 +48,8 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
     const [primaryColor, setPrimaryColor] = useState<string>('#0ea5e9'); // default fallback (global primary)
     const [durationLeft, setDurationLeft] = useState<any>(item.durationLeft);
 
+    const isExpired = item.status === 'EXPIRED' || durationLeft?.isExpired;
+
     const slugify = (text: string) => {
         return text
             .toLowerCase()
@@ -56,6 +58,7 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
     };
 
     const handleEnrollmentClick = () => {
+        if (isExpired) return;
         const slug = item.institution.slug;
         const courseSlug = slugify(item.course.name);
         const batchSlug = item.batch.id; // batchSlug in the URL is the batch ID
@@ -63,6 +66,7 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (isExpired) return;
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             handleEnrollmentClick();
@@ -129,8 +133,12 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
             onClick={handleEnrollmentClick}
             onKeyDown={handleKeyDown}
             role="button"
-            tabIndex={0}
-            className="group relative flex bg-[color:var(--paper)] rounded-2xl overflow-hidden border border-black/[0.06] shadow-[0_1px_0_rgba(31,42,34,0.06)] hover:shadow-[0_16px_32px_-12px_rgba(31,42,34,0.22)] motion-safe:hover:-translate-y-0.5 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            tabIndex={isExpired ? -1 : 0}
+            className={`group relative flex bg-[color:var(--paper)] rounded-2xl overflow-hidden border border-black/[0.06] shadow-[0_1px_0_rgba(31,42,34,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                isExpired
+                    ? 'opacity-75 cursor-not-allowed'
+                    : 'hover:shadow-[0_16px_32px_-12px_rgba(31,42,34,0.22)] motion-safe:hover:-translate-y-0.5 cursor-pointer'
+            }`}
             style={{
                 '--paper': PAPER,
                 '--tw-ring-color': primaryColor,
@@ -163,7 +171,7 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
                         className="shrink-0 flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-[0.15em] border border-dashed rounded-full px-2.5 py-1"
                         style={{ color: `${INK}80`, borderColor: `${INK}33` }}
                     >
-                        Enrolled &middot; {new Date(item.joinedAt).getFullYear()}
+                        {item.isApproved ? 'Enrolled' : 'Applied'} &middot; {new Date(item.joinedAt).getFullYear()}
                     </div>
                 </div>
 

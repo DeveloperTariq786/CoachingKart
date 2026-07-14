@@ -14,9 +14,7 @@ export default async function InstitutionLayout({
     let themeStyles = "";
     try {
         const response = await instituteService.getInstituteDetails(slug);
-        if (!response.success || !response.data) {
-            notFound();
-        }
+
 
         if (response.success && response.data?.theme) {
             const { theme } = response.data;
@@ -33,7 +31,7 @@ export default async function InstitutionLayout({
         }
     } catch (error) {
         console.error("Failed to fetch institute theme:", error);
-        notFound();
+
     }
 
     return (

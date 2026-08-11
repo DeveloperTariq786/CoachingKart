@@ -34,16 +34,16 @@ const AppPromotion: React.FC = () => {
                     <div className="flex-1 space-y-8 z-10 max-w-2xl">
                         <div className="space-y-4">
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-                                Join 15 Million students on the app today!
+                                Your Offline Coaching, Now in Your Phone.
                             </h2>
                         </div>
 
                         {/* Feature list */}
                         <ul className="space-y-4">
                             {[
-                                "Live & recorded classes available at ease",
-                                "Dashboard for progress tracking",
-                                "Lakhs of practice questions"
+                                "Access lectures & study materials anytime",
+                                "Stay updated with your classes & batches",
+                                "Learn, revise & practice wherever you go"
                             ].map((feature, idx) => (
                                 <li key={idx} className="flex items-center gap-3">
                                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center text-white shadow-sm">
@@ -60,9 +60,8 @@ const AppPromotion: React.FC = () => {
                         <div className="flex flex-wrap gap-4 pt-2">
 
                             {/* Google Play Store — official badge image */}
-                            <a
-                                href="#"
-                                className="transition-all duration-300 hover:scale-105 active:scale-95 shadow-md rounded-xl overflow-hidden"
+                            <div
+                                className="shadow-md rounded-xl overflow-hidden opacity-80 cursor-not-allowed select-none"
                                 aria-label="Get it on Google Play"
                             >
                                 <Image
@@ -73,12 +72,11 @@ const AppPromotion: React.FC = () => {
                                     className="h-10 w-auto"
                                     unoptimized
                                 />
-                            </a>
+                            </div>
 
                             {/* Apple App Store — official badge image */}
-                            <a
-                                href="#"
-                                className="transition-all duration-300 hover:scale-105 active:scale-95 shadow-md rounded-xl overflow-hidden"
+                            <div
+                                className="shadow-md rounded-xl overflow-hidden opacity-80 cursor-not-allowed select-none"
                                 aria-label="Download on the App Store"
                             >
                                 <Image
@@ -89,7 +87,7 @@ const AppPromotion: React.FC = () => {
                                     className="h-10 w-auto"
                                     unoptimized
                                 />
-                            </a>
+                            </div>
 
                         </div>
                     </div>
@@ -99,7 +97,7 @@ const AppPromotion: React.FC = () => {
 
                         {/* Small phone — LEFT */}
                         <div className="absolute left-0 bottom-6 z-10 opacity-90">
-                            <SmallPhone imageSrc="/images/newi.webp" imageAlt="Mock Tests Screen" />
+                            <SmallPhone imageSrc="/images/app-ui.jpg" imageAlt="Mock Tests Screen" />
                         </div>
 
                         {/* Big phone — CENTER, image always visible */}
@@ -111,7 +109,7 @@ const AppPromotion: React.FC = () => {
                             {/* Screen — image always shown */}
                             <div className="absolute inset-0">
                                 <Image
-                                    src="/images/newi.webp"
+                                    src="/images/app-ui.jpg"
                                     alt="App Interface Mockup"
                                     fill
                                     className="object-cover"
@@ -122,7 +120,7 @@ const AppPromotion: React.FC = () => {
 
                         {/* Small phone — RIGHT */}
                         <div className="absolute right-0 bottom-6 z-10 opacity-90">
-                            <SmallPhone imageSrc="/images/newi.webp" imageAlt="Progress Tracking Screen" />
+                            <SmallPhone imageSrc="/images/app-ui.jpg" imageAlt="Progress Tracking Screen" />
                         </div>
 
 

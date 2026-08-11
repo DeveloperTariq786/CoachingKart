@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Target, Users, Sparkles, GraduationCap, ArrowRight, Monitor, Laptop, Award, MapPin } from 'lucide-react';
+import { Sparkles, Monitor, Laptop, Award, MapPin } from 'lucide-react';
 
 export default function AboutPage() {
     return (
@@ -11,7 +11,7 @@ export default function AboutPage() {
             <section className="pt-6 pb-16 md:pt-10 md:pb-24 bg-white overflow-hidden relative">
                 <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[500px] h-[500px] bg-primary-50 rounded-full blur-3xl opacity-40 -z-10" />
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="w-full px-4 sm:px-6 lg:px-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div className="text-center lg:text-left">
                             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-8 leading-tight">
@@ -43,7 +43,7 @@ export default function AboutPage() {
                             <div className="relative w-full max-w-lg transition-transform hover:-translate-y-2 duration-500">
                                 <div className="absolute inset-0 bg-primary-100 rounded-[2rem] rotate-3 translate-x-3 translate-y-3 -z-10"></div>
                                 <Image
-                                    src="/promotions/office.png"
+                                    src="/promotions/officenew.jpg"
                                     alt="CoachingKart Office"
                                     width={800}
                                     height={800}
@@ -58,7 +58,7 @@ export default function AboutPage() {
 
             {/* Core Concept - The Shopify for Coaching */}
             <section className="py-20 bg-slate-50 border-y border-slate-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="w-full px-4 sm:px-6 lg:px-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
@@ -120,51 +120,6 @@ export default function AboutPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            {/* Stats */}
-            <section className="py-16 md:py-24 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Empowering the Future of Learning</h2>
-                        <p className="text-slate-500 max-w-xl mx-auto">Bridging the gap between traditional classrooms and digital convenience.</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-                        <div className="space-y-2">
-                            <div className="text-5xl font-extrabold text-primary-600">1000+</div>
-                            <div className="text-slate-600 font-bold uppercase tracking-widest text-xs">Institutions Registered</div>
-                        </div>
-                        <div className="space-y-2">
-                            <div className="text-5xl font-extrabold text-primary-600">50,000+</div>
-                            <div className="text-slate-600 font-bold uppercase tracking-widest text-xs">Active Students</div>
-                        </div>
-                        <div className="space-y-2">
-                            <div className="text-5xl font-extrabold text-primary-600">50+</div>
-                            <div className="text-slate-600 font-bold uppercase tracking-widest text-xs">Cities Covered</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="py-20 md:py-32 bg-slate-900 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,1)_1px,transparent_1px)] bg-[length:32px_32px]" />
-                </div>
-                <div className="max-w-4xl mx-auto px-4 relative text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Ready to Make Your Coaching Digital?</h2>
-                    <p className="text-slate-400 mb-10 text-lg">
-                        Join hundreds of institutions already using CoachingKart to scale their impact.
-                    </p>
-                    <Link
-                        href="https://institution.coachingkart.in/"
-                        target="_blank"
-                        className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-primary-600 text-white font-bold text-lg hover:bg-primary-700 transition-all hover:scale-105 shadow-2xl shadow-primary-900/50"
-                    >
-                        Sign Up as Institution
-                        <ArrowRight size={20} />
-                    </Link>
                 </div>
             </section>
         </main>

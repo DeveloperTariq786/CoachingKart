@@ -28,7 +28,7 @@ const Header: React.FC = () => {
     // Navigation and Layout states
     const isHome = pathname === '/';
     const segments = pathname.split('/').filter(Boolean);
-    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions', 'about', 'careers', 'profile', 'login', 'register'].includes(segments[0]);
+    const isInstitutionDetail = segments.length === 1 && !['institutions', 'tuitions', 'about', 'careers', 'profile', 'login', 'register', 'privacy', 'terms'].includes(segments[0]);
     const isInstitutionAbout = segments.length === 2 && ['about', 'faculty', 'gallery', 'results', 'reviews'].includes(segments[1]) && !['institutions', 'tuitions'].includes(segments[0]);
 
     useEffect(() => {

@@ -9,7 +9,7 @@ import { cn } from '@/core/lib/utils/utils';
 const BottomNav: React.FC = () => {
     const pathname = usePathname();
     const segments = pathname.split('/').filter(Boolean);
-    const isInstitutionDetail = segments.length === 1 && !['institutions', 'about', 'careers'].includes(segments[0]);
+    const isInstitutionDetail = segments.length === 1 && !['institutions', 'about', 'careers', 'privacy', 'terms'].includes(segments[0]);
     const isInstitutionAbout = segments.length === 2 && ['about', 'faculty', 'gallery', 'results', 'reviews'].includes(segments[1]) && !['institutions', 'tuitions'].includes(segments[0]);
 
     if (isInstitutionDetail || isInstitutionAbout) return null;

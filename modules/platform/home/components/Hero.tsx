@@ -181,32 +181,38 @@ const Hero: React.FC = () => {
                         </div>
 
                         {/* CTA button */}
-                        {activeSlide.institutionId && (
-                            <div className="flex-shrink-0">
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className={cn(
-                                        'px-7 py-3 h-auto',
-                                        'bg-primary-700 hover:bg-primary-800',
-                                        'text-white font-semibold rounded-full',
-                                        'transition-all duration-300',
-                                        'shadow-md hover:shadow-primary-600/25',
-                                        'hover:-translate-y-0.5',
-                                        'group'
-                                    )}
+                        <div className="flex-shrink-0">
+                            <Button
+                                asChild
+                                size="lg"
+                                className={cn(
+                                    'px-7 py-3 h-auto',
+                                    'bg-primary-700 hover:bg-primary-800',
+                                    'text-white font-semibold rounded-full',
+                                    'transition-all duration-300',
+                                    'shadow-md hover:shadow-primary-600/25',
+                                    'hover:-translate-y-0.5',
+                                    'group'
+                                )}
+                            >
+                                <Link
+                                    href={
+                                        activeSlide.institutionId
+                                            ? `/${activeSlide.institution.name
+                                                .toLowerCase()
+                                                .replace(/\s+/g, '-')}`
+                                            : 'https://institution.coachingkart.in/'
+                                    }
+                                    {...(!activeSlide.institutionId && {
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer',
+                                    })}
                                 >
-                                    <Link
-                                        href={`/${activeSlide.institution.name
-                                            .toLowerCase()
-                                            .replace(/\s+/g, '-')}`}
-                                    >
-                                        {activeSlide.buttonText || 'View Details'}
-                                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                </Button>
-                            </div>
-                        )}
+                                    {activeSlide.buttonText || 'View Details'}
+                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ const ProgramsHeader: React.FC<ProgramsHeaderProps> = ({
     };
 
     return (
-        <section className="pt-20 pb-6 bg-background">
+        <section className="pt-12 md:pt-20 pb-2 md:pb-6 bg-background">
             <div className="w-full px-4 sm:px-6 lg:px-10 text-center">
 
                 {/* Badge (Original) */}
@@ -48,15 +48,15 @@ const ProgramsHeader: React.FC<ProgramsHeaderProps> = ({
                 </h1>
 
                 {/* Subtitle (Original) */}
-                <div className="max-w-2xl mx-auto mb-10 md:mb-16">
+                <div className="max-w-2xl mx-auto mb-6 md:mb-16">
                     <p className="text-slate-500 text-sm md:text-base font-medium">
                         {subtitle} Specifically designed for{' '}
                         <span className="text-foreground font-bold">{courseTitle}</span> aspirants.
                     </p>
                 </div>
 
-                {/* Premium Tabs Carousel Module */}
-                <div className="w-full max-w-4xl mx-auto flex items-center gap-3">
+                {/* Desktop: Premium Tabs Carousel Module */}
+                <div className="hidden md:flex w-full max-w-4xl mx-auto items-center gap-3">
 
                     {/* Left Scroll Button */}
                     <button

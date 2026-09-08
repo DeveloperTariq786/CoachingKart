@@ -33,8 +33,8 @@ const LecturesBottomNav: React.FC = () => {
     ];
 
     return (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-foreground/5 shadow-sm">
-            <nav className="flex items-center justify-between max-w-md mx-auto px-6 py-3 pb-safe-area">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t border-slate-200/80 shadow-xs pb-[env(safe-area-inset-bottom,0px)]">
+            <nav className="flex items-center justify-around max-w-md mx-auto px-4 h-11">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
                     const Icon = item.icon;
@@ -43,25 +43,25 @@ const LecturesBottomNav: React.FC = () => {
                             key={item.label}
                             href={item.href}
                             className={cn(
-                                "flex flex-col items-center gap-1 transition-all",
-                                isActive ? "text-primary-600" : "text-slate-400"
+                                "flex flex-col items-center justify-center transition-all py-0.5 px-2",
+                                isActive ? "text-primary-600" : "text-slate-400 hover:text-slate-600"
                             )}
                         >
                             <div className={cn(
-                                "p-2 rounded-xl transition-all",
-                                isActive ? "bg-primary-50" : "bg-transparent"
+                                "p-0.5 rounded-md transition-all",
+                                isActive ? "bg-primary-50 text-primary-600" : "bg-transparent"
                             )}>
                                 <Icon
-                                    size={20}
+                                    size={16}
                                     className={cn(
                                         "transition-all",
-                                        isActive ? "stroke-[2.5px]" : "stroke-[2px]"
+                                        isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"
                                     )}
                                 />
                             </div>
                             <span className={cn(
-                                "text-[10px] font-bold uppercase tracking-wider transition-all",
-                                isActive ? "opacity-100" : "opacity-60"
+                                "text-[8.5px] font-bold uppercase tracking-wider transition-all leading-none mt-0.5",
+                                isActive ? "opacity-100" : "opacity-70"
                             )}>
                                 {item.label}
                             </span>

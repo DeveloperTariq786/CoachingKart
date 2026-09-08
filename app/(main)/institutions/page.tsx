@@ -1,19 +1,21 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, SlidersHorizontal, X } from 'lucide-react';
 import { cn } from '@/core/lib/utils/utils';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { CoursesFilters, InstituteList } from '@/modules/platform/institutions';
 import { useInstitutions } from '@/modules/platform/institutions/hooks/useInstitutions';
 
 export default function InstitutionPage() {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const courseName = searchParams.get('courseName') || undefined;
     const search = searchParams.get('search') || undefined;
 
     const [sortBy, setSortBy] = useState('recommended');
     const [isSortOpen, setIsSortOpen] = useState(false);
+    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [allInstitutions, setAllInstitutions] = useState<any[]>([]);
     const limit = 12; // Increase default limit for infinite scroll density
@@ -96,17 +98,21 @@ export default function InstitutionPage() {
 
     return (
         <main className="min-h-screen bg-white">
-            <div className="flex flex-col lg:flex-row min-h-screen pt-20">
+            <div className="flex flex-col lg:flex-row min-h-screen pt-14 lg:pt-20">
                 {/* Filters Sidebar */}
                 <CoursesFilters
                     className="lg:border-r lg:border-slate-100"
                     selectedCourseName={courseName}
+                    sortBy={sortBy}
+                    onSortChange={setSortBy}
+                    isMobileOpen={isMobileFiltersOpen}
+                    onMobileClose={() => setIsMobileFiltersOpen(false)}
                 />
 
                 {/* Main Content Area */}
-                <div className="flex-1 px-4 sm:px-6 lg:px-10 pt-6 pb-10">
+                <div className="flex-1 px-4 sm:px-6 lg:px-10 pt-2 lg:pt-6 pb-10">
                     {/* Results Bar */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-100">
+                    <div className="flex items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-100">
                         <div>
                             <h2 className="text-lg font-extrabold text-slate-800 tracking-tight">
                                 Explore Coachings
@@ -116,7 +122,8 @@ export default function InstitutionPage() {
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-2 relative">
+                        {/* Desktop Sort Dropdown (Large Screen) */}
+                        <div className="hidden lg:flex items-center gap-2 relative">
                             <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Sort by:</span>
                             <div className="relative" ref={sortRef}>
                                 <button
@@ -150,7 +157,41 @@ export default function InstitutionPage() {
                                 )}
                             </div>
                         </div>
+
+                        {/* Mobile Filter & Sort Button (Small Screen) */}
+                        <div className="lg:hidden flex items-center gap-2">
+                            <button
+                                onClick={() => setIsMobileFiltersOpen(true)}
+                                className="flex items-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-xl text-sm font-bold text-slate-700 transition-all cursor-pointer shadow-2xs"
+                            >
+                                <SlidersHorizontal size={15} className="text-primary-600" />
+                                <span>Filters</span>
+                                {(courseName || sortBy !== 'recommended') && (
+                                    <span className="w-2 h-2 rounded-full bg-primary-600" />
+                                )}
+                            </button>
+                        </div>
                     </div>
+
+                    {/* Active Course Filter Pill on Mobile */}
+                    {courseName && (
+                        <div className="lg:hidden flex flex-wrap items-center gap-2 mb-6 -mt-4">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 text-primary-700 border border-primary-200/80 rounded-full text-xs font-semibold">
+                                Course: {courseName}
+                                <button
+                                    onClick={() => {
+                                        const params = new URLSearchParams(searchParams?.toString());
+                                        params.delete('courseName');
+                                        router.push(`?${params.toString()}`);
+                                    }}
+                                    className="p-0.5 hover:bg-primary-100 rounded-full cursor-pointer text-primary-600"
+                                    aria-label="Remove course filter"
+                                >
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        </div>
+                    )}
 
                     <InstituteList
                         institutions={allInstitutions}

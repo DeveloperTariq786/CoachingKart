@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide, Autoplay, Pagination, type SwiperType } from '@/core/lib/utils/swiper';
 import { cn } from '@/core/lib/utils/utils';
 import { getOptimizedImageUrl } from '@/core/lib/utils/image-utils';
-import { Skeleton } from '@/core/components/ui/skeleton';
 
 import { bannerService } from '../services/hero.service';
 import { useBannerStore } from '../store/useHeroStore';
 import { HeroSlide, InstitutionHeroProps } from '../types/hero.types';
+import { useInstitute } from '@/modules/institutes/institute/hooks/useInstitute';
 
 const CF_IMAGE_OPTIONS = {
     width: 1920,
@@ -30,6 +30,8 @@ const InstitutionHero: React.FC<InstitutionHeroProps> = ({
     institutionId,
     isLoading: isParentLoading
 }) => {
+    const { details } = useInstitute();
+    const primaryColor = details?.theme?.primary || '#0ea5e9';
     const { bannersCache, setBanners } = useBannerStore();
     const [activeIndex, setActiveIndex] = useState(0);
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
@@ -92,10 +94,17 @@ const InstitutionHero: React.FC<InstitutionHeroProps> = ({
     if (isLoading) {
         return (
             <section className="w-full">
-                <Skeleton className={cn('w-full bg-slate-800/50 rounded-none', ASPECT_CLASS)} />
-                <div className="px-4 sm:px-6 lg:px-10 py-4">
-                    <Skeleton className="h-8 w-1/2 mb-3 bg-slate-200 rounded-lg" />
-                    <Skeleton className="h-6 w-1/3 bg-slate-200 rounded-lg" />
+                {/* Banner Shimmer */}
+                <div className={cn('relative w-full overflow-hidden bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 border-b border-slate-100', ASPECT_CLASS)}>
+                    {/* Animated Sweep */}
+                    <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent pointer-events-none" />
+                </div>
+
+                {/* Indicators Shimmer */}
+                <div className="py-3 flex justify-center space-x-2 bg-background">
+                    <div className="h-2 w-8 rounded-full bg-slate-300 animate-pulse" />
+                    <div className="h-2 w-2 rounded-full bg-slate-200 animate-pulse" />
+                    <div className="h-2 w-2 rounded-full bg-slate-200 animate-pulse" />
                 </div>
             </section>
         );
@@ -120,7 +129,13 @@ const InstitutionHero: React.FC<InstitutionHeroProps> = ({
 
     // ── Main carousel ──────────────────────────────────────────────────────────
     return (
-        <section className="w-full">
+        <section
+            className="w-full"
+            style={{
+                '--primary-500': primaryColor,
+                '--institution-primary': primaryColor,
+            } as React.CSSProperties}
+        >
             {/* Image Carousel */}
             <div className={cn('relative w-full overflow-hidden bg-slate-900', ASPECT_CLASS)}>
                 <Swiper
@@ -153,23 +168,26 @@ const InstitutionHero: React.FC<InstitutionHeroProps> = ({
                     ))}
                 </Swiper>
 
-                {/* Custom Carousel Indicators */}
-                <div className="absolute bottom-4 left-0 right-0 z-30 flex justify-center space-x-2">
+            </div>
+
+            {/* Custom Carousel Indicators Below Image */}
+            {slides.length > 1 && (
+                <div className="py-3 flex justify-center space-x-2 bg-background">
                     {slides.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => handleDotClick(index)}
                             className={cn(
-                                "h-2.5 rounded-full transition-all duration-300",
+                                "h-2 rounded-full transition-all duration-300 cursor-pointer",
                                 index === activeIndex
                                     ? "bg-primary-500 w-8"
-                                    : "bg-white/50 hover:bg-white/80 w-2.5"
+                                    : "bg-slate-300 hover:bg-slate-400 w-2"
                             )}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}
                 </div>
-            </div>
+            )}
 
 
         </section>

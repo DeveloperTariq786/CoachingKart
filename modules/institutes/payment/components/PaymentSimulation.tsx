@@ -81,18 +81,18 @@ export const PaymentSimulation: React.FC = () => {
 
     if (status === 'error') {
         return (
-            <Card className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border-rose-100 bg-background shadow-lg animate-in fade-in zoom-in-95 duration-500">
+            <Card className="mx-auto w-full max-w-md overflow-hidden rounded-2xl md:rounded-3xl border-rose-100 bg-background shadow-lg animate-in fade-in zoom-in-95 duration-500">
                 <div className="h-1.5 bg-rose-500" />
-                <CardContent className="flex flex-col items-center px-8 pt-10 pb-8 text-center">
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-500">
-                        <AlertCircle className="h-7 w-7" />
+                <CardContent className="flex flex-col items-center px-5 sm:px-8 pt-8 md:pt-10 pb-6 md:pb-8 text-center">
+                    <div className="mb-4 md:mb-6 flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-500">
+                        <AlertCircle className="h-6 w-6 md:h-7 md:w-7" />
                     </div>
-                    <CardTitle className="mb-2 text-xl font-bold text-foreground">Enrollment Failed</CardTitle>
-                    <CardDescription className="mb-8 text-sm leading-6 text-slate-500">{errorMessage}</CardDescription>
+                    <CardTitle className="mb-1.5 md:mb-2 text-lg md:text-xl font-bold text-foreground">Enrollment Failed</CardTitle>
+                    <CardDescription className="mb-6 md:mb-8 text-xs md:text-sm leading-5 md:leading-6 text-slate-500">{errorMessage}</CardDescription>
                     <Button
                         onClick={() => router.back()}
                         variant="outline"
-                        className="h-11 w-full rounded-xl font-semibold"
+                        className="h-10 md:h-11 w-full rounded-xl text-xs md:text-sm font-semibold"
                     >
                         <ArrowLeft size={16} className="mr-2" />
                         Back to Batches
@@ -104,23 +104,23 @@ export const PaymentSimulation: React.FC = () => {
 
     if (status === 'success') {
         return (
-            <Card className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border-emerald-100 bg-background shadow-lg animate-in fade-in zoom-in-95 duration-500">
+            <Card className="mx-auto w-full max-w-md overflow-hidden rounded-2xl md:rounded-3xl border-emerald-100 bg-background shadow-lg animate-in fade-in zoom-in-95 duration-500">
                 <div className="h-1.5 bg-emerald-500" />
-                <CardContent className="flex flex-col items-center px-8 pt-10 pb-8 text-center">
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-500">
-                        <CheckCircle2 className="h-7 w-7" />
+                <CardContent className="flex flex-col items-center px-5 sm:px-8 pt-8 md:pt-10 pb-6 md:pb-8 text-center">
+                    <div className="mb-4 md:mb-6 flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-500">
+                        <CheckCircle2 className="h-6 w-6 md:h-7 md:w-7" />
                     </div>
-                    <CardTitle className="mb-2 text-xl font-bold text-foreground">Request Submitted</CardTitle>
-                    <CardDescription className="mb-8 text-sm leading-6 text-slate-500">
+                    <CardTitle className="mb-1.5 md:mb-2 text-lg md:text-xl font-bold text-foreground">Request Submitted</CardTitle>
+                    <CardDescription className="mb-6 md:mb-8 text-xs md:text-sm leading-5 md:leading-6 text-slate-500">
                         Please wait for admin approval to access this batch. You&apos;ll be notified once it&apos;s approved.
                     </CardDescription>
                     <Button
                         onClick={goToBatches}
-                        className="h-12 w-full rounded-xl bg-primary-600 text-sm font-bold text-white shadow-md transition-all hover:bg-primary-700 active:scale-[0.99]"
+                        className="h-11 md:h-12 w-full rounded-xl bg-primary-600 text-xs md:text-sm font-bold text-white shadow-md transition-all hover:bg-primary-700 active:scale-[0.99]"
                     >
                         Explore Batches
                     </Button>
-                    <p className="mt-4 text-xs font-medium text-slate-400">
+                    <p className="mt-3 md:mt-4 text-[11px] md:text-xs font-medium text-slate-400">
                         Redirecting automatically in {secondsLeft}s&hellip;
                     </p>
                 </CardContent>
@@ -129,9 +129,9 @@ export const PaymentSimulation: React.FC = () => {
     }
 
     return (
-        <Card className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border-primary-100/70 bg-background shadow-lg animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <CardHeader className="px-7 pb-4 pt-7 text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-primary-100 bg-primary-50 text-primary-600">
+        <Card className="mx-auto w-full max-w-md overflow-hidden rounded-2xl md:rounded-3xl border-primary-100/70 bg-background shadow-lg animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <CardHeader className="px-5 sm:px-7 pb-3 md:pb-4 pt-5 md:pt-7 text-center">
+                <div className="mx-auto mb-3 md:mb-4 flex h-12 w-12 md:h-14 md:w-14 items-center justify-center overflow-hidden rounded-xl md:rounded-2xl border border-primary-100 bg-primary-50 text-primary-600">
                     {institutionLogo ? (
                         <Image
                             src={institutionLogo}
@@ -141,22 +141,22 @@ export const PaymentSimulation: React.FC = () => {
                             className="h-full w-full object-contain"
                         />
                     ) : (
-                        <GraduationCap size={24} className="stroke-[2.5]" />
+                        <GraduationCap size={22} className="stroke-[2.5] md:w-6 md:h-6" />
                     )}
                 </div>
                 {/* <CardTitle className="text-xl font-bold text-foreground">Confirm Your Enrollment</CardTitle> */}
-                <CardDescription className="mt-1 text-sm leading-6 text-slate-500 pt-8">
+                <CardDescription className="mt-1 text-xs md:text-sm leading-5 md:leading-6 text-slate-500 pt-4 md:pt-8">
                    You&apos;re joining <span className="font-semibold text-slate-500">{batchName}</span> at <span className="font-semibold text-slate-500">{institutionName}</span>. Click to Confirm your enrollment.
                 </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-5 px-7 pb-7">
-                <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                    <div className="flex items-center justify-between text-sm">
-                        <span className=" font-semibold">Institution</span>
+            <CardContent className="space-y-4 md:space-y-5 px-5 sm:px-7 pb-5 md:pb-7">
+                <div className="space-y-2.5 md:space-y-3 rounded-xl md:rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 md:p-4">
+                    <div className="flex items-center justify-between text-xs md:text-sm">
+                        <span className="font-semibold">Institution</span>
                         <span className="font-semibold text-slate-500">{institutionName}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-xs md:text-sm">
                         <span className="font-semibold">Batch name</span>
                         <span className="font-semibold text-slate-500">
                             {isBatchLoading && !batchNameFromUrl ? (
@@ -166,34 +166,34 @@ export const PaymentSimulation: React.FC = () => {
                             )}
                         </span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-xs md:text-sm">
                         <span className="font-semibold">Approval Required</span>
                         <span className="font-semibold text-slate-500">Institute Admin</span>
                     </div>
                 </div>
 
                 <Button
-    onClick={handlePayment}
-    className={cn(
-        'h-12 w-full rounded-xl bg-primary-600 text-sm font-bold text-white shadow-md transition-all hover:bg-primary-700 active:scale-[0.99]',
-        status !== 'idle' && 'cursor-not-allowed'
-    )}
-    disabled={status !== 'idle'}
->
-    {status === 'idle' ? (
-        <div className="flex items-center justify-center gap-2">
-            <span>Enroll</span>
-            <ArrowRight className="h-4 w-4" />
-        </div>
-    ) : (
-        <div className="flex items-center justify-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Enrolling...</span>
-        </div>
-    )}
-</Button>
+                    onClick={handlePayment}
+                    className={cn(
+                        'h-11 md:h-12 w-full rounded-xl bg-primary-600 text-xs md:text-sm font-bold text-white shadow-md transition-all hover:bg-primary-700 active:scale-[0.99]',
+                        status !== 'idle' && 'cursor-not-allowed'
+                    )}
+                    disabled={status !== 'idle'}
+                >
+                    {status === 'idle' ? (
+                        <div className="flex items-center justify-center gap-2">
+                            <span>Enroll</span>
+                            <ArrowRight className="h-4 w-4" />
+                        </div>
+                    ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <span>Enrolling...</span>
+                        </div>
+                    )}
+                </Button>
 
-                <p className="text-center text-xs leading-5 text-slate-400">
+                <p className="text-center text-[11px] md:text-xs leading-4 md:leading-5 text-slate-400">
                     By confirming, you agree to <span className="font-semibold text-foreground">{institutionName}</span>&apos;s Terms of Service and Privacy Policy.
                 </p>
             </CardContent>

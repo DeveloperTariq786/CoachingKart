@@ -59,10 +59,10 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({ institutionId }) => {
     }
 
     return (
-        <Card className="mb-10 border-slate-200 shadow-xl overflow-hidden bg-white max-w-xl mx-auto rounded-2xl">
-            <CardContent className="p-6 md:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                    <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">Share your experience</h3>
+        <Card className="mb-6 md:mb-10 border-slate-200 shadow-xl overflow-hidden bg-white max-w-xl mx-auto rounded-xl md:rounded-2xl">
+            <CardContent className="p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 mb-4 md:mb-6">
+                    <h3 className="text-lg md:text-xl font-extrabold text-slate-900 tracking-tight">Share your experience</h3>
                     <div className="flex items-center gap-3">
                         <div className="flex gap-0.5">
                             {[1, 2, 3, 4, 5].map((star) => (
@@ -75,9 +75,9 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({ institutionId }) => {
                                     onMouseLeave={() => setHover(0)}
                                 >
                                     <Star
-                                        size={22}
+                                        size={20}
                                         className={cn(
-                                            "transition-colors duration-200",
+                                            "transition-colors duration-200 md:w-[22px] md:h-[22px]",
                                             (hover || rating) >= star
                                                 ? "fill-yellow-400 text-yellow-400 filter drop-shadow-[0_0_2px_rgba(250,204,21,0.5)]"
                                                 : "fill-slate-100 text-slate-300"
@@ -96,24 +96,24 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({ institutionId }) => {
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-3.5 md:space-y-5">
                     <div className="relative group">
                         <Textarea
                             placeholder="Tell us what you loved about teaching, environment, and support..."
                             value={reviewText}
                             onChange={(e) => setReviewText(e.target.value)}
-                            className="min-h-[110px] text-base resize-none bg-slate-50/30 border-slate-200 focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 rounded-2xl p-5 transition-all placeholder:text-slate-400 text-slate-800 font-medium"
+                            className="min-h-[90px] md:min-h-[110px] text-sm md:text-base resize-none bg-slate-50/30 border-slate-200 focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 rounded-xl md:rounded-2xl p-3.5 md:p-5 transition-all placeholder:text-slate-400 text-slate-800 font-medium"
                             required
                         />
 
                     </div>
 
-                    <div className="flex justify-end pt-2">
+                    <div className="flex justify-end pt-1 md:pt-2">
                         <Button
                             type="submit"
                             disabled={!rating || !reviewText.trim() || submitReviewMutation.isPending}
                             className={cn(
-                                "h-11 px-8 rounded-xl font-bold text-sm tracking-wide transition-all shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-95 disabled:shadow-none cursor-pointer",
+                                "h-10 md:h-11 px-6 md:px-8 rounded-xl font-bold text-xs md:text-sm tracking-wide transition-all shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-95 disabled:shadow-none cursor-pointer",
                                 submitReviewMutation.isPending ? "bg-primary-600" : "bg-primary-600 hover:bg-primary-700 hover:shadow-primary-500/20"
                             )}
                         >

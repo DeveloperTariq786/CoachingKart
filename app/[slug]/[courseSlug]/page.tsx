@@ -123,6 +123,8 @@ export default function ProgramsPage() {
             <Batches
                 activeTab={activeTab}
                 programId={activeProgramId}
+                programs={course.programs}
+                onTabChange={handleTabChange}
             />
         </div>
     );

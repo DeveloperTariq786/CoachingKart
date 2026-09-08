@@ -22,13 +22,13 @@ const TicketField: React.FC<{
 }> = ({ label, value, accent, dot, icon }) => (
     <div className="min-w-0">
         <div
-            className="text-[9px] font-mono uppercase tracking-[0.15em] mb-1"
+            className="text-[8.5px] sm:text-[9px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.15em] mb-0.5 sm:mb-1"
             style={{ color: `${INK}66` }}
         >
             {label}
         </div>
         <div
-            className="flex items-center gap-1.5 text-sm font-bold truncate"
+            className="flex items-center gap-1.5 text-xs sm:text-sm font-bold truncate"
             style={{ color: accent || INK }}
         >
             {dot && (
@@ -134,7 +134,7 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={isExpired ? -1 : 0}
-            className={`group relative flex bg-[color:var(--paper)] rounded-2xl overflow-hidden border border-black/[0.06] shadow-[0_1px_0_rgba(31,42,34,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`group relative flex bg-[color:var(--paper)] rounded-xl sm:rounded-2xl overflow-hidden border border-black/[0.06] shadow-[0_1px_0_rgba(31,42,34,0.06)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                 isExpired
                     ? 'opacity-75 cursor-not-allowed'
                     : 'hover:shadow-[0_16px_32px_-12px_rgba(31,42,34,0.22)] motion-safe:hover:-translate-y-0.5 cursor-pointer'
@@ -145,13 +145,13 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
             } as React.CSSProperties}
         >
             {/* institution-colored ticket edge */}
-            <div className="w-1.5 shrink-0" style={{ backgroundColor: primaryColor }} />
+            <div className="w-1 sm:w-1.5 shrink-0" style={{ backgroundColor: primaryColor }} />
 
             {/* main stub */}
-            <div className="flex-1 p-6 flex flex-col gap-4 min-w-0">
-                <div className="flex justify-between items-start gap-3">
-                    <div className="flex items-center gap-3.5 min-w-0">
-                        <div className="w-11 h-11 rounded-lg bg-white flex items-center justify-center shrink-0 relative overflow-hidden" style={{ color: INK, opacity: 0.5 }}>
+            <div className="flex-1 p-4 sm:p-6 flex flex-col gap-3.5 sm:gap-4 min-w-0">
+                <div className="flex justify-between items-start gap-2.5 sm:gap-3">
+                    <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-white flex items-center justify-center shrink-0 relative overflow-hidden" style={{ color: INK, opacity: 0.5 }}>
                             {item.institution.logo ? (
                                 <Image
                                     src={item.institution.logo}
@@ -160,15 +160,15 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
                                     className="object-cover"
                                 />
                             ) : (
-                                <Building2 size={20} />
+                                <Building2 size={18} className="sm:size-5" />
                             )}
                         </div>
-                        <h3 className="text-base font-bold tracking-tight truncate" style={{ color: INK }}>
+                        <h3 className="text-sm sm:text-base font-bold tracking-tight truncate" style={{ color: INK }}>
                             {item.institution.name}
                         </h3>
                     </div>
                     <div
-                        className="shrink-0 flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-[0.15em] border border-dashed rounded-full px-2.5 py-1"
+                        className="shrink-0 flex items-center gap-1 sm:gap-1.5 text-[8.5px] sm:text-[9px] font-mono uppercase tracking-[0.12em] sm:tracking-[0.15em] border border-dashed rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1"
                         style={{ color: `${INK}80`, borderColor: `${INK}33` }}
                     >
                         {item.isApproved ? 'Enrolled' : 'Applied'} &middot; {new Date(item.joinedAt).getFullYear()}
@@ -177,7 +177,7 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
 
                 <div className="border-t border-dashed" style={{ borderColor: `${INK}22` }} />
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3.5 sm:gap-x-5 gap-y-3 sm:gap-y-4">
                     <TicketField label="Course" value={item.course.name} accent={primaryColor} dot />
                     <TicketField label="Program" value={item.program.name} />
                     <TicketField label="Batch" value={item.batch.name} />
@@ -186,13 +186,9 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
                             label="Time remaining"
                             value={formatDuration(durationLeft)}
                             accent={primaryColor}
-                            icon={<Timer size={12} className="shrink-0" />}
+                            icon={<Timer size={11} className="sm:size-3 shrink-0" />}
                         />
                     )}
-                </div>
-
-                <div className="flex md:hidden items-center justify-end gap-1 text-xs font-mono uppercase tracking-widest pt-1" style={{ color: primaryColor }}>
-                    View ticket <ChevronRight size={14} />
                 </div>
             </div>
 
@@ -223,24 +219,24 @@ const EnrollmentCard: React.FC<{ item: Enrollment }> = ({ item }) => {
 
 export const EnrollmentSection: React.FC<EnrollmentSectionProps> = ({ enrollments }) => {
     return (
-        <section className="space-y-8">
+        <section className="space-y-6 sm:space-y-8">
             <div className="flex items-center justify-between">
-                <h2 className="text-xs font-mono font-bold uppercase tracking-[0.2em]" style={{ color: `${INK}66` }}>
+                <h2 className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]" style={{ color: `${INK}66` }}>
                     Enrollments &mdash; {String(enrollments.length).padStart(2, '0')}
                 </h2>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-3.5 sm:gap-4">
                 {enrollments.length > 0 ? (
                     enrollments.map((item) => (
                         <EnrollmentCard key={item.enrollmentId} item={item} />
                     ))
                 ) : (
                     <div
-                        className="py-14 text-center border-2 border-dashed rounded-2xl"
+                        className="py-10 sm:py-14 text-center border-2 border-dashed rounded-xl sm:rounded-2xl"
                         style={{ borderColor: `${INK}14` }}
                     >
-                        <p className="font-mono text-xs uppercase tracking-[0.15em]" style={{ color: `${INK}44` }}>
+                        <p className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.15em]" style={{ color: `${INK}44` }}>
                             Gate closed &mdash; no active enrollments
                         </p>
                     </div>

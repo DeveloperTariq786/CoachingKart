@@ -45,13 +45,13 @@ export default function ResourcesPage() {
     return (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
             {isBatchLoading ? (
-                <div className="flex gap-4 border-b border-slate-200 pb-4 mb-8">
+                <div className="flex gap-4 border-b border-slate-200 pb-4 mb-4 sm:mb-8">
                     {[1, 2, 3].map(i => (
                         <Skeleton key={i} className="h-6 w-24 bg-slate-100" />
                     ))}
                 </div>
             ) : (
-                <div className="mb-8">
+                <div className="mb-4 sm:mb-8">
                     <SubjectHeader
                         subjects={subjects}
                         activeSubject={activeSubject || ''}

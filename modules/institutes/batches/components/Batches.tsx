@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent } from "@/core/components/ui/card";
 import { Button } from "@/core/components/ui/button";
-import { ArrowRight, Filter, BookOpen, Loader2 } from 'lucide-react';
+import { ArrowRight, Filter, BookOpen, Loader2, SlidersHorizontal, X, Check } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { cn } from "@/core/lib/utils/utils";
 import {
     Select,
     SelectContent,
@@ -24,11 +25,26 @@ import { toast } from 'sonner';
 interface BatchesProps {
     activeTab: string;
     programId?: string;
+    programs?: { name: string }[];
+    onTabChange?: (tab: string) => void;
 }
 
-const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
+const Batches: React.FC<BatchesProps> = ({ activeTab, programId, programs = [], onTabChange }) => {
     const [selectedYear, setSelectedYear] = useState<string>("all");
     const [checkingBatchId, setCheckingBatchId] = useState<string | null>(null);
+    const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+
+    // Lock body scroll when mobile drawer is open
+    useEffect(() => {
+        if (isMobileDrawerOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isMobileDrawerOpen]);
     const params = useParams();
     const router = useRouter();
     const { details } = useInstitute();
@@ -119,19 +135,40 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
     }, []);
 
     return (
-        <section className="pt-10 pb-20 bg-background">
+        <section className="pt-6 md:pt-10 pb-20 bg-background">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 {/* Header with Dropdown Filter */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-5">
+                <div className="flex flex-row justify-between items-center mb-8 gap-4">
                     <div>
                         <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">Available Batches</h2>
-                        <p className="text-slate-500 text-sm mt-1">Showing for <span className="text-primary-600 font-bold">{activeTab}</span></p>
+                        <p className="text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">
+                            Showing for <span className="text-primary-600 font-bold">{activeTab}</span>
+                            {selectedYear !== 'all' && (
+                                <span className="font-semibold text-slate-700"> • Batch {selectedYear}</span>
+                            )}
+                        </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
-                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest hidden sm:block">Filter by batches:</span>
+                    {/* Mobile: Filter button in row with Available Batches */}
+                    <div className="md:hidden shrink-0">
+                        <button
+                            type="button"
+                            onClick={() => setIsMobileDrawerOpen(true)}
+                            className="flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200 hover:border-primary-300 rounded-xl text-xs font-bold text-slate-800 shadow-xs active:scale-95 transition-all cursor-pointer"
+                        >
+                            <SlidersHorizontal size={14} className="text-primary-600" />
+                            <span>Filters</span>
+                            {(activeTab || selectedYear !== 'all') && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary-600" />
+                            )}
+                        </button>
+                    </div>
+
+                    {/* Desktop: Dropdown Filter */}
+                    <div className="hidden md:flex items-center gap-3">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Filter by batches:</span>
                         <Select value={selectedYear} onValueChange={setSelectedYear}>
-                            <SelectTrigger className="w-full sm:w-[160px] h-9 bg-background border-slate-300 rounded-lg focus:ring-0 focus:outline-none transition-all shadow-none text-foreground text-sm font-bold outline-none cursor-pointer">
+                            <SelectTrigger className="w-[160px] h-9 bg-background border-slate-300 rounded-lg focus:ring-0 focus:outline-none transition-all shadow-none text-foreground text-sm font-bold outline-none cursor-pointer">
                                 <div className="flex items-center gap-2">
                                     <Filter size={14} className="text-slate-600" />
                                     <SelectValue placeholder="Select Year" />
@@ -149,13 +186,159 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
                     </div>
                 </div>
 
+                {/* Mobile Slide-over Sidebar (Drawer) */}
+                {isMobileDrawerOpen && (
+                    <div className="md:hidden fixed inset-0 z-[100] flex justify-end">
+                        {/* Backdrop */}
+                        <div
+                            className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+                            onClick={() => setIsMobileDrawerOpen(false)}
+                        />
+
+                        {/* Drawer Content */}
+                        <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-300 text-left">
+                            {/* Drawer Header */}
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-white">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="p-2 bg-primary-50 text-primary-600 rounded-xl">
+                                        <SlidersHorizontal size={18} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-base font-bold text-slate-900 leading-none">Filter Batches</h3>
+                                        <p className="text-xs text-slate-400 mt-1">Select program & batch session</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setIsMobileDrawerOpen(false)}
+                                    className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
+                                    aria-label="Close filters"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            {/* Drawer Body */}
+                            <div className="flex-1 overflow-y-auto p-5 no-scrollbar space-y-6">
+                                {/* Programs Section */}
+                                {programs && programs.length > 0 && (
+                                    <div>
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-2">
+                                                <BookOpen size={14} className="text-primary-600" />
+                                                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                                    Programs
+                                                </h4>
+                                            </div>
+                                            <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                                {programs.length}
+                                            </span>
+                                        </div>
+
+                                        <div className="space-y-1.5">
+                                            {programs.map((p) => {
+                                                const isSelected = activeTab === p.name;
+                                                return (
+                                                    <button
+                                                        key={p.name}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            onTabChange?.(p.name);
+                                                        }}
+                                                        className={cn(
+                                                            "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border text-left cursor-pointer",
+                                                            isSelected
+                                                                ? "bg-primary-50 text-primary-700 border-primary-300 shadow-xs"
+                                                                : "bg-slate-50/70 text-slate-700 border-slate-200/70 hover:bg-slate-100"
+                                                        )}
+                                                    >
+                                                        <span>{p.name}</span>
+                                                        {isSelected && (
+                                                            <Check size={14} className="text-primary-600 shrink-0 ml-2 stroke-[2.5]" />
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Batches / Session Section */}
+                                <div>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <Filter size={14} className="text-primary-600" />
+                                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                                Batches / Session
+                                            </h4>
+                                        </div>
+                                        <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                            {years.length + 1}
+                                        </span>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedYear("all")}
+                                            className={cn(
+                                                "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border text-left cursor-pointer",
+                                                selectedYear === "all"
+                                                    ? "bg-primary-50 text-primary-700 border-primary-300 shadow-xs"
+                                                    : "bg-slate-50/70 text-slate-700 border-slate-200/70 hover:bg-slate-100"
+                                            )}
+                                        >
+                                            <span>All Batches</span>
+                                            {selectedYear === "all" && (
+                                                <Check size={14} className="text-primary-600 shrink-0 ml-2 stroke-[2.5]" />
+                                            )}
+                                        </button>
+
+                                        {years.map((year) => {
+                                            const isSelected = selectedYear === year;
+                                            return (
+                                                <button
+                                                    key={year}
+                                                    type="button"
+                                                    onClick={() => setSelectedYear(year)}
+                                                    className={cn(
+                                                        "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border text-left cursor-pointer",
+                                                        isSelected
+                                                            ? "bg-primary-50 text-primary-700 border-primary-300 shadow-xs"
+                                                            : "bg-slate-50/70 text-slate-700 border-slate-200/70 hover:bg-slate-100"
+                                                    )}
+                                                >
+                                                    <span>Batch {year}</span>
+                                                    {isSelected && (
+                                                        <Check size={14} className="text-primary-600 shrink-0 ml-2 stroke-[2.5]" />
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Drawer Footer */}
+                            <div className="p-4 border-t border-slate-100 bg-slate-50/60">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsMobileDrawerOpen(false)}
+                                    className="w-full py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm cursor-pointer"
+                                >
+                                    Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Grid - Updated to 4 columns */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                     {isLoading ? (
                         [...Array(4)].map((_, i) => (
                             <Card key={i} className="bg-background border-slate-200 shadow-sm rounded-xl overflow-hidden flex flex-col p-0">
-                                <Skeleton className="h-40 w-full bg-slate-100 rounded-none" />
-                                <CardContent className="p-5 flex flex-col gap-4">
+                                <Skeleton className="h-32 sm:h-40 w-full bg-slate-100 rounded-none" />
+                                <CardContent className="p-3.5 sm:p-5 flex flex-col gap-3 sm:gap-4">
                                     <div className="space-y-2 mt-1">
                                         <Skeleton className="h-6 w-full bg-slate-100" />
                                         <Skeleton className="h-6 w-3/4 bg-slate-100" />
@@ -189,7 +372,7 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
                                 )}
 
                                 {/* Compact Image Header */}
-                                <div className="relative h-40 w-full overflow-hidden bg-slate-100">
+                                <div className="relative h-32 sm:h-40 w-full overflow-hidden bg-slate-100">
                                     <img
                                         src={batch.coverImage}
                                         alt={batch.title}
@@ -208,12 +391,12 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
                                     </div>
                                 </div>
 
-                                <CardContent className="p-5 flex-1 flex flex-col">
-                                    <h3 className="text-lg font-bold text-foreground mb-2 leading-tight group-hover:text-primary-600 transition-colors line-clamp-2">
+                                <CardContent className="p-3.5 sm:p-5 flex-1 flex flex-col">
+                                    <h3 className="text-base sm:text-lg font-bold text-foreground mb-1.5 sm:mb-2 leading-tight group-hover:text-primary-600 transition-colors line-clamp-2">
                                         {batch.title}
                                     </h3>
 
-                                    <p className="text-slate-500 text-xs leading-relaxed mb-5 line-clamp-2">
+                                    <p className="text-slate-500 text-[11px] sm:text-xs leading-relaxed mb-3 sm:mb-5 line-clamp-2">
                                         {batch.description}
                                     </p>
 
@@ -221,7 +404,7 @@ const Batches: React.FC<BatchesProps> = ({ activeTab, programId }) => {
                                     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                                         <div className="flex flex-col">
                                             <span className="text-[8px] uppercase tracking-[0.15em] text-slate-400 font-bold mb-0.5">Academic Fee</span>
-                                            <span className="text-lg font-black text-foreground tracking-tight">₹{batch.fee.toLocaleString()}</span>
+                                            <span className="text-base sm:text-lg font-black text-foreground tracking-tight">₹{batch.fee.toLocaleString()}</span>
                                         </div>
 
                                         <div className="flex items-center gap-1.5 text-primary-600 font-bold text-[11px] group/btn">

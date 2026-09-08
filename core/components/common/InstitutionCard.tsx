@@ -20,23 +20,23 @@ const InstitutionCard: React.FC<TuitionCardProps> = ({ tuition, className, isLoa
         return (
             <div
                 className={cn(
-                    'flex flex-col bg-white rounded-2xl border border-slate-100 overflow-hidden h-full',
+                    'flex flex-col bg-white rounded-xl sm:rounded-2xl border border-slate-100 overflow-hidden h-full',
                     className
                 )}
             >
                 {/* Image skeleton */}
-                <div className="relative w-full bg-slate-200 animate-pulse rounded-t-2xl" style={{ aspectRatio: '16/9' }} />
+                <div className="relative w-full bg-slate-200 animate-pulse rounded-t-xl sm:rounded-t-2xl" style={{ aspectRatio: '16/9' }} />
                 {/* Body skeleton */}
-                <div className="flex flex-col flex-grow p-4 gap-3">
-                    <div className="h-5 w-3/4 bg-slate-200 rounded animate-pulse" />
-                    <div className="h-4 w-1/2 bg-slate-200 rounded animate-pulse" />
+                <div className="flex flex-col flex-grow p-3 sm:p-4 gap-2.5 sm:gap-3">
+                    <div className="h-4 sm:h-5 w-3/4 bg-slate-200 rounded animate-pulse" />
+                    <div className="h-3.5 sm:h-4 w-1/2 bg-slate-200 rounded animate-pulse" />
                     <div className="flex gap-2">
-                        <div className="h-5 w-14 bg-slate-200 rounded-full animate-pulse" />
-                        <div className="h-5 w-14 bg-slate-200 rounded-full animate-pulse" />
+                        <div className="h-4 sm:h-5 w-12 sm:w-14 bg-slate-200 rounded-full animate-pulse" />
+                        <div className="h-4 sm:h-5 w-12 sm:w-14 bg-slate-200 rounded-full animate-pulse" />
                     </div>
-                    <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <div className="h-4 w-24 bg-slate-200 rounded animate-pulse" />
-                        <div className="w-8 h-8 rounded-full bg-slate-200 animate-pulse" />
+                    <div className="mt-auto pt-2.5 sm:pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <div className="h-3.5 sm:h-4 w-20 sm:w-24 bg-slate-200 rounded animate-pulse" />
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 animate-pulse" />
                     </div>
                 </div>
             </div>
@@ -78,12 +78,12 @@ const InstitutionCard: React.FC<TuitionCardProps> = ({ tuition, className, isLoa
         <Link
             href={`/${slug}`}
             className={cn(
-                'group flex flex-col bg-white rounded-2xl border border-slate-100 overflow-visible transition-all duration-300 hover:shadow-lg hover:border-slate-200 cursor-pointer h-full relative',
+                'group flex flex-col bg-white rounded-xl sm:rounded-2xl border border-slate-100 overflow-visible transition-all duration-300 hover:shadow-lg hover:border-slate-200 cursor-pointer h-full relative',
                 className
             )}
         >
             {/* Image container — fixed 16:9 aspect ratio, no clipping */}
-            <div className="relative w-full bg-slate-50 rounded-t-2xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
+            <div className="relative w-full bg-slate-50 rounded-t-xl sm:rounded-t-2xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
                 <Image
                     src={imageUrl || 'https://picsum.photos/id/11/800/450'}
                     alt={name}
@@ -98,43 +98,43 @@ const InstitutionCard: React.FC<TuitionCardProps> = ({ tuition, className, isLoa
 
                 {/* Distance badge */}
                 {distance !== undefined && (
-                    <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
-                        <Navigation className="w-3 h-3 text-primary-600" />
-                        <span className="text-xs font-semibold text-slate-800">
+                    <div className="absolute top-2.5 sm:top-3 left-2.5 sm:left-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg border border-slate-100 shadow-sm">
+                        <Navigation className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary-600" />
+                        <span className="text-[11px] sm:text-xs font-semibold text-slate-800">
                             {distance.toFixed(1)} km
                         </span>
                     </div>
                 )}
 
                 {/* Rating badge */}
-                <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-100 shadow-sm">
-                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <span className="text-xs font-semibold text-slate-800">{rating}</span>
-                    <span className="text-xs text-slate-400">({reviewCount})</span>
+                <div className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg border border-slate-100 shadow-sm">
+                    <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400 fill-amber-400" />
+                    <span className="text-[11px] sm:text-xs font-semibold text-slate-800">{rating}</span>
+                    <span className="text-[10px] sm:text-xs text-slate-400">({reviewCount})</span>
                 </div>
             </div>
 
             {/* Card body */}
-            <div className="flex flex-col flex-grow p-4 gap-3 overflow-visible">
+            <div className="flex flex-col flex-grow p-3 sm:p-4 gap-2.5 sm:gap-3 overflow-visible">
 
                 {/* Name */}
-                <h3 className="text-base font-semibold text-slate-900 leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">
+                <h3 className="text-sm sm:text-base font-semibold text-slate-900 leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">
                     {name}
                 </h3>
 
                 {/* Location */}
-                <div className="flex items-center gap-1 text-slate-400 text-sm">
-                    <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                <div className="flex items-center gap-1 text-slate-400 text-xs sm:text-sm">
+                    <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                     <span className="truncate">{location}</span>
                 </div>
 
                 {/* Exam tags */}
                 {exams.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 overflow-visible">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5 overflow-visible">
                         {exams.slice(0, 3).map((exam) => (
                             <span
                                 key={exam}
-                                className="text-[11px] font-medium text-slate-500 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full"
+                                className="text-[10px] sm:text-[11px] font-medium text-slate-500 bg-slate-50 border border-slate-100 px-2 sm:px-2.5 py-0.5 rounded-full"
                             >
                                 {exam}
                             </span>
@@ -142,7 +142,7 @@ const InstitutionCard: React.FC<TuitionCardProps> = ({ tuition, className, isLoa
                         {exams.length > 3 && (
                             <div className="relative group/tag">
                                 <span
-                                    className="text-[11px] font-medium text-slate-400 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full cursor-pointer hover:bg-slate-100 hover:text-slate-600 transition-colors"
+                                    className="text-[10px] sm:text-[11px] font-medium text-slate-400 bg-slate-50 border border-slate-100 px-2 sm:px-2.5 py-0.5 rounded-full cursor-pointer hover:bg-slate-100 hover:text-slate-600 transition-colors"
                                 >
                                     +{exams.length - 3} more
                                 </span>
@@ -164,12 +164,12 @@ const InstitutionCard: React.FC<TuitionCardProps> = ({ tuition, className, isLoa
                 )}
 
                 {/* Divider + CTA */}
-                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-sm font-medium text-primary-600 group-hover:text-primary-700 transition-colors">
+                <div className="mt-auto pt-2.5 sm:pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-xs sm:text-sm font-medium text-primary-600 group-hover:text-primary-700 transition-colors">
                         View Institute
                     </span>
-                    <span className="w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
-                        <ArrowRight className="w-4 h-4 text-primary-600 group-hover:translate-x-0.5 transition-transform" />
+                    <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-600 group-hover:translate-x-0.5 transition-transform" />
                     </span>
                 </div>
             </div>

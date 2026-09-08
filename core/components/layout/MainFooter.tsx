@@ -14,18 +14,18 @@ const Footer: React.FC = () => {
     if (isInstitutionDetail || isInstitutionAbout) return null;
 
     return (
-        <footer className="relative bg-slate-50 border-t border-slate-200 pt-16 pb-8 overflow-hidden">
+        <footer className="relative bg-slate-50 border-t border-slate-200 pt-8 sm:pt-12 lg:pt-16 pb-20 md:pb-8 overflow-hidden">
             <div className="relative w-full px-4 sm:px-6 lg:px-10">
 
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-8 sm:gap-10 mb-8 md:mb-14">
 
                     {/* Brand + tagline */}
-                    <div className="lg:col-span-1 flex flex-col gap-4">
+                    <div className="col-span-2 sm:col-span-2 lg:col-span-1 flex flex-col gap-3 sm:gap-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">CoachingKart</h4>
+                            <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-1 sm:mb-2">CoachingKart</h4>
                         </div>
-                        <p className="text-sm text-slate-500 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm">
                             Bridging the gap between traditional classrooms and digital convenience.
                         </p>
                         <div className="flex items-center gap-3 mt-1">
@@ -43,39 +43,39 @@ const Footer: React.FC = () => {
                     </div>
 
 
-                    <div>
-                        <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-5">Download App</h4>
-                        <div className="flex flex-col gap-2.5">
+                    <div className="col-span-2 sm:col-span-1 lg:col-span-1">
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3 sm:mb-5">Download App</h4>
+                        <div className="grid grid-cols-2 sm:flex sm:flex-col gap-2.5">
                             {/* Google Play */}
-                            <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5 shadow-sm opacity-80 cursor-not-allowed select-none">
-                                <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none">
+                            <div className="flex items-center gap-2 sm:gap-2.5 bg-white border border-slate-200 rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5 shadow-sm opacity-80 cursor-not-allowed select-none">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" viewBox="0 0 24 24" fill="none">
                                     <path d="M3.18 23.5c.37.2.8.22 1.19.05l11.55-6.67-2.62-2.62-10.12 9.24z" fill="#EA4335" />
                                     <path d="M20.82 10.37 17.6 8.54l-2.94 2.94 2.94 2.94 3.24-1.85a1.63 1.63 0 0 0 0-3.2z" fill="#FBBC04" />
                                     <path d="M4.37.45A1.63 1.63 0 0 0 3.18.5L13.3 10.62l2.62-2.62L4.37.45z" fill="#4285F4" />
                                     <path d="M3.18.5A1.64 1.64 0 0 0 2.5 1.9v20.2c0 .57.27 1.08.68 1.4L13.3 13.38 3.18.5z" fill="#34A853" />
                                 </svg>
-                                <div>
-                                    <p className="text-[10px] text-slate-400 leading-none mb-0.5">GET IT ON</p>
-                                    <p className="text-sm font-semibold text-slate-900 leading-none">Google Play</p>
+                                <div className="min-w-0">
+                                    <p className="text-[9px] sm:text-[10px] text-slate-400 leading-none mb-0.5 truncate">GET IT ON</p>
+                                    <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-none truncate">Google Play</p>
                                 </div>
                             </div>
                             {/* App Store */}
-                            <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5 shadow-sm opacity-80 cursor-not-allowed select-none">
-                                <svg className="w-5 h-5 shrink-0 fill-slate-800" viewBox="0 0 24 24">
+                            <div className="flex items-center gap-2 sm:gap-2.5 bg-white border border-slate-200 rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5 shadow-sm opacity-80 cursor-not-allowed select-none">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 fill-slate-800" viewBox="0 0 24 24">
                                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
                                 </svg>
-                                <div>
-                                    <p className="text-[10px] text-slate-400 leading-none mb-0.5">DOWNLOAD ON THE</p>
-                                    <p className="text-sm font-semibold text-slate-900 leading-none">App Store</p>
+                                <div className="min-w-0">
+                                    <p className="text-[9px] sm:text-[10px] text-slate-400 leading-none mb-0.5 truncate">DOWNLOAD ON</p>
+                                    <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-none truncate">App Store</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Platform */}
-                    <div>
-                        <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-5">Platform</h4>
-                        <ul className="space-y-3 text-sm">
+                    <div className="col-span-1">
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3 sm:mb-5">Platform</h4>
+                        <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
                             <li>
                                 <Link href="/institutions" className="text-slate-600 hover:text-primary-600 transition-colors">
                                     Find Institute
@@ -100,9 +100,9 @@ const Footer: React.FC = () => {
                     </div>
 
                     {/* Company */}
-                    <div>
-                        <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-5">Company</h4>
-                        <ul className="space-y-3 text-sm">
+                    <div className="col-span-1">
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3 sm:mb-5">Company</h4>
+                        <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
                             <li>
                                 <Link href="/about" className="text-slate-600 hover:text-primary-600 transition-colors">
                                     About Us
@@ -127,9 +127,9 @@ const Footer: React.FC = () => {
                     </div>
 
                     {/* Contact — app buttons removed */}
-                    <div>
-                        <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-5">Get in Touch</h4>
-                        <div className="space-y-3 text-sm">
+                    <div className="col-span-2 sm:col-span-2 lg:col-span-1">
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3 sm:mb-5">Get in Touch</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3 text-xs sm:text-sm">
                             <a href="tel:+917889396003" className="flex items-center gap-2.5 text-slate-600 hover:text-primary-600 transition-colors">
                                 <Phone size={14} className="text-primary-600 shrink-0" />
                                 +91 7889396003
@@ -140,11 +140,11 @@ const Footer: React.FC = () => {
                                 </svg>
                                 WhatsApp: +91 7889396003
                             </a>
-                            <a href="mailto:hello@coachingkart.in" className="flex items-center gap-2.5 text-slate-600 hover:text-primary-600 transition-colors">
+                            <a href="mailto:hello@coachingkart.in" className="flex items-center gap-2.5 text-slate-600 hover:text-primary-600 transition-colors break-all">
                                 <Mail size={14} className="text-primary-600 shrink-0" />
                                 hello@coachingkart.in
                             </a>
-                            <a href="mailto:shaheendevelopers4@gmail.com" className="flex items-center gap-2.5 text-slate-600 hover:text-primary-600 transition-colors">
+                            <a href="mailto:shaheendevelopers4@gmail.com" className="flex items-center gap-2.5 text-slate-600 hover:text-primary-600 transition-colors break-all">
                                 <Mail size={14} className="text-primary-600 shrink-0" />
                                 shaheendevelopers4@gmail.com
                             </a>
@@ -154,11 +154,11 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="border-t border-slate-200 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="border-t border-slate-200 pt-6 md:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
                     <p className="text-xs text-slate-500 order-2 sm:order-1">
                         © {new Date().getFullYear()} <span className="text-primary-600 font-semibold">CoachingKart.</span> All rights reserved.
                     </p>
-                    <div className="flex items-center gap-5 text-xs text-slate-500 order-1 sm:order-2">
+                    <div className="flex items-center gap-4 sm:gap-5 text-xs text-slate-500 order-1 sm:order-2">
                         <Link href="/privacy" className="hover:text-slate-800 transition-colors">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-slate-800 transition-colors">Terms & Conditions</Link>
                     </div>

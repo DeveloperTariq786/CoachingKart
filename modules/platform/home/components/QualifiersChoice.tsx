@@ -40,22 +40,22 @@ const QualifiersChoice: React.FC = () => {
 
     // Don't render section at all if fetch completed with no data
     if (showFallback) {
-        return <section ref={sectionRef} className="py-20 bg-white" />;
+        return <section ref={sectionRef} className="pt-8 pb-16 md:py-16 bg-white" />;
     }
 
     return (
-        <section ref={sectionRef} className="py-20 bg-white">
+        <section ref={sectionRef} className="py-8 md:py-16 bg-white">
             <div className="w-full px-4 sm:px-6 lg:px-10">
-                <div className="flex flex-col items-center justify-center text-center mb-12">
+                <div className="flex flex-col items-center justify-center text-center mb-6 md:mb-12">
                     <div className="max-w-2xl">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Qualifiers choice</h2>
-                        <p className="mt-3 text-slate-500 text-lg leading-relaxed">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Qualifiers choice</h2>
+                        <p className="mt-2 md:mt-3 text-slate-500 text-sm sm:text-base md:text-lg leading-relaxed">
                             Trusted coaching centers recognized for quality and outstanding performance.
                         </p>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 md:gap-4">
                     {isLoadingState &&
                         Array.from({ length: 10 }).map((_, i) => (
                             <InstitutionCard key={`skeleton-${i}`} isLoading />
@@ -69,13 +69,13 @@ const QualifiersChoice: React.FC = () => {
 
                 {/* ─── View All Link ─────────────────────────────────────── */}
                 {showRealData && (
-                    <div className="mt-6 flex flex-col items-center gap-1.5">
+                    <div className="mt-4 md:mt-6 flex flex-col items-center gap-1.5">
                         <Link
                             href="/institutions"
-                            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors pt-2"
+                            className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors pt-2"
                         >
                             View all coachings
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                            <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-0.5" />
                         </Link>
                     </div>
                 )}

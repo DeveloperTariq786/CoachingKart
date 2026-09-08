@@ -101,14 +101,14 @@ export default function LectureDetailsPage() {
 
     if (isLoading || isNavigating || (lecture && lecture.id !== lectureId)) {
         return (
-            <div className="flex flex-col lg:flex-row gap-6 p-6 h-full">
-                <div className="flex-1 space-y-6">
-                    <Skeleton className="aspect-video w-full rounded-3xl bg-slate-100" />
-                    <Skeleton className="h-10 w-3/4 bg-slate-100 rounded-lg" />
-                    <Skeleton className="h-6 w-1/2 bg-slate-100 rounded-lg" />
+            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 p-2 sm:p-6 h-full">
+                <div className="flex-1 space-y-4 sm:space-y-6">
+                    <Skeleton className="aspect-video w-full rounded-2xl sm:rounded-3xl bg-slate-100" />
+                    <Skeleton className="h-7 sm:h-10 w-3/4 bg-slate-100 rounded-lg" />
+                    <Skeleton className="h-4 sm:h-6 w-1/2 bg-slate-100 rounded-lg" />
                 </div>
                 <div className="hidden lg:block w-[450px] space-y-6">
-                    <Skeleton className="h-12 w-full bg-slate-100 rounded-xl" />
+                    <Skeleton className="h-10 w-full bg-slate-100 rounded-xl" />
                     <Skeleton className="h-[400px] w-full bg-slate-100 rounded-2xl" />
                 </div>
             </div>
@@ -117,9 +117,9 @@ export default function LectureDetailsPage() {
 
     if (error || !lecture) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-slate-500">
-                <p className="text-lg font-bold">Failed to load lecture</p>
-                <Link href={basePath} className="text-primary-600 font-bold mt-4 hover:underline">
+            <div className="flex flex-col items-center justify-center min-h-[300px] sm:min-h-[400px] text-slate-500">
+                <p className="text-sm sm:text-lg font-bold text-slate-900">Failed to load lecture</p>
+                <Link href={basePath} className="text-xs sm:text-sm text-primary-600 font-bold mt-3 hover:underline">
                     Back to Lectures
                 </Link>
             </div>
@@ -128,28 +128,28 @@ export default function LectureDetailsPage() {
 
     const renderTabContent = (isSidebar?: boolean) => {
         return (
-            <div className={cn(isSidebar ? "mt-4" : "mt-8", "h-full")}>
+            <div className={cn(isSidebar ? "mt-4" : "mt-4 sm:mt-8", "h-full")}>
                 {/* Overview TabContent */}
                 <div className={cn(activeTab !== 'overview' && "hidden")}>
-                    <div className="bg-background rounded-2xl p-6 border border-slate-100">
-                        <h3 className="font-bold text-foreground mb-4">About this Lecture</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                    <div className="bg-background rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-100">
+                        <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-2 sm:mb-4">About this Lecture</h3>
+                        <p className="text-slate-600 text-[11px] sm:text-sm leading-relaxed mb-4 font-medium">
                             {lecture?.description}
                         </p>
                         <div className={cn(
-                            "grid gap-4 mt-6 grid-cols-2"
+                            "grid gap-3 sm:gap-4 mt-4 sm:mt-6 grid-cols-2"
                         )}>
-                            <div className="bg-slate-50 rounded-xl p-4 text-center">
-                                <p className="text-xl font-bold text-primary-600">
+                            <div className="bg-slate-50 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                                <p className="text-base sm:text-xl font-bold text-primary-600">
                                     {lecture && formatDurationHHMMSS(lecture.duration)}
                                 </p>
-                                <p className="text-xs text-slate-500 mt-1">Duration</p>
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium">Duration</p>
                             </div>
-                            <div className="bg-slate-50 rounded-xl p-4 text-center">
-                                <p className="text-2xl font-bold text-primary-600">
+                            <div className="bg-slate-50 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                                <p className="text-base sm:text-2xl font-bold text-primary-600">
                                     {lecture?.resources?.studyMaterials || 0}
                                 </p>
-                                <p className="text-xs text-slate-500 mt-1">Resources</p>
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium">Resources</p>
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ export default function LectureDetailsPage() {
 
                 {/* Resources TabContent */}
                 <div className={cn(activeTab !== 'resources' && "hidden")}>
-                    <div className="mb-10">
+                    <div className="mb-6 sm:mb-10">
                         <LectureResources lectureId={lectureId} isSidebar={isSidebar} />
                     </div>
                 </div>
@@ -165,7 +165,7 @@ export default function LectureDetailsPage() {
                 {/* Chat TabContent */}
                 <div className={cn(activeTab !== 'chat-room' && "hidden")}>
                     <div className={cn(
-                        "bg-background rounded-2xl border border-slate-100 overflow-hidden mb-10",
+                        "bg-background rounded-xl sm:rounded-2xl border border-slate-100 overflow-hidden mb-6 sm:mb-10",
                         isSidebar ? "h-[calc(100vh-140px)]" : "h-[500px]"
                     )}>
                         <Chat lectureId={lectureId} sessionId={sessionId} />
@@ -197,7 +197,7 @@ export default function LectureDetailsPage() {
                     />
 
                     {/* Mobile Tabs Container */}
-                    <div className="lg:hidden mt-8 pb-10">
+                    <div className="lg:hidden mt-4 sm:mt-8 pb-10">
                         <LectureTabs
                             activeTab={activeTab}
                             onTabChange={setActiveTab}

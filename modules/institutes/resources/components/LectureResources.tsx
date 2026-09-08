@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLectureResources } from '../hooks/useLectureResources';
 import ResourcesList from './ResourcesList';
 import { cn } from '@/core/lib/utils/utils';
-import { Search } from 'lucide-react';
-import { Input } from "@/core/components/ui/input";
 
 interface LectureResourcesProps {
     lectureId: string;
@@ -19,10 +17,10 @@ const LectureResources: React.FC<LectureResourcesProps> = ({ lectureId, isSideba
             isSidebar ? "h-[calc(100vh-140px)]" : "h-[500px]"
         )}>
             {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 shrink-0">
-                <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-1.5 h-6 bg-primary-600 rounded-full shrink-0" />
-                    <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight uppercase truncate">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-6 mb-4 sm:mb-8 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <div className="w-1 sm:w-1.5 h-4 sm:h-6 bg-primary-600 rounded-full shrink-0" />
+                    <h2 className="text-base sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight uppercase truncate">
                         Learning Resources
                     </h2>
                 </div>

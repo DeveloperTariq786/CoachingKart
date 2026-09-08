@@ -140,10 +140,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, primaryColor })
                 extraErrorContent={extraErrorContent}
                 primaryColor={primaryColor}
             />
-            <div className="mt-3 text-right">
+            <div className="mt-2.5 sm:mt-3 text-right">
                 <Link
                     href="/forgot-password"
-                    className="text-xs font-semibold transition-colors hover:opacity-80"
+                    className="text-[11px] sm:text-xs font-semibold transition-colors hover:opacity-80"
                     style={{ color: primaryColor }}
                 >
                     Forgot password?

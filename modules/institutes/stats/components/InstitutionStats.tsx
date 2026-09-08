@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Skeleton } from '@/core/components/ui/skeleton';
+import { cn } from '@/core/lib/utils/utils';
 import { institutionHomeService } from '../services/stats.service';
 import { useHomeStore } from '../store/useStatsStore';
 import { useIntersectionObserver } from '@/core/hooks/useIntersectionObserver';
@@ -66,19 +67,35 @@ const InstitutionStats: React.FC<InstitutionStatsProps> = ({ institutionId }) =>
     return (
         <section ref={sectionRef} className="bg-background min-h-[100px]">
             {/* Stats Bar */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 py-8 px-4 max-w-4xl mx-auto divide-x divide-slate-100 border-t border-slate-100">
+            <div className="mt-3 sm:mt-4 md:mt-8 grid grid-cols-2 md:grid-cols-4 py-4 sm:py-5 md:py-8 px-3 sm:px-4 max-w-4xl mx-auto border-t border-slate-100">
                 {isLoading ? (
                     [...Array(4)].map((_, i) => (
-                        <div key={i} className="text-center px-4 first:divide-none">
-                            <Skeleton className="h-8 w-20 bg-slate-200 rounded-lg mx-auto mb-1" />
-                            <Skeleton className="h-3 w-24 bg-slate-200 rounded-lg mx-auto" />
+                        <div
+                            key={i}
+                            className={cn(
+                                "text-center px-2 sm:px-3 md:px-4 py-2 md:py-0",
+                                i % 2 !== 0 && "border-l border-slate-100",
+                                i >= 2 && "border-t border-slate-100 md:border-t-0",
+                                "md:border-l md:first:border-l-0"
+                            )}
+                        >
+                            <Skeleton className="h-6 sm:h-7 md:h-8 w-16 md:w-20 bg-slate-200 rounded-lg mx-auto mb-1" />
+                            <Skeleton className="h-2.5 sm:h-3 md:h-3 w-16 sm:w-20 md:w-24 bg-slate-200 rounded-lg mx-auto" />
                         </div>
                     ))
                 ) : (
                     displayStats.map((stat, i) => (
-                        <div key={i} className="text-center px-4 first:divide-none">
-                            <p className="text-2xl md:text-3xl font-black text-primary-600 mb-1">{stat.value}</p>
-                            <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest leading-tight">
+                        <div
+                            key={i}
+                            className={cn(
+                                "text-center px-2 sm:px-3 md:px-4 py-2 md:py-0",
+                                i % 2 !== 0 && "border-l border-slate-100",
+                                i >= 2 && "border-t border-slate-100 md:border-t-0",
+                                "md:border-l md:first:border-l-0"
+                            )}
+                        >
+                            <p className="text-xl sm:text-2xl md:text-3xl font-black text-primary-600 mb-0.5 md:mb-1">{stat.value}</p>
+                            <p className="text-[9px] sm:text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider sm:tracking-widest leading-tight">
                                 {stat.label}
                             </p>
                         </div>

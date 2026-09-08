@@ -66,39 +66,37 @@ export const RegisterPageContent: React.FC = () => {
     if (!slug) return null;
 
     return (
-        <main className="h-screen overflow-hidden flex flex-col lg:flex-row bg-white">
+        <main className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row bg-white">
             {/* Form panel */}
-            <section className="relative flex flex-1 flex-col justify-start overflow-hidden px-6 pt-16 pb-8 sm:px-10 lg:px-12 xl:px-16 bg-white">
+            <section className="relative flex flex-1 flex-col justify-center overflow-y-auto lg:overflow-hidden px-4 py-8 sm:px-10 lg:px-12 xl:px-16 lg:pt-8 lg:pb-4 bg-white">
                 <div className="mx-auto w-full max-w-[480px] animate-in fade-in duration-400">
-                    <Link href="/" className="mb-6 inline-flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded border border-[#16233F]/15 bg-white">
+                    <Link href="/" className="mb-4 sm:mb-6 inline-flex items-center gap-2.5 sm:gap-3">
+                        <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg sm:rounded border border-[#16233F]/15 bg-white">
                             {institutionLogo ? (
                                 <Image
                                     src={institutionLogo}
                                     alt={institutionName}
                                     width={44}
                                     height={44}
-                                    className="h-full w-full object-contain p-1.5"
+                                    className="h-full w-full object-contain p-1 sm:p-1.5"
                                 />
                             ) : (
-                                <span className="font-mono text-sm font-bold text-[#16233F]">CK</span>
+                                <span className="font-mono text-xs sm:text-sm font-bold text-[#16233F]">CK</span>
                             )}
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-[#16233F]">{institutionName}</p>
-
+                            <p className="text-xs sm:text-sm font-semibold text-[#16233F]">{institutionName}</p>
                         </div>
                     </Link>
 
-                    <div className="mb-5">
-
+                    <div className="mb-4 sm:mb-5">
                         <h1
-                            className="font-serif text-2xl font-semibold tracking-tight"
+                            className="font-serif text-xl sm:text-2xl font-semibold tracking-tight"
                             style={{ color: primaryColor }}
                         >
                             Student registration
                         </h1>
-                        <p className="mt-1.5 text-sm leading-relaxed text-[#33312D]/70">
+                        <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm leading-relaxed text-[#33312D]/70">
                             Create your account to Enroll in batches and get access to lectures and study resources.
                         </p>
                     </div>
@@ -110,9 +108,9 @@ export const RegisterPageContent: React.FC = () => {
                         primaryColor={primaryColor}
                     />
 
-                    <div className="mt-5 flex items-center gap-2 border-t border-dashed border-[#16233F]/15 pt-4 text-xs text-[#33312D]/60">
-                        <ShieldCheck size={14} style={{ color: primaryColor }} />
-                        <span>Secure registration for <span className="font-bold">{institutionName}</span></span>
+                    <div className="mt-4 sm:mt-5 flex items-center gap-1.5 sm:gap-2 border-t border-dashed border-[#16233F]/15 pt-3 sm:pt-4 text-[11px] sm:text-xs text-[#33312D]/60">
+                        <ShieldCheck size={13} className="sm:size-3.5 shrink-0" style={{ color: primaryColor }} />
+                        <span className="truncate">Secure registration for <span className="font-bold">{institutionName}</span></span>
                     </div>
                 </div>
             </section>

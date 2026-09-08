@@ -35,7 +35,7 @@ export default function BatchLayout({
     return (
         <div className={cn(
             "flex min-h-screen bg-background pt-14",
-            !isLecturePage && "pb-20 lg:pb-0"
+            !isLecturePage && "pb-14 lg:pb-0"
         )}>
             {/* Sidebar */}
             {!isLecturePage && <LecturesSidebar />}
@@ -48,7 +48,7 @@ export default function BatchLayout({
                 "flex-1",
                 isLecturePage
                     ? "lg:h-[calc(100vh-56px)] lg:overflow-hidden p-4 lg:p-6 overflow-y-auto"
-                    : "p-8 lg:p-12 overflow-y-auto",
+                    : "p-4 sm:p-8 lg:p-12 overflow-y-auto",
                 !isLecturePage && "lg:ml-64"
             )}>
                 <div className={cn(
@@ -58,18 +58,18 @@ export default function BatchLayout({
 
                     {/* Dynamic Page Header */}
                     {!isLecturePage && (
-                        <div className="mb-8">
-                            <div className="flex items-center flex-wrap gap-2 text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2">
+                        <div className="mb-4 sm:mb-8">
+                            <div className="flex items-center flex-wrap gap-2 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-1 sm:mb-2">
                                 <span>{formatSlug(slug)}</span>
                                 <span className="w-1 h-1 bg-slate-200 rounded-full hidden sm:block" />
                                 <span className="hidden sm:block">{formatSlug(courseSlug)}</span>
                             </div>
                             {realBatchName ? (
-                                <h1 className="text-2xl md:text-2xl font-black text-foreground tracking-tight leading-tight">
+                                <h1 className="text-xl sm:text-2xl font-black text-foreground tracking-tight leading-tight">
                                     {realBatchName}
                                 </h1>
                             ) : (
-                                <Skeleton className="h-9 w-72 bg-slate-100 rounded-lg" />
+                                <Skeleton className="h-8 sm:h-9 w-56 sm:w-72 bg-slate-100 rounded-lg" />
                             )}
                         </div>
                     )}

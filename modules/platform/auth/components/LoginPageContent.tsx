@@ -92,19 +92,19 @@ export const LoginPageContent: React.FC = () => {
     const showLoading = !hasHydrated || isRedirecting || isAuthenticated;
 
     return (
-        <main className="h-screen overflow-hidden flex flex-col lg:flex-row bg-white">
+        <main className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row bg-white">
             {/* Form panel */}
-            <section className="relative flex flex-1 flex-col justify-start overflow-hidden px-6 pt-16 pb-8 sm:px-10 lg:px-12 xl:px-16 bg-white">
+            <section className="relative flex flex-1 flex-col justify-center lg:justify-start overflow-y-auto px-4 py-8 sm:px-10 lg:px-12 xl:px-16 lg:pt-16 lg:pb-8 bg-white">
                 <div className="mx-auto w-full max-w-[400px] animate-in fade-in duration-400">
-                    <Link href="/" className="mb-6 inline-flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded border border-[#16233F]/15 bg-white">
+                    <Link href="/" className="mb-4 sm:mb-6 inline-flex items-center gap-2.5 sm:gap-3">
+                        <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center overflow-hidden rounded-lg sm:rounded border border-[#16233F]/15 bg-white">
                             {institutionLogo ? (
                                 <Image
                                     src={institutionLogo}
                                     alt={institutionName}
                                     width={44}
                                     height={44}
-                                    className="h-full w-full object-contain p-1.5"
+                                    className="h-full w-full object-contain p-1 sm:p-1.5"
                                 />
                             ) : (
                                <Image
@@ -112,25 +112,25 @@ export const LoginPageContent: React.FC = () => {
                                         alt=""
                                         width={40}
                                         height={40}
-                                        className="h-full w-full object-contain"
+                                        className="h-full w-full object-contain p-0.5"
                                     />
                             )}
                         </div>
                         <div>
-                            <p className="text-sm font-semibold text-[#16233F]">{institutionName}</p>
+                            <p className="text-xs sm:text-sm font-semibold text-[#16233F]">{institutionName}</p>
                             
                         </div>
                     </Link>
 
-                    <div className="mb-5">
+                    <div className="mb-4 sm:mb-5">
                         
                         <h1 
-                            className="font-serif text-2xl font-semibold tracking-tight"
+                            className="font-serif text-xl sm:text-2xl font-semibold tracking-tight"
                             style={{ color: primaryColor }}
                         >
                             {showLoading ? 'Redirecting…' : 'Welcome back'}
                         </h1>
-                        <p className="mt-1.5 text-sm leading-relaxed text-[#33312D]/70">
+                        <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm leading-relaxed text-[#33312D]/70">
                             {showLoading
                                 ? 'Please wait while we prepare your workspace.'
                                 : 'Sign in with your registered email and password to access your batches.'}
@@ -138,18 +138,18 @@ export const LoginPageContent: React.FC = () => {
                     </div>
 
                     {showLoading ? (
-                        <div className="py-12 flex justify-center">
+                        <div className="py-8 sm:py-12 flex justify-center">
                             <div 
-                                className="h-8 w-8 animate-spin rounded-full border-4" 
+                                className="h-7 w-7 sm:h-8 sm:w-8 animate-spin rounded-full border-4" 
                                 style={{ borderColor: `${primaryColor}1a`, borderTopColor: primaryColor }}
                             />
                         </div>
                     ) : (
                         <>
                             <LoginForm onSuccess={handleSuccess} primaryColor={primaryColor} />
-                            <div className="mt-5 flex items-center gap-2 border-t border-dashed border-[#16233F]/15 pt-4 text-xs text-[#33312D]/60">
-                                <ShieldCheck size={14} style={{ color: secondaryColor }} />
-                                <span>Secure login, verified for <span style={{ fontWeight: 'bold', color: primaryColor }}>{institutionName}</span> students</span>
+                            <div className="mt-4 sm:mt-5 flex items-center gap-1.5 sm:gap-2 border-t border-dashed border-[#16233F]/15 pt-3 sm:pt-4 text-[11px] sm:text-xs text-[#33312D]/60">
+                                <ShieldCheck size={13} className="sm:size-3.5 shrink-0" style={{ color: secondaryColor }} />
+                                <span className="truncate">Secure login, verified for <span style={{ fontWeight: 'bold', color: primaryColor }}>{institutionName}</span> students</span>
                             </div>
                         </>
                     )}

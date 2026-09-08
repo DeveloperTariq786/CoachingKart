@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, User, BookOpen, GraduationCap, School } from 'lucide-react';
+import { Home, School, User } from 'lucide-react';
 import { cn } from '@/core/lib/utils/utils';
 
 const BottomNav: React.FC = () => {
@@ -38,38 +38,36 @@ const BottomNav: React.FC = () => {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-            {/* Safe Area Background */}
-            <div className="absolute inset-x-0 bottom-0 h-10 bg-white/80 backdrop-blur-xl border-t border-slate-100" />
-
-            <nav className="relative bg-white/80 backdrop-blur-xl border-t border-slate-100 px-6 py-3 flex items-center justify-between shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom,12px)]">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-slate-100 shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom,0px)]">
+            <nav className="flex items-center justify-around max-w-md mx-auto px-4 h-11">
                 {navItems.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
                     const Icon = item.icon;
 
                     return (
                         <Link
                             key={item.label}
                             href={item.href}
-                            className="flex flex-col items-center gap-1 group relative"
-                        >
-                            {/* Active Indicator Dot */}
-                            {isActive && (
-                                <span className="absolute -top-3 w-1.5 h-1.5 rounded-full bg-primary-600 animate-pulse" />
+                            className={cn(
+                                "flex flex-col items-center justify-center transition-all py-0.5 px-2",
+                                isActive ? "text-primary-600" : "text-slate-400 hover:text-slate-600"
                             )}
-
+                        >
                             <div className={cn(
-                                "p-1 rounded-xl transition-all duration-300",
-                                isActive
-                                    ? "text-primary-600 scale-110"
-                                    : "text-slate-400 group-hover:text-slate-600"
+                                "p-0.5 rounded-md transition-all",
+                                isActive ? "bg-primary-50 text-primary-600" : "bg-transparent"
                             )}>
-                                <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                                <Icon
+                                    size={16}
+                                    className={cn(
+                                        "transition-all",
+                                        isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"
+                                    )}
+                                />
                             </div>
-
                             <span className={cn(
-                                "text-[10px] font-bold transition-colors duration-300 uppercase tracking-tighter",
-                                isActive ? "text-primary-700" : "text-slate-400"
+                                "text-[8.5px] font-bold uppercase tracking-wider transition-all leading-none mt-0.5",
+                                isActive ? "opacity-100" : "opacity-70"
                             )}>
                                 {item.label}
                             </span>

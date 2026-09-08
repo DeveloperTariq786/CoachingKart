@@ -30,8 +30,8 @@ const InstituteHeader: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navStyle = (isScrolled || isMenuOpen || isSubPage) ? 'bg-white shadow-md py-3 border-b border-slate-100' : 'bg-transparent py-5';
-    const textStyle = (isScrolled || isSubPage || isMenuOpen) ? 'text-slate-900' : 'text-white';
+    const navStyle = (isScrolled || isMenuOpen || isSubPage) ? 'bg-white shadow-md py-2 md:py-3 border-b border-slate-100' : 'bg-transparent pt-1 pb-3 md:py-5';
+    const textStyle = 'text-slate-900';
 
     const menuLinks = [
         { label: 'Home', href: `/` },
@@ -44,12 +44,15 @@ const InstituteHeader: React.FC = () => {
 
     return (
         <nav className={cn("fixed w-full z-50 transition-all duration-300", navStyle)}>
-            <div className="w-full px-4 sm:px-6 lg:px-10 relative">
+            <div className="w-full pl-4 pr-1 sm:px-6 lg:px-10 relative">
                 <div className="flex justify-between items-center">
                     {/* Brand/Logo */}
-                    <div className="flex items-center relative z-20">
-                        <Link href={`/${slug}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-                            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary-600 font-bold text-lg group-hover:scale-110 transition-transform overflow-hidden">
+                    <div className={cn(
+                        "items-center relative z-20 min-w-0 mr-2 transition-all duration-300",
+                        (isScrolled || isSubPage || isMenuOpen) ? "flex animate-in fade-in duration-300" : "hidden md:flex"
+                    )}>
+                        <Link href={`/${slug}`} className="flex items-center gap-2 cursor-pointer group min-w-0">
+                            <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-primary-600 font-bold text-base md:text-lg group-hover:scale-110 transition-transform overflow-hidden shrink-0">
                                 {details?.logo ? (
                                     <Image
                                         src={details.logo}
@@ -62,7 +65,10 @@ const InstituteHeader: React.FC = () => {
                                     displayInstName.charAt(0).toUpperCase()
                                 )}
                             </div>
-                            <span className={cn("font-bold text-xl tracking-tight transition-colors", textStyle)}>
+                            <span className={cn(
+                                "font-bold text-base md:text-xl tracking-tight transition-colors truncate max-w-[190px] sm:max-w-xs md:max-w-none",
+                                textStyle
+                            )}>
                                 {displayInstName}
                             </span>
                         </Link>
@@ -92,16 +98,11 @@ const InstituteHeader: React.FC = () => {
                     </div>
 
                     {/* Mobile Actions */}
-                    <div className="md:hidden flex items-center gap-2 relative z-20">
-                        <Link
-                            href="/profile"
-                            className="flex items-center justify-center p-2 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300 shadow-sm"
-                        >
-                            <User size={22} className="text-white" />
-                        </Link>
+                    <div className="md:hidden flex items-center relative z-20 ml-auto -mr-1 -mt-1">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className={cn("p-2 rounded-lg transition-colors cursor-pointer", textStyle)}
+                            className={cn("p-1 rounded-lg transition-colors cursor-pointer", textStyle)}
+                            aria-label="Toggle menu"
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -111,19 +112,31 @@ const InstituteHeader: React.FC = () => {
                 {/* Mobile Menu - Professional Dropdown */}
                 <div className={cn(
                     "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
-                    isMenuOpen ? "max-h-60 opacity-100 mt-4" : "max-h-0 opacity-0"
+                    isMenuOpen ? "max-h-[32rem] opacity-100 mt-2.5 pt-2.5 border-t border-slate-100" : "max-h-0 opacity-0"
                 )}>
-                    <div className="flex flex-col gap-1 pb-2">
+                    <div className="flex flex-col gap-0.5 pb-2">
                         {menuLinks.map((link) => (
                             <Link
                                 key={link.label}
                                 href={link.href}
                                 onClick={() => setIsMenuOpen(false)}
-                                className="py-3 px-2 text-base font-semibold text-slate-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                                className="py-2.5 px-2 text-base font-semibold text-slate-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                             >
                                 {link.label}
                             </Link>
                         ))}
+                        <div className="pt-2 mt-1 border-t border-slate-100">
+                            <Link
+                                href="/profile"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex items-center gap-3 py-2.5 px-2 text-base font-semibold text-slate-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white shadow-sm">
+                                    <User size={16} />
+                                </div>
+                                <span>Profile</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

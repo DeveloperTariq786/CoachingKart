@@ -114,7 +114,7 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
 
     return (
         <div
-            className="relative pt-12 lg:pt-16 pb-16 px-4 sm:px-6 lg:px-10 bg-white overflow-hidden"
+            className="relative py-8 md:py-16 px-4 sm:px-6 lg:px-10 bg-white overflow-hidden"
             style={{
                 '--primary-500': primaryColor,
                 '--institution-primary': primaryColor,
@@ -147,28 +147,28 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
             </div>
 
             <div className="max-w-7xl mx-auto text-center relative z-10">
-                <span
-                    className="inline-flex items-center gap-1.5 text-xs font-bold bg-background px-4 py-1.5 rounded-full mb-4 border border-foreground/10 shadow-sm"
+                <div
+                    className="inline-flex items-center gap-1.5 sm:gap-2 bg-white border border-primary-100 shadow-sm px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-2.5 sm:mb-4"
                     style={{ color: primaryColor }}
                 >
-                    <Trophy size={14} style={{ color: primaryColor }} />
-                    Our Achievements
-                </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+                    <Trophy size={14} className="sm:w-4 sm:h-4" style={{ color: primaryColor }} />
+                    <span>Our Achievements</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-1.5 sm:mt-2 md:mt-3 mb-2 sm:mb-2.5 md:mb-4 tracking-tight">
                     Our{' '}
                     <span className="block sm:inline" style={{ color: primaryColor }}>
                         Achievements
                     </span>
                 </h2>
-                <p className="text-slate-500 max-w-2xl mx-auto text-[17px] leading-relaxed mb-10">
+                <p className="text-slate-500 max-w-2xl mx-auto text-xs sm:text-sm md:text-base leading-relaxed mb-6 sm:mb-8 md:mb-10 font-medium">
                     We are setting new benchmarks of excellence year after year.
                 </p>
 
                 {/* Swiper Slider Section */}
-                <div className="relative w-full max-w-4xl mx-auto pb-8">
+                <div className="relative w-full max-w-4xl mx-auto pb-4 md:pb-8">
                     <Swiper
                         modules={[Autoplay, Pagination]}
-                        spaceBetween={15}
+                        spaceBetween={12}
                         slidesPerView={1.8}
                         centeredSlides={true}
                         loop={displayPerformers.length > 1}
@@ -180,8 +180,9 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                         }}
                         pagination={{ clickable: true, el: '.institution-pagination' }}
                         breakpoints={{
-                            640: { slidesPerView: 3 },
-                            1024: { slidesPerView: 4.5 },
+                            480: { slidesPerView: 2.2, spaceBetween: 14 },
+                            640: { slidesPerView: 3, spaceBetween: 16 },
+                            1024: { slidesPerView: 4.5, spaceBetween: 18 },
                         }}
                         className="!overflow-visible"
                     >
@@ -189,12 +190,12 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                             [...Array(5)].map((_, idx) => (
                                 <SwiperSlide key={`skeleton-${idx}`}>
                                     <div className="scale-90 opacity-40 grayscale blur-[0.5px]">
-                                        <Card className="overflow-hidden border-2 border-white shadow-xl rounded-3xl bg-slate-50">
+                                        <Card className="overflow-hidden border-2 border-white shadow-xl rounded-2xl md:rounded-3xl bg-slate-50">
                                             <CardContent className="p-0 relative aspect-[3/4]">
                                                 <Skeleton className="w-full h-full" />
-                                                <div className="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 shadow-md flex flex-col items-center gap-1.5">
-                                                    <Skeleton className="h-5 w-1/2" />
-                                                    <Skeleton className="h-3 w-3/4" />
+                                                <div className="absolute bottom-1.5 left-1.5 right-1.5 md:bottom-2 md:left-2 md:right-2 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl p-2 md:p-2.5 shadow-md flex flex-col items-center gap-1 md:gap-1.5">
+                                                    <Skeleton className="h-4 md:h-5 w-1/2" />
+                                                    <Skeleton className="h-2.5 md:h-3 w-3/4" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -209,7 +210,7 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                                             "relative transition-all duration-700 ease-in-out transform",
                                             isActive ? "scale-105 opacity-100 z-10" : "scale-90 opacity-40 grayscale blur-[0.5px]"
                                         )}>
-                                            <Card className="overflow-hidden border-2 border-white shadow-xl rounded-3xl bg-slate-50">
+                                            <Card className="overflow-hidden border-2 border-white shadow-xl rounded-2xl md:rounded-3xl bg-slate-50">
                                                 <CardContent className="p-0 relative aspect-[3/4]">
                                                     <Image
                                                         src={getOptimizedImageUrl(student.imageUrl, { width: 300, quality: 85 })}
@@ -218,7 +219,7 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                                                         className="object-cover"
                                                     />
                                                     {/* Float Info Card */}
-                                                    <div className="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm rounded-xl p-1.5 shadow-sm flex flex-col items-center">
+                                                    <div className="absolute bottom-1.5 left-1.5 right-1.5 md:bottom-2 md:left-2 md:right-2 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl p-1 md:p-1.5 shadow-sm flex flex-col items-center">
                                                         <div className="flex items-center leading-tight">
                                                             <p
                                                                 className="text-xs md:text-sm font-black flex items-baseline gap-0.5"
@@ -227,7 +228,7 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                                                                 {student.rank}
                                                                 {student.courseName && (
                                                                     <span
-                                                                        className="text-[7px] font-bold uppercase italic ml-0.5"
+                                                                        className="text-[6.5px] sm:text-[7px] md:text-[8px] font-bold uppercase italic ml-0.5"
                                                                         style={{ color: primaryColor, opacity: 0.8 }}
                                                                     >
                                                                         ({student.courseName})
@@ -235,7 +236,7 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                                                                 )}
                                                             </p>
                                                         </div>
-                                                        <p className="text-[8px] font-bold text-slate-800 uppercase tracking-tighter line-clamp-1 text-center border-t border-slate-100 pt-1 w-full mt-0.5">
+                                                        <p className="text-[7.5px] sm:text-[8px] md:text-[9px] font-bold text-slate-800 uppercase tracking-tighter line-clamp-1 text-center border-t border-slate-100 pt-0.5 md:pt-1 w-full mt-0.5">
                                                             {student.name}
                                                         </p>
                                                     </div>
@@ -249,28 +250,44 @@ const InstitutionResultsHeader: React.FC<InstitutionResultsHeaderProps> = ({ ins
                     </Swiper>
 
                     {/* Custom Pagination — styled via <style> tag above using primaryColor */}
-                    <div className="institution-pagination flex justify-center gap-1.5 mt-10" />
+                    <div className="institution-pagination flex justify-center gap-1.5 mt-4 sm:mt-6 md:mt-10" />
                 </div>
 
                 {/* Stats Bar */}
-                <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 py-8 px-4 max-w-4xl mx-auto divide-x divide-slate-100">
+                <div className="mt-4 sm:mt-6 md:mt-8 grid grid-cols-2 md:grid-cols-4 py-3 sm:py-4 md:py-8 px-3 sm:px-4 max-w-4xl mx-auto border-t border-slate-100">
                     {isLoadingStats ? (
                         [...Array(4)].map((_, i) => (
-                            <div key={i} className="text-center px-2 flex flex-col items-center gap-2">
-                                <Skeleton className="h-6 w-12" />
-                                <Skeleton className="h-3 w-16" />
+                            <div
+                                key={i}
+                                className={cn(
+                                    "text-center px-2 py-2 md:py-0 flex flex-col items-center gap-1.5 md:gap-2",
+                                    i % 2 !== 0 && "border-l border-slate-100",
+                                    i >= 2 && "border-t border-slate-100 md:border-t-0",
+                                    "md:border-l md:first:border-l-0"
+                                )}
+                            >
+                                <Skeleton className="h-5 md:h-6 w-12" />
+                                <Skeleton className="h-2.5 md:h-3 w-16" />
                             </div>
                         ))
                     ) : (
                         stats.map((stat, i) => (
-                            <div key={i} className="text-center px-2 first:divide-none">
+                            <div
+                                key={i}
+                                className={cn(
+                                    "text-center px-2 py-2 md:py-0",
+                                    i % 2 !== 0 && "border-l border-slate-100",
+                                    i >= 2 && "border-t border-slate-100 md:border-t-0",
+                                    "md:border-l md:first:border-l-0"
+                                )}
+                            >
                                 <p
-                                    className="text-xl md:text-2xl font-black mb-0.5"
+                                    className="text-lg sm:text-xl md:text-2xl font-black mb-0.5"
                                     style={{ color: primaryColor }}
                                 >
                                     {stat.value}
                                 </p>
-                                <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">
+                                <p className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider sm:tracking-widest leading-tight">
                                     {stat.label}
                                 </p>
                             </div>

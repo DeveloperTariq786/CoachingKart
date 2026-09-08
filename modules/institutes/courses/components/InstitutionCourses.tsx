@@ -70,52 +70,52 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
 
     return (
         // Added overflow-x-hidden here to kill the horizontal scroll caused by card background circles
-        <section id="courses" ref={sectionRef} className="scroll-mt-24 py-20 bg-slate-50/50 min-h-[400px] overflow-x-hidden">
+        <section id="courses" ref={sectionRef} className="scroll-mt-24 py-8 md:py-16 bg-slate-50/50 min-h-[300px] sm:min-h-[400px] overflow-x-hidden">
             {/* EXACT padding and width preserved here */}
             <div className="w-full px-4 sm:px-6 lg:px-10">
 
                 {/* Header Section */}
-                <div className="text-center mb-14">
-                    <div className="inline-flex items-center gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-4">
-                        <BookOpen size={16} />
+                <div className="text-center mb-6 sm:mb-8 md:mb-14">
+                    <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-2.5 sm:mb-4">
+                        <BookOpen size={14} className="sm:w-4 sm:h-4" />
                         <span>Academic Courses</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-2.5 sm:mb-4 tracking-tight">
                         Shape Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Future Career</span>
                     </h2>
-                    <p className="text-slate-500 max-w-2xl mx-auto text-[17px] leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-xs sm:text-sm md:text-[17px] leading-relaxed">
                         Explore our comprehensive, industry-aligned course structures designed to prepare you for success.
                     </p>
                 </div>
 
                 {/* Grid Container */}
                 {!isLoading && courses.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-3xl border border-dashed border-slate-300 shadow-sm">
-                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-5">
-                            <BookOpen size={28} className="text-slate-300" />
+                    <div className="flex flex-col items-center justify-center py-12 sm:py-16 md:py-20 px-4 text-center bg-white rounded-2xl sm:rounded-3xl border border-dashed border-slate-300 shadow-sm">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-50 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5">
+                            <BookOpen size={22} className="sm:w-7 sm:h-7 text-slate-300" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-800 mb-2">No Programs Available</h3>
-                        <p className="text-slate-500 max-w-md mx-auto">
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-1.5 sm:mb-2">No Programs Available</h3>
+                        <p className="text-slate-500 max-w-md mx-auto text-xs sm:text-sm leading-relaxed">
                             We couldn't find any active courses for this institution right now. Please check back later.
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5">
                         {isLoading ? (
                             [...Array(8)].map((_, i) => (
-                                <div key={i} className="bg-white border border-slate-100 rounded-3xl p-5 flex flex-col shadow-sm h-[240px]">
-                                    <div className="flex items-start justify-between mb-5">
-                                        <Skeleton className="h-12 w-12 rounded-2xl bg-slate-100" />
-                                        <Skeleton className="h-6 w-20 bg-slate-100 rounded-full" />
+                                <div key={i} className="bg-white border border-slate-100 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 md:p-5 flex flex-col shadow-sm h-[170px] sm:h-[200px] md:h-[240px]">
+                                    <div className="flex items-start justify-between mb-3 sm:mb-5">
+                                        <Skeleton className="h-9 w-9 sm:h-10 sm:w-10 md:h-12 md:h-12 rounded-xl sm:rounded-2xl bg-slate-100" />
+                                        <Skeleton className="h-5 sm:h-6 w-16 sm:w-20 bg-slate-100 rounded-full" />
                                     </div>
-                                    <Skeleton className="h-6 w-3/4 mb-3 bg-slate-100 rounded-lg" />
-                                    <div className="flex flex-wrap gap-2 mb-auto">
-                                        <Skeleton className="h-6 w-16 bg-slate-100 rounded-full" />
-                                        <Skeleton className="h-6 w-14 bg-slate-100 rounded-full" />
+                                    <Skeleton className="h-5 sm:h-6 w-3/4 mb-2 sm:mb-3 bg-slate-100 rounded-lg" />
+                                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-auto">
+                                        <Skeleton className="h-5 sm:h-6 w-14 sm:w-16 bg-slate-100 rounded-full" />
+                                        <Skeleton className="h-5 sm:h-6 w-12 sm:w-14 bg-slate-100 rounded-full" />
                                     </div>
-                                    <div className="border-t border-slate-100 pt-3 mt-4 flex justify-between items-center">
-                                        <Skeleton className="h-4 w-20 bg-slate-100 rounded-md" />
-                                        <Skeleton className="h-7 w-7 bg-slate-100 rounded-full" />
+                                    <div className="border-t border-slate-100 pt-2.5 sm:pt-3 mt-2 sm:mt-4 flex justify-between items-center">
+                                        <Skeleton className="h-3.5 sm:h-4 w-16 sm:w-20 bg-slate-100 rounded-md" />
+                                        <Skeleton className="h-6 w-6 sm:h-7 sm:w-7 bg-slate-100 rounded-full" />
                                     </div>
                                 </div>
                             ))
@@ -124,11 +124,11 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                                 <Link
                                     key={course.id}
                                     href={`/${slug}/${course.name.toLowerCase().replace(/\s+/g, '-')}`}
-                                    className="group relative bg-white border border-slate-100 rounded-3xl p-5 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-visible min-h-[240px] z-10 hover:z-20"
+                                    className="group relative bg-white border border-slate-100 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 md:p-5 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-visible min-h-[170px] sm:min-h-[200px] md:min-h-[240px] z-10 hover:z-20"
                                 >
                                     {/* Top Section: Icon & Count */}
-                                    <div className="relative z-10 flex justify-between items-start mb-4">
-                                        <div className="w-12 h-12 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center justify-center p-2 group-hover:scale-110 transition-transform duration-300 relative z-20">
+                                    <div className="relative z-10 flex justify-between items-start mb-3 sm:mb-4">
+                                        <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex items-center justify-center p-1.5 md:p-2 group-hover:scale-110 transition-transform duration-300 relative z-20">
                                             <img
                                                 src={course.icon}
                                                 alt={course.name}
@@ -136,7 +136,7 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                                             />
                                         </div>
                                         {course.programs && course.programs.length > 0 && (
-                                            <div className="bg-slate-50 text-slate-500 text-[11px] font-semibold px-2.5 py-1 rounded-full border border-slate-100 relative z-20">
+                                            <div className="bg-slate-50 text-slate-500 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-slate-100 relative z-20">
                                                 {course.programs.length} Programs
                                             </div>
                                         )}
@@ -144,15 +144,15 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
 
                                     {/* Main Content */}
                                     <div className="relative z-10 flex-grow">
-                                        <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+                                        <h3 className="text-sm sm:text-base md:text-lg font-bold text-slate-900 mb-1 sm:mb-1.5 md:mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                                             {course.name}
                                         </h3>
 
-                                        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                                        <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 mb-2.5 sm:mb-3">
                                             {course.programs?.slice(0, 2).map((program, idx) => (
                                                 <span
                                                     key={idx}
-                                                    className="px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-600 group-hover:bg-primary-50 group-hover:border-primary-100 group-hover:text-primary-700 transition-colors truncate max-w-[120px]"
+                                                    className="px-2 sm:px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[10px] sm:text-[11px] font-medium text-slate-600 group-hover:bg-primary-50 group-hover:border-primary-100 group-hover:text-primary-700 transition-colors truncate max-w-[120px]"
                                                 >
                                                     {program.name}
                                                 </span>
@@ -161,7 +161,7 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                                             {/* Tooltip Badge for Remaining Programs */}
                                             {course.programs && course.programs.length > 2 && (
                                                 <div className="relative group/tag">
-                                                    <span className="inline-flex px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors cursor-pointer">
+                                                    <span className="inline-flex px-2 sm:px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[10px] sm:text-[11px] font-medium text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors cursor-pointer">
                                                         +{course.programs.length - 2}
                                                     </span>
 
@@ -182,7 +182,7 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                                             )}
 
                                             {(!course.programs || course.programs.length === 0) && (
-                                                <span className="px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[11px] font-medium text-slate-400">
+                                                <span className="px-2 sm:px-2.5 py-0.5 bg-slate-50 border border-slate-100 rounded-full text-[10px] sm:text-[11px] font-medium text-slate-400">
                                                     No Programs Available
                                                 </span>
                                             )}
@@ -190,12 +190,12 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
                                     </div>
 
                                     {/* Footer Action */}
-                                    <div className="relative z-10 border-t border-slate-100 pt-3 mt-2 flex items-center justify-between">
-                                        <span className="text-xs font-bold text-slate-500 group-hover:text-primary-600 transition-colors">
+                                    <div className="relative z-10 border-t border-slate-100 pt-2.5 sm:pt-3 mt-2 flex items-center justify-between">
+                                        <span className="text-[11px] sm:text-xs font-bold text-slate-500 group-hover:text-primary-600 transition-colors">
                                             Explore Course
                                         </span>
-                                        <div className="w-7 h-7 rounded-full bg-slate-50 text-slate-400 group-hover:bg-primary-600 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm">
-                                            <ArrowRight size={12} strokeWidth={3} />
+                                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-50 text-slate-400 group-hover:bg-primary-600 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm">
+                                            <ArrowRight size={11} strokeWidth={3} className="sm:w-3 sm:h-3" />
                                         </div>
                                     </div>
 
@@ -212,11 +212,11 @@ const InstitutionCourses: React.FC<InstitutionCoursesProps> = ({ institutionId }
 
                 {/* Primary Action Button - Replaced with clean text design with dashed line underneath */}
                 {courses.length > 0 && (
-                    <div className="mt-14 text-center">
+                    <div className="mt-6 sm:mt-8 md:mt-14 text-center">
                         <button
                             onClick={handleViewMore}
                             disabled={isFetchingMore}
-                            className="inline-flex items-center justify-center gap-2 text-primary-600 font-semibold text-[16px] tracking-wide border-b border-dashed border-primary-600 pb-0.5 hover:text-primary-700 hover:border-primary-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            className="inline-flex items-center justify-center gap-2 text-primary-600 font-semibold text-sm sm:text-[16px] tracking-wide border-b border-dashed border-primary-600 pb-0.5 hover:text-primary-700 hover:border-primary-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
                             {isFetchingMore ? (
                                 <>

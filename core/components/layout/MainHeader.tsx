@@ -117,7 +117,10 @@ const Header: React.FC = () => {
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <div className="flex items-center">
+                    <div className={cn(
+                        "items-center",
+                        (!isHome || isScrolled) ? "flex animate-in fade-in duration-300" : "hidden md:flex"
+                    )}>
                         <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer group">
                             <div className="flex items-center gap-0">
                                 <Image
@@ -147,7 +150,7 @@ const Header: React.FC = () => {
                                 }
                             }}
                             className={cn(
-                                "flex md:hidden p-2 rounded-full transition-all duration-300",
+                                "hidden p-2 rounded-full transition-all duration-300",
                                 buttonIconStyle
                             )}
                             aria-label="Toggle search"
@@ -158,7 +161,7 @@ const Header: React.FC = () => {
                         {/* Mobile Profile Link — primary circle, white icon */}
                         <Link
                             href="/profile"
-                            className="flex md:hidden items-center justify-center p-2 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300"
+                            className="hidden items-center justify-center p-2 rounded-full bg-primary-600 hover:bg-primary-700 transition-all duration-300"
                         >
                             <User size={22} className="text-white" />
                         </Link>

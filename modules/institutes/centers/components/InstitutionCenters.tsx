@@ -69,19 +69,19 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
     };
 
     return (
-        <section ref={sectionRef} className="py-16 md:py-20 bg-background min-h-[400px]">
+        <section ref={sectionRef} className="py-8 md:py-16 bg-background min-h-[400px]">
             <div className="w-full px-4 sm:px-6 lg:px-10">
 
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide mb-4">
-                        <MapPin size={16} />
+                <div className="text-center mb-6 sm:mb-8 md:mb-12">
+                    <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white border border-primary-100 shadow-sm text-primary-600 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-2.5 sm:mb-4">
+                        <MapPin size={14} className="sm:w-4 sm:h-4" />
                         <span>Locations</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-1.5 sm:mt-2 md:mt-3 mb-2 sm:mb-2.5 md:mb-4 tracking-tight">
                         Explore Our <span className="text-primary-600">Centers</span>
                     </h2>
-                    <p className="mx-auto max-w-2xl text-sm md:text-base text-slate-500 text-center md:whitespace-nowrap">
+                    <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-500 text-center md:whitespace-nowrap">
                         <span className="font-semibold text-primary-600">
                             {institutionName}
                         </span>{' '}
@@ -91,15 +91,15 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                 </div>
 
                 {/* Centers Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
                     {isLoading ? (
                         [...Array(4)].map((_, i) => (
                             <div
                                 key={i}
-                                className="bg-white rounded-xl overflow-hidden border border-slate-100 h-[300px]"
+                                className="bg-white rounded-xl overflow-hidden border border-slate-100 h-[260px] sm:h-[300px]"
                             >
                                 <Skeleton className="w-full aspect-video bg-slate-100 rounded-none" />
-                                <div className="p-4 space-y-4">
+                                <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
                                     <Skeleton className="h-4 w-2/3 bg-slate-100" />
                                     <div className="space-y-2.5">
                                         <Skeleton className="h-3.5 w-full bg-slate-100" />
@@ -139,21 +139,21 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-                                    <div className="absolute bottom-3 left-3.5">
-                                        <h3 className="text-white font-semibold text-base drop-shadow">
+                                    <div className="absolute bottom-2.5 sm:bottom-3 left-3 sm:left-3.5">
+                                        <h3 className="text-white font-semibold text-sm sm:text-base drop-shadow">
                                             {center.name}
                                         </h3>
                                     </div>
                                 </div>
 
                                 {/* Info */}
-                                <div className="p-4 flex flex-col gap-0">
+                                <div className="p-3 sm:p-4 flex flex-col gap-0">
                                     {/* Address row */}
-                                    <div className="flex items-start gap-2.5 py-3">
-                                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0 mt-0.5">
+                                    <div className="flex items-start gap-2 sm:gap-2.5 py-2.5 sm:py-3">
+                                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0 mt-0.5">
                                             <MapPin size={13} />
                                         </div>
-                                        <span className="text-[13px] text-slate-500 leading-snug line-clamp-2">
+                                        <span className="text-xs sm:text-[13px] text-slate-500 leading-snug line-clamp-2">
                                             {center.location
                                                 ? `${center.location.address}, ${center.location.city}, ${center.location.state}`
                                                 : 'Address not available'}
@@ -164,11 +164,11 @@ const InstitutionCenters: React.FC<InstitutionCentersProps> = ({
                                     <div className="border-t border-slate-100" />
 
                                     {/* Phone row */}
-                                    <div className="flex items-center gap-2.5 py-3">
-                                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
+                                    <div className="flex items-center gap-2 sm:gap-2.5 py-2.5 sm:py-3">
+                                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
                                             <Phone size={13} />
                                         </div>
-                                        <span className="text-[13px] text-slate-500">
+                                        <span className="text-xs sm:text-[13px] text-slate-500">
                                             {center.phone}
                                         </span>
                                     </div>

@@ -48,7 +48,7 @@ const Promotion: React.FC = () => {
 
     if (!hasIntersected || isLoading) {
         return (
-            <section ref={sectionRef} className="relative w-full h-[300px] md:h-[450px] overflow-hidden bg-slate-100 flex items-center justify-center">
+            <section ref={sectionRef} className="relative w-full h-[220px] sm:h-[300px] md:h-[450px] overflow-hidden bg-slate-100 flex items-center justify-center">
                 <Skeleton className="w-full h-full bg-slate-200/60" />
             </section>
         );
@@ -62,7 +62,7 @@ const Promotion: React.FC = () => {
     const institutionSlug = currentAd.institution?.name.toLowerCase().replace(/\s+/g, '-') || '';
 
     return (
-        <section ref={sectionRef} className="relative w-full h-[300px] md:h-[450px] overflow-hidden group bg-slate-900">
+        <section ref={sectionRef} className="relative w-full h-[220px] sm:h-[300px] md:h-[450px] overflow-hidden group bg-slate-900">
             {ads.map((ad, index) => (
                 <div
                     key={ad.id}
@@ -81,13 +81,13 @@ const Promotion: React.FC = () => {
                     />
 
                     {/* Subtle Dark gradient at the bottom for readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-10 lg:p-12">
-                        <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-fade-in">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4 sm:p-6 md:p-10 lg:p-12">
+                        <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 animate-fade-in">
                             <div>
                                 {ad.institution && (
                                     <div className="flex items-center gap-2">
                                         {ad.institution.logo && (
-                                            <div className="relative w-6 h-6 rounded-full overflow-hidden bg-white border border-white/20 shadow-sm">
+                                            <div className="relative w-5 h-5 sm:w-6 sm:h-6 rounded-full overflow-hidden bg-white border border-white/20 shadow-sm">
                                                 <Image
                                                     src={ad.institution.logo}
                                                     alt={ad.institution.name}
@@ -106,7 +106,7 @@ const Promotion: React.FC = () => {
                             {ad.buttonText && institutionSlug && (
                                 <Button
                                     asChild
-                                    className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 rounded-full px-5 py-2 h-auto text-xs sm:text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
+                                    className="w-full sm:w-auto justify-center bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 rounded-full px-4 sm:px-5 py-2 h-auto text-xs sm:text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
                                 >
                                     <Link href={`/${institutionSlug}`}>
                                         {ad.buttonText}

@@ -13,7 +13,7 @@ const AboutInstitutionSkeleton: React.FC = () => {
         <section className="py-20 bg-background overflow-hidden">
             <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    <div>
+                    <div className="order-2 lg:order-1">
                         <Skeleton className="h-4 w-24 mb-4" />
                         <Skeleton className="h-12 w-full max-w-md mb-6" />
                         <Skeleton className="h-8 w-2/3 mb-10" />
@@ -29,7 +29,7 @@ const AboutInstitutionSkeleton: React.FC = () => {
                             ))}
                         </div>
                     </div>
-                    <Skeleton className="aspect-[4/3] w-full rounded-3xl" />
+                    <Skeleton className="aspect-[4/3] w-full rounded-3xl order-1 lg:order-2" />
                 </div>
             </div>
         </section>
@@ -47,13 +47,13 @@ const AboutInstitution: React.FC = () => {
 
     if (!aboutData || (!aboutData.title && !aboutData.description)) {
         return (
-            <section className="py-20 bg-background">
+            <section className="py-10 md:py-20 bg-background">
                 <div className="w-full px-4 sm:px-6 lg:px-10">
-                    <div className="bg-background rounded-3xl p-12 shadow-sm border border-foreground/10 flex flex-col items-center text-center">
-                        <div className="w-16 h-16 rounded-full bg-foreground/5 flex items-center justify-center text-slate-400 mb-6">
+                    <div className="bg-background rounded-3xl p-6 sm:p-12 shadow-sm border border-foreground/10 flex flex-col items-center text-center">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-foreground/5 flex items-center justify-center text-slate-400 mb-4 sm:mb-6">
                             <Info size={32} />
                         </div>
-                        <h3 className="text-2xl font-bold text-foreground mb-2">About Content Not Available</h3>
+                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">About Content Not Available</h3>
                         <p className="text-slate-500 max-w-md mx-auto">
                             The institution has not yet published its "About" section content. Please check back later for more information about our legacy, vision, and mission.
                         </p>
@@ -64,11 +64,11 @@ const AboutInstitution: React.FC = () => {
     }
 
     return (
-        <section className="pt-10 pb-20 bg-white overflow-hidden">
+        <section className="pt-6 pb-12 md:pt-10 md:pb-20 bg-white overflow-hidden">
             <div className="w-full px-4 sm:px-6 lg:px-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
                     {/* Content Column */}
-                    <div>
+                    <div className="order-2 lg:order-1">
                         <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-background px-4 py-1.5 rounded-full mb-4 border border-foreground/10 shadow-sm">
                             <Info size={14} className="text-primary-600" />
                             Our Journey
@@ -76,21 +76,22 @@ const AboutInstitution: React.FC = () => {
                         <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight leading-tight">
                             {aboutData.title}
                         </h2>
-                        <p className="text-slate-500 text-[17px] leading-relaxed mb-10">
+                        <p className="text-slate-500 text-sm md:text-[17px] leading-relaxed mb-6 md:mb-10">
                             {aboutData.description}
                         </p>
 
-                        <div className="space-y-8">
+                        <div className="space-y-5 md:space-y-8">
                             {/* Vision */}
                             <div className="flex gap-5">
-                                <div className="shrink-0 w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
-                                    <Eye size={24} />
+                                <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
+                                    <Eye size={20} className="md:hidden" />
+                                    <Eye size={24} className="hidden md:block" />
                                 </div>
                                 <div>
-                                    <h4 className="text-xl font-bold text-foreground mb-2">
+                                    <h4 className="text-lg md:text-xl font-bold text-foreground mb-1.5 md:mb-2">
                                         {aboutData.visionTitle || 'Our Vision'}
                                     </h4>
-                                    <p className="text-slate-600 leading-relaxed">
+                                    <p className="text-slate-600 text-sm md:text-base leading-relaxed">
                                         {aboutData.visionContent}
                                     </p>
                                 </div>
@@ -98,14 +99,15 @@ const AboutInstitution: React.FC = () => {
 
                             {/* Mission */}
                             <div className="flex gap-5">
-                                <div className="shrink-0 w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
-                                    <Flag size={24} />
+                                <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
+                                    <Flag size={20} className="md:hidden" />
+                                    <Flag size={24} className="hidden md:block" />
                                 </div>
                                 <div>
-                                    <h4 className="text-xl font-bold text-foreground mb-2">
+                                    <h4 className="text-lg md:text-xl font-bold text-foreground mb-1.5 md:mb-2">
                                         {aboutData.missionTitle || 'Our Mission'}
                                     </h4>
-                                    <p className="text-slate-600 leading-relaxed">
+                                    <p className="text-slate-600 text-sm md:text-base leading-relaxed">
                                         {aboutData.missionContent}
                                     </p>
                                 </div>
@@ -114,7 +116,7 @@ const AboutInstitution: React.FC = () => {
                     </div>
 
                     {/* Image Column */}
-                    <div className="relative">
+                    <div className="relative order-1 lg:order-2">
                         <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-2xl">
                             <Image
                                 src={aboutData.image || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"}

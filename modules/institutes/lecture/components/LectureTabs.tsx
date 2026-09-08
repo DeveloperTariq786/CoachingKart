@@ -26,7 +26,7 @@ const LectureTabs: React.FC<LectureTabsProps> = ({ activeTab, onTabChange, count
 
     return (
         <div className="border-b border-slate-200">
-            <div className="flex items-center gap-8 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto no-scrollbar">
                 {tabs.map((tab) => {
                     const isActive = activeTab === tab.id;
 
@@ -35,17 +35,17 @@ const LectureTabs: React.FC<LectureTabsProps> = ({ activeTab, onTabChange, count
                             key={tab.id}
                             onClick={() => onTabChange(tab.id)}
                             className={cn(
-                                "flex items-center gap-2 pb-3 text-sm font-semibold transition-all relative whitespace-nowrap cursor-pointer",
+                                "flex items-center gap-1.5 sm:gap-2 pb-2.5 sm:pb-3 text-xs sm:text-sm font-bold sm:font-semibold transition-all relative whitespace-nowrap cursor-pointer",
                                 isActive
                                     ? "text-primary-600"
                                     : "text-slate-400 hover:text-slate-600"
                             )}
                         >
                             {tab.label}
-                            {tab.count && (
+                            {tab.count !== undefined && tab.count !== null && (
                                 <span
                                     className={cn(
-                                        "text-[10px] px-1.5 py-0.5 rounded-full font-bold",
+                                        "text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-bold",
                                         isActive
                                             ? "bg-primary-100 text-primary-600"
                                             : "bg-slate-100 text-slate-500"

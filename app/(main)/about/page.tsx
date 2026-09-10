@@ -56,13 +56,13 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Core Concept - The Shopify for Coaching */}
+            {/* Core Concept - The Digital Operating System for Coaching Institutes */}
             <section className="py-20 bg-slate-50 border-y border-slate-100">
                 <div className="w-full px-4 sm:px-6 lg:px-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
-                                The <span className="text-primary-600">&quot;Shopify&quot;</span> for <br /> Educational Institutions
+                                The <span className="text-primary-600">Digital Operating System</span> <br /> for Coaching Institutes
                             </h2>
                             <p className="text-slate-600 text-lg leading-relaxed">
                                 Why build from scratch when you can launch in minutes? CoachingKart provides a plug-and-play digital storefront for your coaching center. Customize your brand, manage your faculty, and reach students across the country.

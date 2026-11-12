@@ -124,12 +124,12 @@ const Header: React.FC = () => {
                         <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer group">
                             <div className="flex items-center gap-0">
                                 <Image
-                                    src="/logos/logo-wbg.webp"
+                                    src="/logos/full.svg"
                                     alt="CoachingKart"
-                                    width={120}
-                                    height={120}
+                                    width={160}
+                                    height={42}
                                     className={cn(
-                                        "h-8 md:h-10 w-auto object-contain transition-all duration-300 scale-[2.0] md:scale-[2.5] origin-left",
+                                        "h-8 md:h-10 w-auto object-contain transition-all duration-300",
                                         isHome && !isScrolled ? "brightness-0 invert" : ""
                                     )}
                                     priority

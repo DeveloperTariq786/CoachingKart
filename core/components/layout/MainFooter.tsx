@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -23,7 +24,13 @@ const Footer: React.FC = () => {
                     {/* Brand + tagline */}
                     <div className="col-span-2 sm:col-span-2 lg:col-span-1 flex flex-col gap-3 sm:gap-4">
                         <div>
-                            <h4 className="text-xs sm:text-sm font-semibold text-slate-900 uppercase tracking-wider mb-1 sm:mb-2">CoachingKart</h4>
+                            <Image
+                                src="/logos/full.svg"
+                                alt="CoachingKart"
+                                width={160}
+                                height={42}
+                                className="h-8 sm:h-10 w-auto object-contain"
+                            />
                         </div>
                         <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm">
                             Bridging the gap between traditional classrooms and digital convenience.

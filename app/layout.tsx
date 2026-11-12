@@ -81,8 +81,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logos/logo_icon.png",
-    apple: "/logos/logo_icon.png",
+    icon: "/logos/icon.svg",
+    apple: "/logos/icon.svg",
   },
   category: "Education Technology",
 };
